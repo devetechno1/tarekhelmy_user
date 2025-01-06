@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A Multi-vendor Food. Grocery, eCommerce, Pharmacy & Parcel service.">
+  <!--<meta name="robots" content="nofollow, noindex, max-snippet:1, max-video-preview:1, max-image-preview:standard">-->
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="StackFood">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <meta name="google-signin-client_id" content="1000163153346-48ckm2uf7h70hmgn74kg1gq02sval158.apps.googleusercontent.com">
+
+  <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+
+  <title>Devetechno App</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="application/javascript" src="/assets/packages/flutter_inappwebview_web/assets/web/web_support.js" defer></script>
+  <!--<link rel="canonical" href="https://gomlaweb.devetechno.co.uk/" />-->
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    var serviceWorkerVersion = {flutter_service_worker_version};
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js?version=2.12.0" defer></script>
+</head>
+
+<body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQgdcDWlNJ6o8BU3972EF8P3SKLltqFj8"></script>
+<!--  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>-->
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+
+<!--  <div class="center">-->
+<!--    <img src="logo.png" alt = "logo" width="300px" />-->
+<!--    <br>-->
+<!--    <div class="loader" style="width:300px;text-align: center;"><div class="continuous-4"></div></div>-->
+<!--  </div>-->
+
+  <div class="preloader">
+    <div class="preloader-container">
+      <img width="50" class="preloader-img" src="favicon.png" alt="">
+      <div class="loader"></div>
+    </div>
+  </div>
+
+
+  <header class="header">
+    <div class="header-container d-flex align-items-center justify-content-between">
+      <div class="header-start d-flex gap-5 align-items-center">
+        <img class="logo" src="logo.png" alt="">
+        <div class="placeholder placeholder-wide"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+      </div>
+      <div class="header-end d-flex gap-5">
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Script Goes Here -->
+  <script>
+    // Check if localStorage is supported in the browser
+      if (typeof(Storage) !== "undefined") {
+        // Get the item from localStorage
+        var itemValue = localStorage.getItem("flutter.devetechno_theme");
+        // Check if the item exists
+        if (itemValue !== null) {
+          // Check the value of the item
+          if (itemValue === "true") {
+            // If the value is "true", add a class to the body
+            document.body.classList.add("theme-dark");
+          } else {
+            // If the value is not "true", remove the class from the body
+            document.body.classList.remove("theme-light");
+          }
+        } else {
+          console.log("Item not found in localStorage");
+        }
+      } else {
+        console.log("localStorage is not supported in this browser");
+      }
+
+  </script>
+
+  <script>
+    document.querySelectorAll("img.svg").forEach(function (img) {
+    var imgID = img.getAttribute("id");
+    var imgClass = img.getAttribute("class");
+    var imgURL = img.getAttribute("src");
+    // Create a new XMLHttpRequest
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", imgURL, true);
+    // Set the responseType to "document" to parse the response as an XML document
+    xhr.responseType = "document";
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        var data = xhr.response;
+        // Get the SVG tag from the response, ignore the rest
+        var svg = data.querySelector("svg");
+        // Add replaced image's ID to the new SVG
+        if (typeof imgID !== "undefined") {
+          svg.setAttribute("id", imgID);
+        }
+        // Add replaced image's classes to the new SVG
+        if (typeof imgClass !== "undefined") {
+          svg.setAttribute("class", imgClass + " replaced-svg");
+        }
+        // Remove any invalid XML tags
+        svg.removeAttribute("xmlns:a");
+        // Check if the viewport is set; set it if not
+        if (!svg.getAttribute("viewBox") && svg.getAttribute("height") && svg.getAttribute("width")) {
+          svg.setAttribute("viewBox", "0 0 " + svg.getAttribute("height") + " " + svg.getAttribute("width"));
+        }
+        // Replace the image with the new SVG
+        img.parentNode.replaceChild(svg, img);
+      }
+    };
+    xhr.send();
+  });
+  </script>
+
+  <script>
+    {{flutter_bootstrap_js}}
+  </script>
+
+  <script>
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "firebase/app";
+    import { getAnalytics } from "firebase/analytics";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAqoDzXTwqLpGxNOJGj5D1mL1e-2aYb_Mc",
+      authDomain: "multi-master-1.firebaseapp.com",
+      projectId: "multi-master-1",
+      storageBucket: "multi-master-1.firebasestorage.app",
+      messagingSenderId: "496804581818",
+      appId: "1:496804581818:web:a67caf5bd69f2272884d83",
+      measurementId: "G-FJL4MK8MZH"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+</body>
+</html>

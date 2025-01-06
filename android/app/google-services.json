@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "496804581818",
+    "project_id": "multi-master-1",
+    "storage_bucket": "multi-master-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496804581818:android:bbce6f4934340529884d83",
+        "android_client_info": {
+          "package_name": "com.devetechno.master"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP9f-5k7CiZlNOZRr4jqr1JLOYQXBWltc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
