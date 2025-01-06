@@ -451,7 +451,7 @@ class SocialLoginWidget extends StatelessWidget {
 
     // webAuthenticationOptions: WebAuthenticationOptions(
     //   clientId: Get.find<SplashController>().configModel.appleLogin[0].clientId,
-    //   redirectUri: Uri.parse('https://gomla212.devetechno.co.uk/apple'),
+    //   redirectUri: Uri.parse('https://tarekhelmy.com/apple'),
     // ),
 
     SocialLogInBody appleBodyModel = SocialLogInBody(

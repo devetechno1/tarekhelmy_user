@@ -12,10 +12,10 @@ class AppConstants {
   static const String fontFamily = 'Roboto';
   static const bool payInWevView = false;
   static const int balanceInputLen = 10;
-  static const String webHostedUrl = 'https://gomla212.devetechno.co.uk';
+  static const String webHostedUrl = 'https://tarekhelmy.com';
   static const bool useReactWebsite = false;
 
-  static const String baseUrl = 'https://gomla212.devetechno.co.uk/cp';
+  static const String baseUrl = 'https://admin.tarekhelmy.com';
   static const String categoryUri = '/api/v1/categories';
   static const String offersUri = '/api/v1/items/discounted';
   static const String bannerUri = '/api/v1/banners';
