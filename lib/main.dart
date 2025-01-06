@@ -60,21 +60,21 @@ Future<void> main() async {
 
   if(GetPlatform.isWeb){
     await Firebase.initializeApp(options: const FirebaseOptions(
-      apiKey: "AIzaSyAqoDzXTwqLpGxNOJGj5D1mL1e-2aYb_Mc",
-      authDomain: "multi-master-1.firebaseapp.com",
-      projectId: "multi-master-1",
-      storageBucket: "multi-master-1.firebasestorage.app",
-      messagingSenderId: "496804581818",
-      appId: "1:496804581818:web:a67caf5bd69f2272884d83",
-      measurementId: "G-FJL4MK8MZH"
+      apiKey: "AIzaSyAa9o1pukwPb03NZ3QoUsJTcrIPHPphy0k",
+      authDomain: "tarek-helmy.firebaseapp.com",
+      projectId: "tarek-helmy",
+      storageBucket: "tarek-helmy.firebasestorage.app",
+      messagingSenderId: "1004955196439",
+      appId: "1:1004955196439:web:62fecf5aac8815cd691052",
+      measurementId: "G-KG0KKWJBHC"
     ));
   } else if(GetPlatform.isAndroid) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "AIzaSyBP9f-5k7CiZlNOZRr4jqr1JLOYQXBWltc",
-        appId: "1:496804581818:android:bbce6f4934340529884d83",
-        messagingSenderId: "496804581818",
-        projectId: "multi-master-1",
+        apiKey: "AIzaSyDqxGt8g4StlSXHsi4JaGOH8NfK4Rqfsk4",
+        appId: "1:1004955196439:android:e3867af0d4735b03691052",
+        messagingSenderId: "1004955196439",
+        projectId: "tarek-helmy",
       ),
     );
   } else {

@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyBDyIfztm_y-qBpRZ1pbuFhg-7Q-xvNHmA</string>
+	<string>AIzaSyAn-3iJTfs3buRPYzWuPkpNXssKWot5Q28</string>
 	<key>GCM_SENDER_ID</key>
-	<string>496804581818</string>
+	<string>1004955196439</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.devetechno.master</string>
+	<string>com.tarekhelmy</string>
 	<key>PROJECT_ID</key>
-	<string>multi-master-1</string>
+	<string>tarek-helmy</string>
 	<key>STORAGE_BUCKET</key>
-	<string>multi-master-1.firebasestorage.app</string>
+	<string>tarek-helmy.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:496804581818:ios:9ad9e1309a3e0114884d83</string>
+	<string>1:1004955196439:ios:c03cb7a72f22585d691052</string>
 </dict>
 </plist>
