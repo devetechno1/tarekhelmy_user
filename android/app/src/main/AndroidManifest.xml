@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.devetechno.master">
+    package="com.tarekhelmy">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -82,7 +82,7 @@
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
 
         <activity
-            android:name="com.devetechno.master.sign_in_with_apple.SignInWithAppleCallback"
+            android:name="com.tarekhelmy.sign_in_with_apple.SignInWithAppleCallback"
             android:exported="true"
             >
             <intent-filter>

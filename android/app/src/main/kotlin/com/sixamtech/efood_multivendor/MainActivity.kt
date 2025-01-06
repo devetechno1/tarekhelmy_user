@@ -1,4 +1,4 @@
-package com.devetechno.master
+package com.tarekhelmy
 
 import io.flutter.embedding.android.FlutterActivity
 
