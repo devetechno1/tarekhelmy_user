@@ -324,17 +324,17 @@ class AppConstants {
   static const bool useUserZoneInDelivery = true;
 
   static List<LanguageModel> languages = [
+     LanguageModel(
+      imageUrl: Images.arabic,
+      languageName: 'عربي',
+      countryCode: 'EG',
+      languageCode: 'ar',
+    ),
     LanguageModel(
       imageUrl: Images.english,
       languageName: 'English',
       countryCode: 'US',
       languageCode: 'en',
-    ),
-    LanguageModel(
-      imageUrl: Images.arabic,
-      languageName: 'عربي',
-      countryCode: 'EG',
-      languageCode: 'ar',
     ),
     // LanguageModel(imageUrl: Images.spanish, languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
     // LanguageModel(imageUrl: Images.bengali, languageName: 'Bengali', countryCode: 'BN', languageCode: 'bn'),
