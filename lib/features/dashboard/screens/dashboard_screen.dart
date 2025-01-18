@@ -249,7 +249,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                         ),
                                         SizedBox(width: size.width * 0.2),
                                         BottomNavItemWidget(
-                                          title: 'prescription'.tr, selectedIcon: Images.orderSelect, unSelectedIcon: Images.orderUnselect,
+                                          title: 'request_prescription'.tr, selectedIcon: Images.orderSelect, unSelectedIcon: Images.orderUnselect,
                                           isSelected: _pageIndex == 3, onTap: () => _setPage(3),
                                         ),
                                         BottomNavItemWidget(
