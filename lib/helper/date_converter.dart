@@ -45,11 +45,11 @@ class DateConverter {
   }
 
   static DateTime dateTimeStringToDate(String dateTime) {
-    return DateFormat('yyyy-MM-dd HH:mm:ss',_locale).parse(dateTime);
+    return DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime);
   }
 
   static DateTime isoStringToLocalDate(String dateTime) {
-    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS',_locale).parse(dateTime);
+    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').parse(dateTime);
   }
 
   static String isoStringToLocalString(String dateTime) {
@@ -85,7 +85,7 @@ class DateConverter {
   }
 
   static DateTime convertStringTimeToDate(String time) {
-    return DateFormat('HH:mm',_locale).parse(time);
+    return DateFormat('HH:mm').parse(time);
   }
 
   // static String convertTimeToTimeDate(DateTime time) {

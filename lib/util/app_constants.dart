@@ -4,7 +4,7 @@ import 'package:sixam_mart/features/language/domain/models/language_model.dart';
 import 'package:sixam_mart/util/images.dart';
 
 class AppConstants {
-  static const String appName = 'طارق حلمي';
+  static const String appName = 'Tarek Helmy';
   static const double appVersion = 2.12;
 
   ///Flutter Version: 3.24.5
@@ -304,7 +304,7 @@ class AppConstants {
   // static const bool registerWithStoreName = false;
 
   /// By making [removeStores] true, this will remove all data of stores of all shop in app.
-  static const bool removeStores = false;
+  static const bool removeStores = true;
 
   // /// By making [showAllAvailableOffersList] true, this will show all available offers list in home screen.
   // static const bool showAllAvailableOffersList = false;
@@ -324,7 +324,7 @@ class AppConstants {
   static const bool useUserZoneInDelivery = true;
 
   static List<LanguageModel> languages = [
-     LanguageModel(
+    LanguageModel(
       imageUrl: Images.arabic,
       languageName: 'عربي',
       countryCode: 'EG',
