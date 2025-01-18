@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({super.key});
+  const OrderScreen({super.key, this.backButton = true});
+  final bool backButton ;
 
   @override
   OrderScreenState createState() => OrderScreenState();
@@ -41,7 +42,7 @@ class OrderScreenState extends State<OrderScreen> with TickerProviderStateMixin 
     _isLoggedIn = AuthHelper.isLoggedIn();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CustomAppBar(title: 'my_orders'.tr, backButton: ResponsiveHelper.isDesktop(context)),
+      appBar: CustomAppBar(title: 'my_orders'.tr, backButton: widget.backButton),
       endDrawer: const MenuDrawer(), endDrawerEnableOpenDragGesture: false,
       body:  GetBuilder<OrderController>(
         builder: (orderController) {

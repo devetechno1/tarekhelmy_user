@@ -9,7 +9,6 @@ import 'package:sixam_mart/features/location/controllers/location_controller.dar
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/order/controllers/order_controller.dart';
 import 'package:sixam_mart/features/order/domain/models/order_model.dart';
-import 'package:sixam_mart/features/address/screens/address_screen.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/dashboard/widgets/bottom_nav_item_widget.dart';
 import 'package:sixam_mart/features/parcel/controllers/parcel_controller.dart';
@@ -24,13 +23,13 @@ import 'package:sixam_mart/common/widgets/custom_dialog.dart';
 import 'package:sixam_mart/features/checkout/widgets/congratulation_dialogue.dart';
 import 'package:sixam_mart/features/dashboard/widgets/address_bottom_sheet_widget.dart';
 import 'package:sixam_mart/features/dashboard/widgets/parcel_bottom_sheet_widget.dart';
-import 'package:sixam_mart/features/favourite/screens/favourite_screen.dart';
 import 'package:sixam_mart/features/home/screens/home_screen.dart';
 import 'package:sixam_mart/features/menu/screens/menu_screen.dart';
 import 'package:sixam_mart/features/order/screens/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../item/screens/offers_item_screen.dart';
 import '../widgets/running_order_view_widget.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -78,7 +77,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
     _screens = [
       const HomeScreen(),
-      const FavouriteScreen(),
+      const OffersItemScreen(backButton: false),
       const SizedBox(),
       const OrderScreen(),
       const MenuScreen()
@@ -190,7 +189,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
                             _screens = [
                               const HomeScreen(),
-                              isParcel ? const AddressScreen(fromDashboard: true) : const FavouriteScreen(),
+                              const OffersItemScreen(backButton: false),
                               const SizedBox(),
                               const OrderScreen(),
                               const MenuScreen()
@@ -243,14 +242,14 @@ class DashboardScreenState extends State<DashboardScreen> {
                                           onTap: () => _setPage(0),
                                         ),
                                         BottomNavItemWidget(
-                                          title: isParcel ? 'address'.tr : 'favourite'.tr,
-                                          selectedIcon: isParcel ? Images.addressSelect : Images.favouriteSelect,
-                                          unSelectedIcon: isParcel ? Images.addressUnselect : Images.favouriteUnselect,
+                                          title: 'offers'.tr,
+                                          selectedIcon: Images.offersSelect,
+                                          unSelectedIcon:Images.offersUnselect,
                                           isSelected: _pageIndex == 1, onTap: () => _setPage(1),
                                         ),
-                                        Container(width: size.width * 0.2),
+                                        SizedBox(width: size.width * 0.2),
                                         BottomNavItemWidget(
-                                          title: 'orders'.tr, selectedIcon: Images.orderSelect, unSelectedIcon: Images.orderUnselect,
+                                          title: 'prescription'.tr, selectedIcon: Images.orderSelect, unSelectedIcon: Images.orderUnselect,
                                           isSelected: _pageIndex == 3, onTap: () => _setPage(3),
                                         ),
                                         BottomNavItemWidget(

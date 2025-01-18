@@ -254,6 +254,14 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                   }
                 }),
                 const SizedBox(width: 20),
+                MenuButton(title: 'offers'.tr, onTap: () {
+                  if(AddressHelper.getUserAddressFromSharedPref() != null) {
+                    Get.toNamed(RouteHelper.getOffersScreen());
+                  } else {
+                    showCustomSnackBar('please_select_address_first'.tr,);
+                  }
+                }),
+                const SizedBox(width: 20),
                 if(!AppConstants.removeStores) ...[
                   MenuButton(title: 'stores'.tr, onTap: () {   
                     if(AddressHelper.getUserAddressFromSharedPref() != null) {

@@ -148,6 +148,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     margin: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                     child: Column(children: [
                       PortionWidget(icon: Images.profileIcon, title: 'profile'.tr, route: RouteHelper.getProfileRoute()),
+                      PortionWidget(icon: Images.orders, title: 'my_orders'.tr, route: RouteHelper.getOrderRoute()),
                       PortionWidget(icon: Images.addressIcon, title: 'my_address'.tr, route: RouteHelper.getAddressRoute(), hideDivider: AppConstants.languages.length <= 1),
                       if(AppConstants.languages.length > 1) PortionWidget(icon: Images.languageIcon, title: 'language'.tr, hideDivider: true, onTap: ()=> _manageLanguageFunctionality(), route: ''),
                     ]),

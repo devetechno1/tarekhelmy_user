@@ -82,6 +82,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/wallet/screens/wallet_screen.dart';
 
+import '../features/item/screens/offers_item_screen.dart';
+
 class RouteHelper {
   static const String initial = '/';
   static const String splash = '/splash';
@@ -142,6 +144,7 @@ class RouteHelper {
   static const String offlinePaymentScreen = '/offline-payment-screen';
   static const String flashSaleDetailsScreen = '/flash-sale-details-screen';
   static const String guestTrackOrderScreen = '/guest-track-order-screen';
+  static const String offers = '/offers';
   static const String favourite = '/favourite';
   static const String brands = '/brands';
   static const String brandsItemScreen = '/brands-item-screen';
@@ -306,6 +309,7 @@ class RouteHelper {
   }
   static String getFlashSaleDetailsScreen(int id) => '$flashSaleDetailsScreen?id=$id';
   static String getGuestTrackOrderScreen(String orderId, String number) => '$guestTrackOrderScreen?order_id=$orderId&number=$number';
+  static String getOffersScreen() => offers;
   static String getFavouriteScreen() => favourite;
   static String getBrandsScreen() => brands;
   static String getBrandsItemScreen(int brandId, String brandName) => '$brandsItemScreen?brandId=$brandId&brandName=$brandName';
@@ -576,6 +580,7 @@ class RouteHelper {
     GetPage(name: guestTrackOrderScreen, page: () => GuestTrackOrderScreen(
       orderId: Get.parameters['order_id']!, number: Get.parameters['number']!,
     )),
+    GetPage(name: offers, page: () => const OffersItemScreen()),
     GetPage(name: favourite, page: () => const FavouriteScreen()),
     GetPage(name: brands, page: () => const BrandsScreen()),
     GetPage(name: brandsItemScreen, page: () => BrandsItemScreen(

@@ -261,6 +261,8 @@ class Images {
   static const String homeSelect = 'assets/image/home_select.png';
   static const String favouriteUnselect = 'assets/image/favourite_unselect.png';
   static const String favouriteSelect = 'assets/image/favourite_select.png';
+  static const String offersUnselect = 'assets/image/offers_unselect.png';
+  static const String offersSelect = 'assets/image/offers_select.png';
   static const String orderUnselect = 'assets/image/order_unselect.png';
   static const String orderSelect = 'assets/image/order_select.png';
   static const String menu = 'assets/image/menu.png';
