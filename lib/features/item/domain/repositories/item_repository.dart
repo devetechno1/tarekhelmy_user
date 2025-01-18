@@ -77,7 +77,7 @@ class ItemRepository implements ItemRepositoryInterface {
   }
 
   @override
-  Future getList({int? offset, String? type, bool isPopularItem = false, bool isReviewedItem = false, bool isFeaturedCategoryItems = false, bool isRecommendedItems = false, bool isCommonConditions = false, bool isDiscountedItems = false, DataSourceEnum? source}) async {
+  Future getList({int? offset, String? type, bool isPopularItem = false, bool isOfferItem = false, bool isReviewedItem = false, bool isFeaturedCategoryItems = false, bool isRecommendedItems = false, bool isCommonConditions = false, bool isDiscountedItems = false, DataSourceEnum? source}) async {
     if(isPopularItem) {
       return await _getPopularItemList(type!, source: source ?? DataSourceEnum.client);
     } else if(isReviewedItem) {
@@ -90,7 +90,20 @@ class ItemRepository implements ItemRepositoryInterface {
       return await _getCommonConditions();
     } else if(isDiscountedItems) {
       return await _getDiscountedItemList(type!, source: source ?? DataSourceEnum.client);
+    } else if(isOfferItem) {
+      return await _getOffersList(type!);
     }
+  }
+
+  Future<List<Item>?> _getOffersList(String type) async {
+    List<Item>? offersList;
+    Response response = await apiClient.getData('${AppConstants.offersUri}?type=$type');
+
+    if (response.statusCode == 200) {
+      offersList = [];
+      offersList.addAll(ItemModel.fromJson(response.body).items!);
+    }
+    return offersList;
   }
 
   Future<List<Item>?> _getPopularItemList(String type, {required DataSourceEnum source}) async {

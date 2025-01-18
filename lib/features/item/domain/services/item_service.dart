@@ -14,6 +14,11 @@ class ItemService implements ItemServiceInterface {
   ItemService({required this.itemRepositoryInterface});
 
   @override
+  Future<List<Item>?> getOffersList(String type) async {
+    return await itemRepositoryInterface.getList(type: type, isOfferItem: true);
+  }
+
+  @override
   Future<List<Item>?> getPopularItemList(String type, DataSourceEnum? source) async {
     return await itemRepositoryInterface.getList(type: type, isPopularItem: true, source: source);
   }

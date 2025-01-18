@@ -26,6 +26,9 @@ class ItemController extends GetxController implements GetxService {
   final ItemServiceInterface itemServiceInterface;
   ItemController({required this.itemServiceInterface});
   
+  List<Item>? _offersList;
+  List<Item>? get offersList => _offersList;
+
   List<Item>? _popularItemList;
   List<Item>? get popularItemList => _popularItemList;
   
@@ -59,6 +62,9 @@ class ItemController extends GetxController implements GetxService {
   List<int?> _addOnQtyList = [];
   List<int?> get addOnQtyList => _addOnQtyList;
   
+  String _offersType = 'all';
+  String get offersType => _offersType;
+
   String _popularType = 'all';
   String get popularType => _popularType;
   
@@ -142,6 +148,25 @@ class ItemController extends GetxController implements GetxService {
     _discountedItemList = null;
     _featuredCategoriesItem = null;
     _recommendedItemList = null;
+  }
+
+  Future<void> getOffersList(bool reload, String type, bool notify) async {
+    _offersType = type;
+    if(reload) {
+      _offersList = null;
+    }
+    if(notify) {
+      update();
+    }
+    if(_offersList == null || reload) {
+      List<Item>? items = await itemServiceInterface.getOffersList(type);
+      if (items != null) {
+        _offersList = [];
+        _offersList!.addAll(items);
+        _isLoading = false;
+      }
+      update();
+    }
   }
 
   Future<void> getPopularItemList(bool reload, String type, bool notify, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
