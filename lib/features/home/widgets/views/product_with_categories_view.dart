@@ -10,6 +10,8 @@ import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
+import '../../../../common/widgets/custom_image.dart';
+
 class ProductWithCategoriesView extends StatelessWidget {
   const ProductWithCategoriesView({super.key});
 
@@ -124,6 +126,28 @@ class _CategoryData extends StatelessWidget {
               },
             ),
           ),
+          if(category.bannerFullUrl != null)
+            InkWell(
+              onTap: ()=> Get.toNamed(
+                RouteHelper.getCategoryItemRoute(category.id, category.name!),
+              ),
+              borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+              child: Container(
+                height: 150, width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeDefault),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                  child: CustomImage(
+                    image: '${category.bannerFullUrl}',
+                    fit: BoxFit.cover, height: 140, width: double.infinity,
+                  ),
+                ),
+              ),
+            )
         ],
       ),
     );

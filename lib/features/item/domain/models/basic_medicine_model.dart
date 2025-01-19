@@ -160,6 +160,7 @@ class Module {
 class Categories {
   int? id;
   String? name;
+  String? bannerFullUrl;
   String? image;
   int? parentId;
   int? position;
@@ -176,6 +177,7 @@ class Categories {
   Categories({
     this.id,
     this.name,
+    this.bannerFullUrl,
     this.image,
     this.parentId,
     this.position,
@@ -193,6 +195,7 @@ class Categories {
   Categories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    bannerFullUrl = json['banner_full_url'];
     image = json['image'];
     parentId = json['parent_id'];
     position = json['position'];
@@ -211,6 +214,7 @@ class Categories {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
+    data['banner_full_url'] = bannerFullUrl;
     data['image'] = image;
     data['parent_id'] = parentId;
     data['position'] = position;
