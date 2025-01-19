@@ -10,6 +10,8 @@ import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
+import '../views/product_with_categories_view.dart';
+
 class WebBasicMedicineNearbyViewWidget extends StatefulWidget {
   const WebBasicMedicineNearbyViewWidget({super.key});
 
@@ -55,6 +57,7 @@ class _WebBasicMedicineNearbyViewWidgetState extends State<WebBasicMedicineNearb
 
   @override
   Widget build(BuildContext context) {
+    return const ProductWithCategoriesView();
     return GetBuilder<ItemController>(builder: (itemController) {
       List<Categories>? categories = [];
       List<Item>? products = [];
@@ -172,80 +175,118 @@ class _WebBasicMedicineNearbyViewWidgetState extends State<WebBasicMedicineNearb
 
 
 class MedicineCardShimmer extends StatelessWidget {
-  const MedicineCardShimmer({super.key,});
+  const MedicineCardShimmer({super.key, this.makeTitle = false});
+  final bool makeTitle;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 250,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault),
-        itemCount: 8,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
-            child: Shimmer(
-              duration: const Duration(seconds: 2),
-              enabled: true,
-              child: Container(
-                width: ResponsiveHelper.isDesktop(context) ? 200 : 180, height: ResponsiveHelper.isDesktop(context) ? 250 : 220,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall)),
+    return Column(
+      children: [
+        if(makeTitle)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: Dimensions.paddingSizeSmall,
+                    bottom: Dimensions.paddingSizeLarge,
+                  ),
+                  child: Shimmer(
+                    duration: const Duration(seconds: 2),
+                    enabled: true,
+                    child: textShimmer(context),
+                  ),
                 ),
-                child: Column(children: [
-                  Container(
-                    height: ResponsiveHelper.isDesktop(context) ? 150 : 100,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).disabledColor.withOpacity(0.2),
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusSmall), topRight: Radius.circular(Dimensions.radiusSmall)),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 10, width: 100,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).disabledColor.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            ),
-                          ),
-                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          Container(
-                            height: 10, width: 50,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).disabledColor.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            ),
-                          ),
-                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          Container(
-                            height: 10, width: 80,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).disabledColor.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ]),
-              ),
+                Shimmer(
+                  duration: const Duration(seconds: 2),
+                  enabled: true,
+                  child: textShimmer(context),
+                )
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        SizedBox(
+          height: 250,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault),
+            itemCount: 8,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
+                child: Shimmer(
+                  duration: const Duration(seconds: 2),
+                  enabled: true,
+                  child: Container(
+                    width: ResponsiveHelper.isDesktop(context) ? 200 : 180, height: ResponsiveHelper.isDesktop(context) ? 250 : 220,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall)),
+                    ),
+                    child: Column(children: [
+                      Container(
+                        height: ResponsiveHelper.isDesktop(context) ? 150 : 100,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).disabledColor.withOpacity(0.2),
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusSmall), topRight: Radius.circular(Dimensions.radiusSmall)),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 10, width: 100,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).disabledColor.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                ),
+                              ),
+                              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                              Container(
+                                height: 10, width: 50,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).disabledColor.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                ),
+                              ),
+                              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                              Container(
+                                height: 10, width: 80,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).disabledColor.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
 
+Container textShimmer(BuildContext context) => Container(
+  height: 10,
+  width: 60,
+  decoration: BoxDecoration(
+    color: Theme.of(context).disabledColor.withOpacity(0.2),
+    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+  ),
+);
 
 

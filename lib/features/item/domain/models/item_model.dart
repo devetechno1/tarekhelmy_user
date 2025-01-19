@@ -9,12 +9,16 @@ class ItemModel {
   List<Item>? items;
   List<Categories>? categories;
 
-  ItemModel({this.totalSize, this.limit, this.offset, this.items, this.categories});
+  ItemModel(
+      {this.totalSize, this.limit, this.offset, this.items, this.categories});
 
   ItemModel.fromJson(Map<String, dynamic> json) {
     totalSize = json['total_size'];
     limit = json['limit'].toString();
-    offset = (json['offset'] != null && json['offset'].toString().trim().isNotEmpty) ? int.parse(json['offset'].toString()) : null;
+    offset =
+        (json['offset'] != null && json['offset'].toString().trim().isNotEmpty)
+            ? int.parse(json['offset'].toString())
+            : null;
     if (json['products'] != null) {
       items = [];
       json['products'].forEach((v) {
@@ -32,7 +36,9 @@ class ItemModel {
       items = [];
       json['items'].forEach((v) {
         if (v['module_type'] == null ||
-            !Get.find<SplashController>().getModuleConfig(v['module_type']).newVariation! ||
+            !Get.find<SplashController>()
+                .getModuleConfig(v['module_type'])
+                .newVariation! ||
             v['variations'] == null ||
             v['variations'].isEmpty ||
             (v['food_variations'] != null && v['food_variations'].isNotEmpty)) {
@@ -103,6 +109,8 @@ class Item {
   List<String>? nutritionsName;
   List<String>? allergiesName;
   List<String>? genericName;
+  int? toGetFree;
+  int? getFree;
 
   Item({
     this.id,
@@ -143,17 +151,21 @@ class Item {
     this.nutritionsName,
     this.allergiesName,
     this.genericName,
+    this.toGetFree,
+    this.getFree,
   });
 
   Item.fromJson(Map<String, dynamic> json) {
+    toGetFree = json['to_get_free'];
+    getFree = json['get_free'];
     id = json['id'];
     name = json['name'];
     description = json['description'];
     imageFullUrl = json['image_full_url'];
-    if(json['images_full_url'] != null){
+    if (json['images_full_url'] != null) {
       imagesFullUrl = [];
       json['images_full_url'].forEach((v) {
-        if(v != null) {
+        if (v != null) {
           imagesFullUrl!.add(v.toString());
         }
       });
@@ -227,6 +239,8 @@ class Item {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['to_get_free'] = toGetFree;
+    data['get_free'] = getFree;
     data['id'] = id;
     data['name'] = name;
     data['description'] = description;
@@ -287,8 +301,8 @@ class CategoryIds {
   CategoryIds({this.id, this.position});
 
   CategoryIds.fromJson(Map<String, dynamic> json) {
-    id = int.tryParse(json['id'].toString())??0;
-    position = int.tryParse(json['position'].toString())??0;
+    id = int.tryParse(json['id'].toString()) ?? 0;
+    position = int.tryParse(json['position'].toString()) ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -377,7 +391,13 @@ class FoodVariation {
   bool? required;
   List<VariationValue>? variationValues;
 
-  FoodVariation({this.name, this.multiSelect, this.min, this.max, this.required, this.variationValues});
+  FoodVariation(
+      {this.name,
+      this.multiSelect,
+      this.min,
+      this.max,
+      this.required,
+      this.variationValues});
 
   FoodVariation.fromJson(Map<String, dynamic> json) {
     if (json['max'] != null) {

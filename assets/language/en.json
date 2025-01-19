@@ -151,6 +151,7 @@
   "campaigns": "Campaigns",
   "all": "All",
   "off": "OFF",
+  "every_products_come_with_free": "Every {every} products come with {on} free",
   "enjoy": "Enjoy",
   "off_on_all_categories": "off on all categories",
   "set_location": "Set Location",

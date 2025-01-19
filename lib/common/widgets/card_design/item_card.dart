@@ -104,6 +104,12 @@ class ItemCard extends StatelessWidget {
                         )
                       : const SizedBox(),
                   DiscountTag(
+                    textDiscount: item.toGetFree != null && item.getFree != null
+                        ? 'every_products_come_with_free'
+                            .tr
+                            .replaceAll("{every}", '${item.toGetFree}')
+                            .replaceAll("{on}", "${item.getFree}")
+                        : null,
                     discount: discount,
                     discountType: discountType,
                     freeDelivery: false,
@@ -178,10 +184,12 @@ class ItemCard extends StatelessWidget {
                               const SizedBox(width: double.maxFinite),
 
                               (isFood || isShop)
-                                  ? AppConstants.removeStores ? const SizedBox() : Text(item.storeName ?? '',
-                                      style: robotoRegular.copyWith(
-                                          color:
-                                              Theme.of(context).disabledColor))
+                                  ? AppConstants.removeStores
+                                      ? const SizedBox()
+                                      : Text(item.storeName ?? '',
+                                          style: robotoRegular.copyWith(
+                                              color: Theme.of(context)
+                                                  .disabledColor))
                                   : Text(item.name ?? '',
                                       style: robotoBold,
                                       maxLines: 1,

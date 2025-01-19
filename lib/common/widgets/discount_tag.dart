@@ -13,9 +13,10 @@ class DiscountTag extends StatelessWidget {
   final bool inLeft;
   final bool? freeDelivery;
   final bool? isFloating;
+  final String? textDiscount;
   const DiscountTag({super.key,
     required this.discount, required this.discountType, this.fromTop = 10, this.fontSize, this.freeDelivery = false,
-    this.inLeft = true, this.isFloating = true,
+    this.inLeft = true, this.isFloating = true, this.textDiscount,
   });
 
   @override
@@ -23,7 +24,7 @@ class DiscountTag extends StatelessWidget {
     bool isRightSide = Get.find<SplashController>().configModel!.currencySymbolDirection == 'right';
     String currencySymbol = Get.find<SplashController>().configModel!.currencySymbol!;
 
-    return (discount! > 0 || freeDelivery!) ? Positioned(
+    return (discount! > 0 || freeDelivery! || textDiscount != null) ? Positioned(
       top: fromTop, left: inLeft ? isFloating! ? Dimensions.paddingSizeSmall : 0 : null, right: inLeft ? null : 0,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -35,8 +36,9 @@ class DiscountTag extends StatelessWidget {
           ),
         ),
         child: Text(
-          discount! > 0 ? '${(isRightSide || discountType == 'percent') ? '' : currencySymbol}$discount${discountType == 'percent' ? '%'
-              : isRightSide ? currencySymbol : ''} ${'off'.tr}' : 'free_delivery'.tr,
+          textDiscount ??
+          (discount! > 0 ? '${(isRightSide || discountType == 'percent') ? '' : currencySymbol}$discount${discountType == 'percent' ? '%'
+              : isRightSide ? currencySymbol : ''} ${'off'.tr}' : 'free_delivery'.tr),
           style: robotoMedium.copyWith(
             color: Theme.of(context).cardColor,
             fontSize: fontSize ?? (ResponsiveHelper.isMobile(context) ? 8 : 12),

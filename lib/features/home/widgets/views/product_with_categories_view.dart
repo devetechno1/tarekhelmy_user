@@ -6,126 +6,126 @@ import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_basic_medicine_nearby_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/widgets/medicine_item_card.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
-class ProductWithCategoriesView extends StatefulWidget {
-  final bool fromShop;
-  const ProductWithCategoriesView({super.key, this.fromShop = false});
-
-  @override
-  State<ProductWithCategoriesView> createState() => _ProductWithCategoriesViewState();
-}
-
-class _ProductWithCategoriesViewState extends State<ProductWithCategoriesView> {
-  int selectedCategory = 0;
+class ProductWithCategoriesView extends StatelessWidget {
+  const ProductWithCategoriesView({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return GetBuilder<ItemController>(builder: (itemController) {
       List<Categories>? categories = [];
-      List<Item>? products = [];
-      if(widget.fromShop ? itemController.reviewedCategoriesList != null && itemController.reviewedItemList != null : itemController.basicMedicineModel != null){
-        categories.add(Categories(name: 'all'.tr, id: 0));
-        for (var category in widget.fromShop ? itemController.reviewedCategoriesList! : itemController.basicMedicineModel!.categories!) {
+      if (itemController.basicMedicineModel != null) {
+        for (var category in itemController.basicMedicineModel!.categories!) {
           categories.add(category);
         }
-        for (var product in widget.fromShop ? itemController.reviewedItemList! : itemController.basicMedicineModel!.products!) {
-          if(selectedCategory == 0) {
-            products.add(product);
-          }
-          if(categories[selectedCategory].id == product.categoryIds?[0].id){
-            products.add(product);
-          }
-        }
       }
-      return products.isNotEmpty ? Padding(
-        padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-          Padding(
-            padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeLarge),
-            child: Text(widget.fromShop ? 'best_reviewed_products'.tr : 'basic_medicine_nearby'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+      if (itemController.basicMedicineModel == null) {
+        return Column(
+          children: List.generate(
+            5,
+            (index) {
+              return const Padding(
+                padding: EdgeInsets.only(top: Dimensions.paddingSizeDefault),
+                child: MedicineCardShimmer(makeTitle: true),
+              );
+            },
           ),
-
-          Column(children: [
-            SizedBox(
-              height: 50,
-              child: Container(
-                height: 40,
-                color: widget.fromShop ? Theme.of(context).disabledColor.withOpacity(0.1) : Theme.of(context).primaryColor.withOpacity(0.1),
-                child: ListView.builder(
-                  itemCount: categories.length,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    bool isSelected = selectedCategory == index;
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          selectedCategory = index;
-                        });
+        );
+      }
+      return itemController.basicMedicineModel!.products!.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.symmetric(
+                  vertical: Dimensions.paddingSizeDefault),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ...List.generate(
+                      categories.length,
+                      (index) {
+                        List<Item> products = [];
+                        for (Item product
+                            in itemController.basicMedicineModel!.products!) {
+                          if (categories[index].id ==
+                              product.categoryIds?.firstOrNull?.id) {
+                            products.add(product);
+                          }
+                        }
+                        return _CategoryData(categories[index], products);
                       },
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: 5),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).cardColor,
-                            ),
-                            child: Text('${categories[index].name}', style: robotoMedium.copyWith(color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).disabledColor)),
-                          ),
-
-                          isSelected ? Container(
-                            height: 15, width: 35,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(50)),
-                              color: Theme.of(context).cardColor
-                            ),
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Container(
-                              decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).primaryColor),
-                            ),
-                          ) : const SizedBox(),
-                        ],
-                      ),
-                    );
-
-                  },
-                ),
-              ),
-            ),
-
-            Container(
-              decoration: BoxDecoration(
-                color: widget.fromShop ? Theme.of(context).disabledColor.withOpacity(0.1) : Theme.of(context).primaryColor.withOpacity(0.1),
-              ),
-              child: SizedBox(
-                height: ResponsiveHelper.isDesktop(context) ? widget.fromShop ? 290 : 260 : widget.fromShop ? 292 : 250, width: Get.width,
-                child: (widget.fromShop ? itemController.reviewedCategoriesList != null : itemController.basicMedicineModel != null) ? ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault),
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeDefault),
-                      child: MedicineItemCard(item: products[index]),
-                    );
-                  },
-                ) : const MedicineCardShimmer(),
-              ),
-            ),
-          ]),
-
-        ]),
-      ) : const SizedBox();
+                    ),
+                  ]),
+            )
+          : const SizedBox();
     });
   }
 }
 
+class _CategoryData extends StatelessWidget {
+  const _CategoryData(this.category, this.products);
+  final Categories category;
+  final List<Item> products;
 
+  @override
+  Widget build(BuildContext context) {
+    if (products.isEmpty) return const SizedBox();
 
-
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsetsDirectional.only(top: Dimensions.paddingSizeDefault,start: Dimensions.paddingSizeSmall),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: Dimensions.paddingSizeSmall,
+                      bottom: Dimensions.paddingSizeLarge,
+                    ),
+                    child: Text(
+                      category.name ?? '',
+                      style: robotoBold.copyWith(
+                        fontSize: Dimensions.fontSizeLarge,
+                      ),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => Get.toNamed(
+                    RouteHelper.getCategoryItemRoute(
+                        category.id, category.name!),
+                  ),
+                  child: Text('see_all'.tr),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: ResponsiveHelper.isDesktop(context) ? 260 : 250,
+            width: context.width,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              padding:
+                  const EdgeInsets.only(left: Dimensions.paddingSizeDefault),
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: Dimensions.paddingSizeDefault,
+                      right: Dimensions.paddingSizeDefault,
+                      top: Dimensions.paddingSizeDefault),
+                  child: MedicineItemCard(item: products[index]),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
