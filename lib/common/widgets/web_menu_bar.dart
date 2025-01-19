@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/custom_dropdown.dart';
 
+import '../../features/store/controllers/store_controller.dart';
+
 class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
   const WebMenuBar({super.key});
 
@@ -261,8 +263,16 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                     showCustomSnackBar('please_select_address_first'.tr,);
                   }
                 }),
-                const SizedBox(width: 20),
+                  const SizedBox(width: 20),
+                MenuButton(title: 'request_prescription'.tr, onTap: () {
+                  if(AddressHelper.getUserAddressFromSharedPref() != null) {
+                    Get.toNamed(RouteHelper.getCheckoutRoute('request_prescription',storeId: Get.find<StoreController>().storeModel?.stores?.lastOrNull?.id ?? 5));
+                  } else {
+                    showCustomSnackBar('please_select_address_first'.tr,);
+                  }
+                }),
                 if(!AppConstants.removeStores) ...[
+                  const SizedBox(width: 20),
                   MenuButton(title: 'stores'.tr, onTap: () {   
                     if(AddressHelper.getUserAddressFromSharedPref() != null) {
                       Get.toNamed(RouteHelper.getAllStoreRoute('popular'));

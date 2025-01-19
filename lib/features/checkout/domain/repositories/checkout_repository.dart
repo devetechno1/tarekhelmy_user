@@ -19,7 +19,7 @@ class CheckoutRepository implements CheckoutRepositoryInterface {
     int mostDmTipAmount = 0;
     Response response = await apiClient.getData(AppConstants.mostTipsUri);
     if (response.statusCode == 200) {
-      mostDmTipAmount = response.body['most_tips_amount'];
+      mostDmTipAmount = response.body['most_tips_amount'] ?? 0;
     }
     return mostDmTipAmount;
   }

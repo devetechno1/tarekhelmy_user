@@ -164,7 +164,7 @@ class Store {
     perKmShippingCharge = json['per_km_shipping_charge'] != null ? json['per_km_shipping_charge'].toDouble() : 0;
     open = json['open'];
     active = json['active'];
-    featured = int.parse(json['featured'].toString());
+    featured = json['featured'] == null ? null : int.parse(json['featured'].toString());
     zoneId = json['zone_id'];
     deliveryTime = json['delivery_time'];
     veg = json['veg'];

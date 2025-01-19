@@ -43,8 +43,9 @@ import '../../location/controllers/location_controller.dart';
 class CheckoutScreen extends StatefulWidget {
   final List<CartModel?>? cartList;
   final bool fromCart;
+  final bool canBack;
   final int? storeId;
-  const CheckoutScreen({super.key, required this.fromCart, required this.cartList, required this.storeId});
+  const CheckoutScreen({super.key, required this.fromCart, required this.cartList, required this.storeId, this.canBack = true});
 
   @override
   CheckoutScreenState createState() => CheckoutScreenState();
@@ -175,7 +176,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     bool isLoggedIn = AuthHelper.isLoggedIn();
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'checkout'.tr),
+      appBar: CustomAppBar(title: 'checkout'.tr, backButton: widget.canBack),
       endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
       body: guestCheckoutPermission || AuthHelper.isLoggedIn() ? GetBuilder<CheckoutController>(builder: (checkoutController) {
 
@@ -392,6 +393,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     return Container(
       width: Dimensions.webMaxWidth,
       alignment: Alignment.center,
+      margin: widget.canBack? null : const EdgeInsets.only(bottom: 80),
       padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall, horizontal: Dimensions.paddingSizeLarge),
       child: SafeArea(
         child: CustomButton(

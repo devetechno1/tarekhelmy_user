@@ -25,10 +25,10 @@ import 'package:sixam_mart/features/dashboard/widgets/address_bottom_sheet_widge
 import 'package:sixam_mart/features/dashboard/widgets/parcel_bottom_sheet_widget.dart';
 import 'package:sixam_mart/features/home/screens/home_screen.dart';
 import 'package:sixam_mart/features/menu/screens/menu_screen.dart';
-import 'package:sixam_mart/features/order/screens/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../checkout/screens/checkout_screen.dart';
 import '../../item/screens/offers_item_screen.dart';
 import '../widgets/running_order_view_widget.dart';
 
@@ -53,6 +53,8 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   late bool _isLogin;
   bool active = false;
+  CheckoutScreen get checkOutScreen => CheckoutScreen(fromCart: false, cartList: null, storeId: Get.find<StoreController>().storeModel?.stores?.lastOrNull?.id ?? 5, canBack: false);
+
 
   @override
   void initState() {
@@ -74,12 +76,13 @@ class DashboardScreenState extends State<DashboardScreen> {
     _pageIndex = widget.pageIndex;
 
     _pageController = PageController(initialPage: widget.pageIndex);
+      
 
     _screens = [
       const HomeScreen(),
       const OffersItemScreen(backButton: false),
       const SizedBox(),
-      const OrderScreen(),
+      checkOutScreen,
       const MenuScreen()
     ];
 
@@ -191,7 +194,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               const HomeScreen(),
                               const OffersItemScreen(backButton: false),
                               const SizedBox(),
-                              const OrderScreen(),
+                              checkOutScreen,
                               const MenuScreen()
                             ];
                             return Container(
