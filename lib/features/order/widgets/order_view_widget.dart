@@ -107,17 +107,17 @@ class OrderViewWidget extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                       child: CustomImage(
-                                        image: isParcel ? '${paginatedOrderModel.orders![index].parcelCategory != null ? paginatedOrderModel.orders![index].parcelCategory!.imageFullUrl : ''}'
-                                            : '${paginatedOrderModel.orders![index].store != null ? paginatedOrderModel.orders![index].store!.logoFullUrl : ''}',
+                                        image: isParcel ? ('${paginatedOrderModel.orders![index].parcelCategory != null ? paginatedOrderModel.orders![index].parcelCategory!.imageFullUrl : ''}')
+                                            : ('${paginatedOrderModel.orders![index].store != null ? paginatedOrderModel.orders![index].store!.logoFullUrl : ''}'),
                                         height: isParcel ? 35 : ResponsiveHelper.isDesktop(context) ? 80 : 60,
                                         width: isParcel ? 35 : ResponsiveHelper.isDesktop(context) ? 80 : 60, fit: isParcel ? null : BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                  isParcel ? Positioned(left: 0, top: 10, child: Container(
+                                  isParcel ? PositionedDirectional(start: 0, top: 10, child: Container(
                                     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                                     decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.horizontal(right: Radius.circular(Dimensions.radiusSmall)),
+                                      borderRadius: const BorderRadiusDirectional.horizontal(end: Radius.circular(Dimensions.radiusSmall)),
                                       color: Theme.of(context).primaryColor,
                                     ),
                                     child: Text('parcel'.tr, style: robotoMedium.copyWith(
@@ -125,10 +125,10 @@ class OrderViewWidget extends StatelessWidget {
                                     )),
                                   )) : const SizedBox(),
 
-                                  isPrescription ? Positioned(left: 0, top: 10, child: Container(
+                                  isPrescription ? PositionedDirectional(start: 0, top: 10, child: Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 2),
                                     decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.horizontal(right: Radius.circular(Dimensions.radiusSmall)),
+                                      borderRadius: const BorderRadiusDirectional.horizontal(end: Radius.circular(Dimensions.radiusSmall)),
                                       color: Theme.of(context).primaryColor,
                                     ),
                                     child: Text('prescription'.tr, style: robotoMedium.copyWith(
