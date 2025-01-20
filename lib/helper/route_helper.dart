@@ -310,7 +310,7 @@ class RouteHelper {
   static String getFlashSaleDetailsScreen(int id) => '$flashSaleDetailsScreen?id=$id';
   static String getGuestTrackOrderScreen(String orderId, String number) => '$guestTrackOrderScreen?order_id=$orderId&number=$number';
   static String getOffersScreen() => offers;
-  static String getFavouriteScreen() => favourite;
+  static String getFavouriteScreen([bool canBack = false]) => "$favourite?can_back=${jsonEncode(canBack)}";
   static String getBrandsScreen() => brands;
   static String getBrandsItemScreen(int brandId, String brandName) => '$brandsItemScreen?brandId=$brandId&brandName=$brandName';
 
@@ -582,7 +582,7 @@ class RouteHelper {
       orderId: Get.parameters['order_id']!, number: Get.parameters['number']!,
     )),
     GetPage(name: offers, page: () => const OffersItemScreen()),
-    GetPage(name: favourite, page: () => const FavouriteScreen()),
+    GetPage(name: favourite, page: () => FavouriteScreen(canBack: jsonDecode(Get.parameters['can_back'] ?? "false"))),
     GetPage(name: brands, page: () => const BrandsScreen()),
     GetPage(name: brandsItemScreen, page: () => BrandsItemScreen(
       brandId: int.parse(Get.parameters['brandId']!), brandName: Get.parameters['brandName']!,

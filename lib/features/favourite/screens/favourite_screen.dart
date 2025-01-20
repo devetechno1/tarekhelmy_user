@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FavouriteScreen extends StatefulWidget {
-  const FavouriteScreen({super.key});
+  const FavouriteScreen({super.key, this.canBack = false});
+  final bool canBack;
 
   @override
   FavouriteScreenState createState() => FavouriteScreenState();
@@ -41,7 +42,7 @@ class FavouriteScreenState extends State<FavouriteScreen> with SingleTickerProvi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'favourite'.tr, backButton: false),
+      appBar: CustomAppBar(title: 'favourite'.tr, backButton: widget.canBack),
       endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
       body: AuthHelper.isLoggedIn() ? SafeArea(child: Column(children: [
 
