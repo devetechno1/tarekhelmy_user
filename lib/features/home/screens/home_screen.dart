@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:sixam_mart/features/banner/controllers/banner_controller.dart';
 import 'package:sixam_mart/features/brands/controllers/brands_controller.dart';
 import 'package:sixam_mart/features/home/controllers/advertisement_controller.dart';
@@ -193,8 +194,9 @@ class _HomeScreenState extends State<HomeScreen> {
       bool isGrocery = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.grocery;
 
       return GetBuilder<HomeController>(builder: (homeController) {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Theme.of(context).primaryColor));
         return Scaffold(
-          appBar: ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : AppBar(backgroundColor: Theme.of(context).colorScheme.primary,toolbarHeight: 0),
+          appBar: ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : null,
           endDrawer: const MenuDrawer(),
           endDrawerEnableOpenDragGesture: false,
           backgroundColor: Theme.of(context).colorScheme.surface,
@@ -250,18 +252,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 controller: _scrollController,
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
-
                   /// App Bar
                   SliverAppBar(
-                    floating: true,
                     elevation: 0,
                     automaticallyImplyLeading: false,
-                    toolbarHeight: 120,
+                    toolbarHeight: 200,
                     backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).colorScheme.primary,
-                    title: Center(child: Container(
-                      width: Dimensions.webMaxWidth, height: 100, color: Theme.of(context).colorScheme.primary,
+                    title: Center(child: SizedBox(
+                      width: Dimensions.webMaxWidth, height: 180,
                       child: Column(
                         children: [
+                          Expanded(child: Image.asset(Images.icon)),
+                          if(!showMobileModule)
+                            searchBarWidget(context),
                           Row(children: [
                             (splashController.module != null && splashController.configModel!.module == null && splashController.moduleList != null && splashController.moduleList!.length != 1) ? InkWell(
                               onTap: () {
@@ -319,48 +322,60 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () => Get.toNamed(RouteHelper.getNotificationRoute()),
                             ),
                           ]),
-                          Expanded(child: Image.asset(Images.icon,color: Colors.white)),
                         ],
                       ),
                     )),
                     actions: const [SizedBox()],
                   ),
+                  if(!showMobileModule)
+                    SliverAnimatedOpacity(
+                      opacity: _scrollController.offset > 200 ? 1 : 0, 
+                      duration: const Duration(milliseconds: 200),
+                      sliver: SliverAppBar(
+                        pinned: true,
+                        elevation: 0,
+                        automaticallyImplyLeading: false,
+                        toolbarHeight: 65,
+                        actions: const [SizedBox()],
+                        backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).colorScheme.primary,
+                        title: searchBarWidget(context),
+                      ),
+                    ),
 
                   /// Search Button
-                  !showMobileModule ? SliverPersistentHeader(
-                    pinned: true,
-                    delegate: SliverDelegate(callback: (val){}, child: Center(child: Container(
-                      height: 50, width: Dimensions.webMaxWidth,
-                      color: Theme.of(context).colorScheme.primary,
-                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                      child: InkWell(
-                        onTap: () => Get.toNamed(RouteHelper.getSearchRoute()),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                          margin: const EdgeInsets.symmetric(vertical: 3),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 1),
-                            borderRadius: BorderRadius.circular(25),
-                            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-                          ),
-                          child: Row(children: [
-                            Icon(
-                              CupertinoIcons.search, size: 25,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                            Expanded(child: Text(
-                              Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
-                              style: robotoRegular.copyWith(
-                                fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,
-                              ),
-                            )),
-                          ]),
-                        ),
-                      ),
-                    ))),
-                  ) : const SliverToBoxAdapter(),
+                  // !showMobileModule ? SliverPersistentHeader(
+                  //   pinned: true,
+                  //   delegate: SliverDelegate(callback: (val){}, child: Center(child: Container(
+                  //     height: 50, width: Dimensions.webMaxWidth,
+                  //     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                  //     child: InkWell(
+                  //       onTap: () => Get.toNamed(RouteHelper.getSearchRoute()),
+                  //       child: Container(
+                  //         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                  //         margin: const EdgeInsets.symmetric(vertical: 3),
+                  //         decoration: BoxDecoration(
+                  //           color: Theme.of(context).cardColor,
+                  //           border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 1),
+                  //           borderRadius: BorderRadius.circular(25),
+                  //           boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                  //         ),
+                  //         child: Row(children: [
+                  //           Icon(
+                  //             CupertinoIcons.search, size: 25,
+                  //             color: Theme.of(context).primaryColor,
+                  //           ),
+                  //           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                  //           Expanded(child: Text(
+                  //             Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
+                  //             style: robotoRegular.copyWith(
+                  //               fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,
+                  //             ),
+                  //           )),
+                  //         ]),
+                  //       ),
+                  //     ),
+                  //   ))),
+                  // ) : const SliverToBoxAdapter(),
 
                   SliverToBoxAdapter(
                     child: Center(child: SizedBox(
@@ -428,6 +443,40 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       });
     });
+  }
+
+  Container searchBarWidget(BuildContext context) {
+    return Container(
+      height: 50, width: Dimensions.webMaxWidth,
+      margin: const EdgeInsets.only(top: 10),
+      // padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+      child: InkWell(
+        onTap: () => Get.toNamed(RouteHelper.getSearchRoute()),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+          margin: const EdgeInsets.symmetric(vertical: 3),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 1),
+            borderRadius: BorderRadius.circular(25),
+            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+          ),
+          child: Row(children: [
+            Icon(
+              CupertinoIcons.search, size: 25,
+              color: Theme.of(context).primaryColor,
+            ),
+            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+            Expanded(child: Text(
+              Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
+              style: robotoRegular.copyWith(
+                fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,
+              ),
+            )),
+          ]),
+        ),
+      ),
+    );
   }
 }
 

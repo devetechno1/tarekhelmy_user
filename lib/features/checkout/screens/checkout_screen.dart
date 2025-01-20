@@ -661,7 +661,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     if(store != null) {
       for(ZoneData zData in AddressHelper.getUserAddressFromSharedPref()!.zoneData!) {
         for(Modules m in zData.modules!) {
-          if(m.id == Get.find<SplashController>().module!.id && m.pivot!.zoneId == store.zoneId) {
+          if(m.id == Get.find<SplashController>().module?.id && m.pivot!.zoneId == store.zoneId) {
             moduleData = m.pivot;
             break;
           }
@@ -900,7 +900,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
       for(ZoneData zData in chosenAddress.zoneData ?? []) {
 
         for(Modules m in zData.modules!) {
-          if(m.id == Get.find<SplashController>().module!.id && ((AppConstants.useUserZoneInDelivery && m.pivot!.zoneId == chosenAddress.zoneId) || (!AppConstants.useUserZoneInDelivery && m.pivot!.zoneId == store.zoneId))) {
+          if(m.id == Get.find<SplashController>().module?.id && ((AppConstants.useUserZoneInDelivery && m.pivot!.zoneId == chosenAddress.zoneId) || (!AppConstants.useUserZoneInDelivery && m.pivot!.zoneId == store.zoneId))) {
             moduleData = m.pivot;
             break;
           }

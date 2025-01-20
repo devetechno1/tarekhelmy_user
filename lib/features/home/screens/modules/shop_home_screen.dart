@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sixam_mart/features/home/widgets/brands_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/highlight_widget.dart';
 import 'package:sixam_mart/features/home/widgets/views/top_offers_near_me.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
-import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/features/flash_sale/widgets/flash_sale_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/bad_weather_widget.dart';
-import 'package:sixam_mart/features/home/widgets/views/product_with_categories_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/featured_categories_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/popular_store_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/item_that_you_love_view.dart';
@@ -31,18 +28,8 @@ class ShopHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isLoggedIn = AuthHelper.isLoggedIn();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
+      SizedBox(
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            colorFilter: ColorFilter.mode(
-              context.theme.primaryColor,
-              BlendMode.srcIn,
-            ),
-            image: const AssetImage(Images.shopModuleBannerBg),
-            fit: BoxFit.cover,
-          ),
-        ),
         child: const Column(
           children: [
             BadWeatherWidget(),
@@ -54,14 +41,14 @@ class ShopHomeScreen extends StatelessWidget {
       const CategoryView(),
       // if (AppConstants.showAllAvailableOffersList) const AllOffersView(),
       if (AppConstants.removeStores) ...[
-        const MostPopularItemView(isFood: false, isShop: true),
+        const MostPopularItemView(isFood: false, isShop: true), // trending
         const FlashSaleViewWidget(),
         const MiddleSectionBannerView(),
         const HighlightWidget(),
         const BrandsViewWidget(),
         const SpecialOfferView(isFood: false, isShop: true),
-        const ProductWithCategoriesView(),
-        const JustForYouView(),
+        // const ProductWithCategoriesView(),
+        const JustForYouView(), // weekend offers
         const TopOffersNearMe(),
         const FeaturedCategoriesView(),
         const ItemThatYouLoveView(forShop: true),
@@ -75,7 +62,7 @@ class ShopHomeScreen extends StatelessWidget {
         const PopularStoreView(),
         const BrandsViewWidget(),
         const SpecialOfferView(isFood: false, isShop: true),
-        const ProductWithCategoriesView(),
+        // const ProductWithCategoriesView(),
         const JustForYouView(),
         const TopOffersNearMe(),
         const FeaturedCategoriesView(),
