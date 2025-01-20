@@ -329,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   if(!showMobileModule)
                     SliverAnimatedOpacity(
-                      opacity: _scrollController.offset > 200 ? 1 : 0, 
+                      opacity: (_scrollController.positions.isNotEmpty ? _scrollController.offset > 200 : _scrollController.initialScrollOffset > 200)? 1 : 0, 
                       duration: const Duration(milliseconds: 200),
                       sliver: SliverAppBar(
                         pinned: true,
