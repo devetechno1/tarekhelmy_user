@@ -72,6 +72,7 @@ class _CircleListViewState extends State<CircleListView> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () => Get.find<ItemController>().navigateToItemPage(itemCampaignList[index], context, isCampaign: true),
+                            splashFactory: NoSplash.splashFactory,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                               child: CustomImage(

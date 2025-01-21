@@ -175,9 +175,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                 key: _scaffoldKey,
                 floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
                 floatingActionButton:_pageIndex == 0 ? Padding(
-                  padding: EdgeInsets.only(bottom: GetPlatform.isIOS ? 80 : 70),
+                  padding:ResponsiveHelper.isDesktop(context)? EdgeInsets.zero : EdgeInsets.only(bottom: GetPlatform.isIOS ? 80 : 70),
                   child: FloatingActionButton(
-                    backgroundColor: const Color(0xff2ea218),
+                    backgroundColor: ResponsiveHelper.isDesktop(context)? Colors.transparent : const Color(0xff2ea218),
                     onPressed: () async {
                       final String link = 'https://api.whatsapp.com/send?phone=${Get.find<SplashController>().configModel!.phone?.replaceAll("+", '')}';
                       if(await canLaunchUrlString(link)) {
