@@ -15,7 +15,6 @@ import 'package:sixam_mart/features/home/widgets/web/web_basic_medicine_nearby_v
 import 'package:sixam_mart/features/home/widgets/web/web_best_review_item_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_best_store_nearby_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_category_view_widget.dart';
-import 'package:sixam_mart/features/home/widgets/web/web_common_condition_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_coupon_banner_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_featured_categories_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_flash_sale_view_widget.dart';
@@ -44,6 +43,7 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/features/home/widgets/bad_weather_widget.dart';
 
 import '../widgets/views/promotional_banner_view.dart';
+import '../widgets/web/web_new_arrival_view_widget.dart';
 
 class WebNewHomeScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -135,11 +135,6 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                 }),
 
                 _isLogin && !AppConstants.removeStores ?  WebVisitAgainView(fromFood: isFood) : const SizedBox(),
-                const PromotionalBannerView(isTrending: true),
-
-                isPharmacy ? const WebBasicMedicineNearbyViewWidget()
-                    : isShop ? const WebMostPopularItemViewWidget(isShop: true, isFood: false)
-                    : const WebSpecialOfferView(isFood: false, isShop: false),
 
                 const WebHighlightWidget(),
 
@@ -151,9 +146,6 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                     : isFood ? AppConstants.removeStores? const SizedBox() : const WebNewOnViewWidget(isFood: true)
                     : isShop ? AppConstants.removeStores? const SizedBox() : const WebPopularStoresView()
                     : const WebMostPopularItemViewWidget(isFood: false, isShop: false),
-                const PromotionalBannerView(isBrands: true),
-
-                isShop ? const WebBrandsViewWidget() : (isPharmacy || isFood) ? const SizedBox() : const SizedBox(),
 
                 isPharmacy ? const WebJustForYouViewWidget()
                     : isFood ? const WebItemThatYouLoveViewWidget()
@@ -164,16 +156,25 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                       : WebMostPopularItemBannerViewWidget(campaignController: campaignController);
                 }),
 
+                const PromotionalBannerView(newArrivalBanner: true),
+                const WebNewArrivalView(),
+
+                const PromotionalBannerView(isTrending: true),
+                isPharmacy ? const WebBasicMedicineNearbyViewWidget()
+                    : isShop ? const WebMostPopularItemViewWidget(isShop: true, isFood: false)
+                    : const WebSpecialOfferView(isFood: false, isShop: false),
+
+                const PromotionalBannerView(isWeekEnd: true),
+                const WebJustForYouViewWidget(),
+
+                const PromotionalBannerView(isBrands: true),
+                const WebBrandsViewWidget(),
+
+
                 isPharmacy ? AppConstants.removeStores? const SizedBox() : const WebNewOnViewWidget()
                     : isFood ? const WebMostPopularItemViewWidget(isFood: true, isShop: false)
                     : isShop ? const WebBestReviewItemViewWidget()
                     : const WebBestReviewItemViewWidget(),
-                const PromotionalBannerView(isWeekEnd: true),
-
-                isPharmacy ? const WebCommonConditionViewWidget()
-                    : isFood ? const WebJustForYouViewWidget()
-                    : isShop ? const WebJustForYouViewWidget()
-                    : const SizedBox(),
 
                 WebTopOffersNearMe(isFood: isFood, isPharmacy: isPharmacy, isShop: isShop),
 
