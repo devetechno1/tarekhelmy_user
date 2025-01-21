@@ -18,7 +18,6 @@ import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
-import 'package:sixam_mart/common/widgets/cart_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_dialog.dart';
 import 'package:sixam_mart/features/checkout/widgets/congratulation_dialogue.dart';
 import 'package:sixam_mart/features/dashboard/widgets/address_bottom_sheet_widget.dart';
@@ -27,6 +26,7 @@ import 'package:sixam_mart/features/home/screens/home_screen.dart';
 import 'package:sixam_mart/features/menu/screens/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/util/styles.dart';
 
 import '../../cart/screens/cart_screen.dart';
 import '../../item/screens/offers_item_screen.dart';
@@ -196,7 +196,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               const MenuScreen()
                             ];
                             return Container(
-                              width: size.width, height: GetPlatform.isIOS ? 80 : 65,
+                              width: size.width, height: GetPlatform.isIOS ? 80 : 70,
                               decoration: BoxDecoration(
                                 color: Theme.of(context).cardColor,
                                 borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
@@ -205,7 +205,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               child: Stack(children: [
 
                                 Center(
-                                  heightFactor: 0.6,
+                                  heightFactor: 0.5,
                                   child: ResponsiveHelper.isDesktop(context) ? null : (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? null
                                     : (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel!.orders!.isNotEmpty && _isLogin) ? const SizedBox() : Container(
                                       width: 60, height: 60,
@@ -215,6 +215,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                                       ),
                                       child: FloatingActionButton(
+                                        heroTag: "button",
                                         backgroundColor: Theme.of(context).primaryColor,
                                         onPressed: () {
                                           if(isParcel) {
@@ -227,8 +228,18 @@ class DashboardScreenState extends State<DashboardScreen> {
                                           }
                                         },
                                         elevation: 0,
-                                        child: isParcel ? Icon(CupertinoIcons.add, size: 34, color: Theme.of(context).cardColor) : CartWidget(image: Images.orderUnselect, color: Theme.of(context).cardColor, size: 28),
+                                        child: isParcel ? Icon(CupertinoIcons.add, size: 34, color: Theme.of(context).cardColor) : Image.asset(Images.orderUnselect, height: 28, width: 28, color:  Theme.of(context).cardColor),
                                       ),
+                                  ),
+                                ),
+                                Positioned.fill(
+                                  bottom: 4,
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Text(
+                                      'request_prescription'.tr,
+                                      style: robotoBold.copyWith(fontSize: 14,color: Theme.of(context).primaryColor),
+                                    ),
                                   ),
                                 ),
 
@@ -250,6 +261,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                         ),
                                         SizedBox(width: size.width * 0.2),
                                         BottomNavItemWidget(
+                                          isCart: true,
                                           title: 'cart'.tr, selectedIcon: Images.shoppingCartSelected, unSelectedIcon: Images.shoppingCart,
                                           isSelected: _pageIndex == 3, onTap: () => _setPage(3),
                                         ),
