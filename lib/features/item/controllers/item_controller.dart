@@ -41,6 +41,9 @@ class ItemController extends GetxController implements GetxService {
   List<Item>? _discountedItemList;
   List<Item>? get discountedItemList => _discountedItemList;
   
+  List<Item>? _newArrivalItemList;
+  List<Item>? get newArrivalItemList => _newArrivalItemList;
+  
   List<Categories>? _reviewedCategoriesList;
   List<Categories>? get reviewedCategoriesList => _reviewedCategoriesList;
   
@@ -73,6 +76,9 @@ class ItemController extends GetxController implements GetxService {
 
   String _discountedType = 'all';
   String get discountedType => _discountedType;
+
+  String _newArrivalType = 'all';
+  String get newArrivalType => _newArrivalType;
   
   static final List<String> _itemTypeList = ['all', 'veg', 'non_veg'];
   List<String> get itemTypeList => _itemTypeList;
@@ -146,6 +152,7 @@ class ItemController extends GetxController implements GetxService {
     _popularItemList = null;
     _reviewedItemList = null;
     _discountedItemList = null;
+    _newArrivalItemList = null;
     _featuredCategoriesItem = null;
     _recommendedItemList = null;
   }
@@ -259,6 +266,38 @@ class ItemController extends GetxController implements GetxService {
         if (items != null) {
           _discountedItemList = [];
           _discountedItemList!.addAll(items);
+          _isLoading = false;
+        }
+        update();
+      }
+    }
+  }
+  Future<void> getNewArrivalItemList(bool reload, bool notify, String type, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
+    _newArrivalType = type;
+    if(reload) {
+      _newArrivalItemList = null;
+    }
+    if(notify) {
+      update();
+    }
+    if(_newArrivalItemList == null || reload || fromRecall) {
+
+      List<Item>? items;
+      if(dataSource == DataSourceEnum.local) {
+        items = await itemServiceInterface.getNewArrivalItemList(type, dataSource);
+        print('======cache spatial item: $items');
+        if (items != null) {
+          _newArrivalItemList = [];
+          _newArrivalItemList!.addAll(items);
+          _isLoading = false;
+        }
+        update();
+        getNewArrivalItemList(false, notify, type, dataSource: DataSourceEnum.client, fromRecall: true);
+      } else {
+        items = await itemServiceInterface.getNewArrivalItemList(type, dataSource);
+        if (items != null) {
+          _newArrivalItemList = [];
+          _newArrivalItemList!.addAll(items);
           _isLoading = false;
         }
         update();

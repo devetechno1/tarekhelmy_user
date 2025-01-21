@@ -68,6 +68,7 @@ class HomeScreen extends StatefulWidget {
       }
       Get.find<BannerController>().getPromotionalBannerList(reload);
       Get.find<ItemController>().getDiscountedItemList(reload, false, 'all');
+      Get.find<ItemController>().getNewArrivalItemList(reload, false, 'all');
       Get.find<CategoryController>().getCategoryList(reload);
       Get.find<StoreController>().getPopularStoreList(reload, 'all', false);
       Get.find<CampaignController>().getBasicCampaignList(reload);
@@ -212,6 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                   await Get.find<BannerController>().getPromotionalBannerList(true);
                   await Get.find<ItemController>().getDiscountedItemList(true, false, 'all');
+                  await Get.find<ItemController>().getNewArrivalItemList(true, false, 'all');
                   await Get.find<CategoryController>().getCategoryList(true);
                   await Get.find<StoreController>().getPopularStoreList(true, 'all', false);
                   await Get.find<CampaignController>().getItemCampaignList(true);
@@ -453,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: const EdgeInsets.only(top: 10),
       // padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
       child: InkWell(
-        onTap: () => Get.toNamed(RouteHelper.getSearchRoute()),
+        onTap: (_scrollController.positions.isNotEmpty ?_scrollController.offset > 150 : _scrollController.initialScrollOffset > 150) ? () => Get.toNamed(RouteHelper.getSearchRoute()):null,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
           margin: const EdgeInsets.symmetric(vertical: 3),

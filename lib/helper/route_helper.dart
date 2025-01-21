@@ -82,6 +82,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/wallet/screens/wallet_screen.dart';
 
+import '../features/item/screens/arrival_item_screen.dart';
 import '../features/item/screens/offers_item_screen.dart';
 
 class RouteHelper {
@@ -116,6 +117,7 @@ class RouteHelper {
   static const String categories = '/categories';
   static const String categoryItem = '/category-item';
   static const String popularItems = '/popular-items';
+  static const String arrivalItems = '/arrival-items';
   static const String itemCampaign = '/item-campaign';
   static const String support = '/help-and-support';
   static const String rateReview = '/rate-and-review';
@@ -239,6 +241,7 @@ class RouteHelper {
     return '$categoryItem?id=$id&name=$data';
   }
   static String getPopularItemRoute(bool isPopular, bool isSpecial) => '$popularItems?page=${isPopular ? 'popular' : 'reviewed'}&special=${isSpecial.toString()}';
+  static String getArrivalItemsItemRoute() => arrivalItems;
   static String getItemCampaignRoute({bool isJustForYou = false}) => itemCampaign + (isJustForYou ? '?just-for-you=${isJustForYou.toString()}' : '');
   static String getSupportRoute() => support;
   static String getReviewRoute() => rateReview;
@@ -494,6 +497,7 @@ class RouteHelper {
       return getRoute(CategoryItemScreen(categoryID: Get.parameters['id'], categoryName: data));
     }),
     GetPage(name: popularItems, page: () => getRoute(PopularItemScreen(isPopular: Get.parameters['page'] == 'popular', isSpecial: Get.parameters['special'] == 'true'))),
+    GetPage(name: arrivalItems, page: () => getRoute(const ArrivalItemScreen())),
     GetPage(name: itemCampaign, page: () => getRoute(ItemCampaignScreen(isJustForYou: Get.parameters['just-for-you'] == 'true'))),
     GetPage(name: support, page: () => const SupportScreen()),
     GetPage(name: update, page: () => UpdateScreen(isUpdate: Get.parameters['update'] == 'true')),

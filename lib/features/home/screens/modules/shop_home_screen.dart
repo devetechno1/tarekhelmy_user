@@ -14,6 +14,8 @@ import 'package:sixam_mart/features/home/widgets/views/promotional_banner_view.d
 import 'package:sixam_mart/features/home/widgets/banner_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/category_view.dart';
 
+import '../../widgets/views/new_arrival_view.dart';
+
 // import '../../widgets/views/all_offers_view.dart';
 
 class ShopHomeScreen extends StatelessWidget {
@@ -33,13 +35,12 @@ class ShopHomeScreen extends StatelessWidget {
         ),
       ),
       const CategoryView(),
-      // if (AppConstants.showAllAvailableOffersList) const AllOffersView(),
-
       const FlashSaleViewWidget(),
       const MiddleSectionBannerView(),
       const HighlightWidget(),
       const SpecialOfferView(isFood: false, isShop: true),
-      
+      const PromotionalBannerView(newArrivalBanner: true),
+      const NewArrivalView(),
       const TopOffersNearMe(),
       const FeaturedCategoriesView(),
       const ItemThatYouLoveView(forShop: true),

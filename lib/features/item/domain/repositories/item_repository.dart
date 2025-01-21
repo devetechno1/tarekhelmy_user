@@ -77,7 +77,7 @@ class ItemRepository implements ItemRepositoryInterface {
   }
 
   @override
-  Future getList({int? offset, String? type, bool isPopularItem = false, bool isOfferItem = false, bool isReviewedItem = false, bool isFeaturedCategoryItems = false, bool isRecommendedItems = false, bool isCommonConditions = false, bool isDiscountedItems = false, DataSourceEnum? source}) async {
+  Future getList({int? offset, String? type, bool isPopularItem = false,bool isNewArrivalItems = false, bool isOfferItem = false, bool isReviewedItem = false, bool isFeaturedCategoryItems = false, bool isRecommendedItems = false, bool isCommonConditions = false, bool isDiscountedItems = false, DataSourceEnum? source}) async {
     if(isPopularItem) {
       return await _getPopularItemList(type!, source: source ?? DataSourceEnum.client);
     } else if(isReviewedItem) {
@@ -90,6 +90,8 @@ class ItemRepository implements ItemRepositoryInterface {
       return await _getCommonConditions();
     } else if(isDiscountedItems) {
       return await _getDiscountedItemList(type!, source: source ?? DataSourceEnum.client);
+    } else if(isNewArrivalItems) {
+      return await _getNewArrivalItemList(type!, source: source ?? DataSourceEnum.client);
     } else if(isOfferItem) {
       return await _getOffersList(type!);
     }
@@ -222,6 +224,33 @@ class ItemRepository implements ItemRepositoryInterface {
 
       case DataSourceEnum.client:
         Response response = await apiClient.getData('${AppConstants.discountedItemsUri}?type=$type&offset=1&limit=50');
+        if (response.statusCode == 200) {
+          discountedItemList = [];
+          discountedItemList.addAll(ItemModel.fromJson(response.body).items!);
+          LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body), apiClient.getHeader());
+
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
+        if(cacheResponseData != null) {
+          discountedItemList = [];
+          discountedItemList.addAll(ItemModel.fromJson(jsonDecode(cacheResponseData)).items!);
+        }
+    }
+
+    return discountedItemList;
+  }
+
+  Future<List<Item>?> _getNewArrivalItemList(String type, {required DataSourceEnum source}) async {
+    List<Item>? discountedItemList;
+    String cacheId = '${AppConstants.newArrival}?type=$type&offset=1&limit=50${Get.find<SplashController>().module!.id!}';
+
+    print('======source is: $source');
+    switch(source) {
+
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData('${AppConstants.newArrival}?type=$type&offset=1&limit=50');
         if (response.statusCode == 200) {
           discountedItemList = [];
           discountedItemList.addAll(ItemModel.fromJson(response.body).items!);
