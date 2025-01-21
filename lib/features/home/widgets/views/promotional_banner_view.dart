@@ -60,47 +60,47 @@ class PromotionalBannerView extends StatelessWidget {
         target = null;
       }
       bool isHovered = false;
-      return bannerController.promotionalBanner != null ? imageURL != null ? Container(
-        
-        constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height /3),
-        alignment: Alignment.center,
-        child: AspectRatio(
-          aspectRatio: 3,
-          child: StatefulBuilder(
-            builder: (context, setState) {
-              return InkWell(
-                onHover: (value) => setState(()=> isHovered = value),
-                onTap: type == null || target == null 
-                ? null
-                : (){
-                  if(type == 'product'){
-                    final Item item = Item.fromJson(target!);
-                    Get.toNamed(RouteHelper.getItemDetailsRoute(item.id, false), arguments: ItemDetailsScreen(item: item, inStorePage: false, isCampaign: false));
-                  }else if(type == 'category'){
-                    final CategoryModel category = CategoryModel.fromJson(target!);
-                    Get.toNamed(RouteHelper.getCategoryItemRoute(category.id, category.name!));
-                  }
-                },
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                  ),
-                  child: AnimatedPadding(
-                    padding: isHovered? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeDefault),
-                    duration: const Duration(milliseconds: 300), // Animation duration
-                    child: ClipRRect(
+      return bannerController.promotionalBanner != null ? imageURL != null ? Align(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height /3, minHeight: 0),
+          child: AspectRatio(
+            aspectRatio: 3,
+            child: StatefulBuilder(
+              builder: (context, setState) {
+                return InkWell(
+                  onHover: (value) => setState(()=> isHovered = value),
+                  onTap: type == null || target == null 
+                  ? null
+                  : (){
+                    if(type == 'product'){
+                      final Item item = Item.fromJson(target!);
+                      Get.toNamed(RouteHelper.getItemDetailsRoute(item.id, false), arguments: ItemDetailsScreen(item: item, inStorePage: false, isCampaign: false));
+                    }else if(type == 'category'){
+                      final CategoryModel category = CategoryModel.fromJson(target!);
+                      Get.toNamed(RouteHelper.getCategoryItemRoute(category.id, category.name!));
+                    }
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                      child: CustomImage(
-                        image: '$imageURL',
-                        fit: BoxFit.cover,
+                    ),
+                    child: AnimatedPadding(
+                      padding: isHovered? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeDefault),
+                      duration: const Duration(milliseconds: 300), // Animation duration
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                        child: CustomImage(
+                          image: '$imageURL',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }
+                );
+              }
+            ),
           ),
         ),
       ) : const SizedBox() : const PromotionalBannerShimmerView();

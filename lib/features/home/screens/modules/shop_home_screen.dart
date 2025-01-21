@@ -34,20 +34,23 @@ class ShopHomeScreen extends StatelessWidget {
       ),
       const CategoryView(),
       // if (AppConstants.showAllAvailableOffersList) const AllOffersView(),
-      const PromotionalBannerView(isTrending: true),
-      const MostPopularItemView(isFood: false, isShop: true), // trending
+
       const FlashSaleViewWidget(),
       const MiddleSectionBannerView(),
       const HighlightWidget(),
-      const PromotionalBannerView(isBrands: true),
-      const BrandsViewWidget(),
       const SpecialOfferView(isFood: false, isShop: true),
-      const PromotionalBannerView(isWeekEnd: true),
-      const JustForYouView(), // weekend offers
+      
       const TopOffersNearMe(),
       const FeaturedCategoriesView(),
       const ItemThatYouLoveView(forShop: true),
+      const PromotionalBannerView(isTrending: true),
+      const MostPopularItemView(isFood: false, isShop: true), // trending
+      const PromotionalBannerView(isWeekEnd: true),
+      const JustForYouView(), // weekend offers
+      const PromotionalBannerView(isBrands: true),
+      const BrandsViewWidget(),
       const PromotionalBannerView(isBottomSection: true),
+      const SizedBox(height: 50)
     ]);
   }
 }

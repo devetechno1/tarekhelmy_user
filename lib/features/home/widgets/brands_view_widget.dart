@@ -18,7 +18,7 @@ class BrandsViewWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
           child: TitleWidget(
-            title: 'brands'.tr,
+            title: 'shop_by_brands'.tr,
             onTap: () => Get.toNamed(RouteHelper.getBrandsScreen()),
           ),
         ),
