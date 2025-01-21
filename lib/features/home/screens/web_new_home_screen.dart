@@ -43,6 +43,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/home/widgets/bad_weather_widget.dart';
 
+import '../widgets/views/promotional_banner_view.dart';
+
 class WebNewHomeScreen extends StatefulWidget {
   final ScrollController scrollController;
   const WebNewHomeScreen({super.key, required this.scrollController});
@@ -133,6 +135,7 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                 }),
 
                 _isLogin && !AppConstants.removeStores ?  WebVisitAgainView(fromFood: isFood) : const SizedBox(),
+                const PromotionalBannerView(isTrending: true),
 
                 isPharmacy ? const WebBasicMedicineNearbyViewWidget()
                     : isShop ? const WebMostPopularItemViewWidget(isShop: true, isFood: false)
@@ -148,6 +151,7 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                     : isFood ? AppConstants.removeStores? const SizedBox() : const WebNewOnViewWidget(isFood: true)
                     : isShop ? AppConstants.removeStores? const SizedBox() : const WebPopularStoresView()
                     : const WebMostPopularItemViewWidget(isFood: false, isShop: false),
+                const PromotionalBannerView(isBrands: true),
 
                 isShop ? const WebBrandsViewWidget() : (isPharmacy || isFood) ? const SizedBox() : const SizedBox(),
 
@@ -164,6 +168,7 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                     : isFood ? const WebMostPopularItemViewWidget(isFood: true, isShop: false)
                     : isShop ? const WebBestReviewItemViewWidget()
                     : const WebBestReviewItemViewWidget(),
+                const PromotionalBannerView(isWeekEnd: true),
 
                 isPharmacy ? const WebCommonConditionViewWidget()
                     : isFood ? const WebJustForYouViewWidget()

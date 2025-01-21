@@ -28,7 +28,7 @@ import 'package:sixam_mart/features/menu/screens/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../checkout/screens/checkout_screen.dart';
+import '../../cart/screens/cart_screen.dart';
 import '../../item/screens/offers_item_screen.dart';
 import '../widgets/running_order_view_widget.dart';
 
@@ -53,8 +53,6 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   late bool _isLogin;
   bool active = false;
-  CheckoutScreen get checkOutScreen => CheckoutScreen(fromCart: false, cartList: null, storeId: Get.find<StoreController>().storeModel?.stores?.lastOrNull?.id ?? 5, canBack: false);
-
 
   @override
   void initState() {
@@ -82,7 +80,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       const HomeScreen(),
       const OffersItemScreen(backButton: false),
       const SizedBox(),
-      checkOutScreen,
+      const CartScreen(fromNav: true),
       const MenuScreen()
     ];
 
@@ -194,7 +192,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               const HomeScreen(),
                               const OffersItemScreen(backButton: false),
                               const SizedBox(),
-                              checkOutScreen,
+                              const CartScreen(fromNav: true),
                               const MenuScreen()
                             ];
                             return Container(
@@ -225,11 +223,11 @@ class DashboardScreenState extends State<DashboardScreen> {
                                               builder: (con) => ParcelBottomSheetWidget(parcelCategoryList: Get.find<ParcelController>().parcelCategoryList),
                                             );
                                           } else {
-                                            Get.toNamed(RouteHelper.getCartRoute());
+                                            Get.toNamed(RouteHelper.getCheckoutRoute('request_prescription',storeId: Get.find<StoreController>().storeModel?.stores?.lastOrNull?.id ?? 5));
                                           }
                                         },
                                         elevation: 0,
-                                        child: isParcel ? Icon(CupertinoIcons.add, size: 34, color: Theme.of(context).cardColor) : CartWidget(color: Theme.of(context).cardColor, size: 22),
+                                        child: isParcel ? Icon(CupertinoIcons.add, size: 34, color: Theme.of(context).cardColor) : CartWidget(image: Images.orderUnselect, color: Theme.of(context).cardColor, size: 28),
                                       ),
                                   ),
                                 ),
@@ -252,7 +250,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                         ),
                                         SizedBox(width: size.width * 0.2),
                                         BottomNavItemWidget(
-                                          title: 'request_prescription'.tr, selectedIcon: Images.orderSelect, unSelectedIcon: Images.orderUnselect,
+                                          title: 'cart'.tr, selectedIcon: Images.shoppingCartSelected, unSelectedIcon: Images.shoppingCart,
                                           isSelected: _pageIndex == 3, onTap: () => _setPage(3),
                                         ),
                                         BottomNavItemWidget(

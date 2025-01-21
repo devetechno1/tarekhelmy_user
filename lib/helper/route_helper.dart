@@ -471,6 +471,7 @@ class RouteHelper {
       bool fromCart = Get.parameters['page'] == 'cart';
       bool requestPrescription = Get.parameters['page'] == 'request_prescription';
       return getRoute(checkoutScreen ?? (!fromCart && !requestPrescription ? const NotFound() : CheckoutScreen(
+        isRequestPrescription: requestPrescription,
         cartList: null, fromCart: Get.parameters['page'] == 'cart', storeId: Get.parameters['store-id'] != 'null' ? int.parse(Get.parameters['store-id']!) : null,
       )));
     }),

@@ -8,12 +8,13 @@ class CartWidget extends StatelessWidget {
   final Color? color;
   final double size;
   final bool fromStore;
-  const CartWidget({super.key, required this.color, required this.size, this.fromStore = false});
+  final String? image;
+  const CartWidget({super.key,this.image, required this.color, required this.size, this.fromStore = false});
 
   @override
   Widget build(BuildContext context) {
     return Stack(clipBehavior: Clip.none, children: [
-      Image.asset(Images.shoppingCart, height: size, width: size, color: color),
+      Image.asset(image ?? Images.shoppingCart, height: size, width: size, color: color),
 
       GetBuilder<CartController>(builder: (cartController) {
         return cartController.cartList.isNotEmpty ? Positioned(

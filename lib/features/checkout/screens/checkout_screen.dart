@@ -45,7 +45,8 @@ class CheckoutScreen extends StatefulWidget {
   final bool fromCart;
   final bool canBack;
   final int? storeId;
-  const CheckoutScreen({super.key, required this.fromCart, required this.cartList, required this.storeId, this.canBack = true});
+  final bool isRequestPrescription;
+  const CheckoutScreen({super.key, required this.fromCart, required this.cartList, required this.storeId, this.canBack = true, this.isRequestPrescription = false});
 
   @override
   CheckoutScreenState createState() => CheckoutScreenState();
@@ -176,7 +177,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     bool isLoggedIn = AuthHelper.isLoggedIn();
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'checkout'.tr, backButton: widget.canBack),
+      appBar: CustomAppBar(title: widget.isRequestPrescription ? 'request_prescription'.tr : 'checkout'.tr, backButton: widget.canBack),
       endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
       body: guestCheckoutPermission || AuthHelper.isLoggedIn() ? GetBuilder<CheckoutController>(builder: (checkoutController) {
 

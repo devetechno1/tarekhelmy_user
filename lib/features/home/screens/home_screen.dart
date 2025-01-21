@@ -258,6 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     automaticallyImplyLeading: false,
                     toolbarHeight: 200,
                     backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).colorScheme.primary,
+                    centerTitle: true,
                     title: Center(child: SizedBox(
                       width: Dimensions.webMaxWidth, height: 180,
                       child: Column(
@@ -307,6 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }),
                               ),
                             )),
+                            
                             InkWell(
                               child: GetBuilder<NotificationController>(builder: (notificationController) {
                                 return Stack(children: [
@@ -329,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   if(!showMobileModule)
                     SliverAnimatedOpacity(
-                      opacity: (_scrollController.positions.isNotEmpty ? _scrollController.offset > 200 : _scrollController.initialScrollOffset > 200)? 1 : 0, 
+                      opacity: (_scrollController.positions.isNotEmpty ?_scrollController.offset > 150 : _scrollController.initialScrollOffset > 150)? 1 : 0, 
                       duration: const Duration(milliseconds: 200),
                       sliver: SliverAppBar(
                         pinned: true,

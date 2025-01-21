@@ -317,7 +317,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
 
-            ResponsiveHelper.isDesktop(context) ? const SizedBox.shrink() : CheckoutButton(cartController: cartController, availableList: cartController.availableList),
+            ResponsiveHelper.isDesktop(context) ? const SizedBox.shrink() : CheckoutButton(cartController: cartController, availableList: cartController.availableList).paddingOnly(bottom: widget.fromNav ? 80:0),
 
           ]) : const NoDataScreen(isCart: true, text: '', showFooter: true);
         });

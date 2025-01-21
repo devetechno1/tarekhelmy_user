@@ -269,6 +269,7 @@ class Images {
   static const String messageUnselect = 'assets/image/message_unselect.png';
   static const String messageSelect = 'assets/image/message_select.png';
   static const String shoppingCart = 'assets/image/shopping_cart.png';
+  static const String shoppingCartSelected = 'assets/image/shopping_cart_selected.png';
   static const String addressUnselect = 'assets/image/address_unselect.png';
   static const String addressSelect = 'assets/image/address_select.png';
   static const String highlightIcon = 'assets/image/highlight_icon.png';
