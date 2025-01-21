@@ -47,7 +47,9 @@ class _OnHoverState extends State<OnHover> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: widget.isItem ? isHovered ? shadow1 : shadow2 : shadow2,
-        transform: widget.isItem ? Matrix4.identity() : transform  ,
+        margin: widget.isItem && isHovered ? const EdgeInsets.symmetric(horizontal: 10): EdgeInsets.zero,
+        transformAlignment: widget.isItem? Alignment.center : null,
+        transform: transform  ,
         child: widget.child,
       ),
     );
