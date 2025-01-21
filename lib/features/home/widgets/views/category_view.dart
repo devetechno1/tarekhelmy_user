@@ -32,7 +32,7 @@ class CategoryView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault, left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
                   child: TitleWidget(
-                    title: 'categories'.tr,
+                    title: 'shop_by_category'.tr,
                     onTap: () => Get.toNamed(RouteHelper.getCategoryRoute()),
                   ),
                 ),
