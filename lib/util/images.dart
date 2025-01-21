@@ -221,6 +221,7 @@ class Images {
   static const String viver = 'assets/image/viver_icon.png';
   static const String gmail = 'assets/image/mail_icon.png';
   static const String whatsapp = 'assets/image/whatsapp_icon.png';
+  static const String whatsappImage = 'assets/image/whatsapp.png';
   static const String messenger = 'assets/image/messenger_icon.png';
   static const String copyCoupon = 'assets/image/copy_coupon.png';
   static const String partialWallet = 'assets/image/partial_wallet.png';
