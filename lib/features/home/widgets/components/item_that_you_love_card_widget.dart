@@ -69,13 +69,15 @@ class ItemThatYouLoveCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  DiscountTag(
+                  DiscountEveryTag(
                     textDiscount: item.toGetFree != null && item.getFree != null
                         ? 'every_products_come_with_free'
                             .tr
                             .replaceAll("{every}", '${item.toGetFree}')
                             .replaceAll("{on}", "${item.getFree}")
-                        : null,
+                        : null
+                  ),
+                  DiscountTag(
                     discount: discount,
                     discountType: discountType,
                     freeDelivery: false,

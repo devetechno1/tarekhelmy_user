@@ -141,7 +141,7 @@ class _WebItemThatYouLoveViewWidgetState
                                                                   index]
                                                               .id),
                                                     ),
-                                                    DiscountTag(
+                                                    DiscountEveryTag(
                                                       textDiscount: recommendItems[
                                                                           index]
                                                                       .toGetFree !=
@@ -158,7 +158,9 @@ class _WebItemThatYouLoveViewWidgetState
                                                               .replaceAll(
                                                                   "{on}",
                                                                   "${recommendItems[index].getFree}")
-                                                          : null,
+                                                          : null
+                                                    ),
+                                                    DiscountTag(
                                                       discount: Get.find<
                                                               ItemController>()
                                                           .getDiscount(
@@ -472,7 +474,7 @@ class _WebItemThatYouLoveForShopState extends State<WebItemThatYouLoveForShop> {
                                                     id: recommendItems[index]
                                                         .id),
                                               ),
-                                              DiscountTag(
+                                              DiscountEveryTag(
                                                 textDiscount: recommendItems[
                                                                     index]
                                                                 .toGetFree !=
@@ -487,7 +489,9 @@ class _WebItemThatYouLoveForShopState extends State<WebItemThatYouLoveForShop> {
                                                             '${recommendItems[index].toGetFree}')
                                                         .replaceAll("{on}",
                                                             "${recommendItems[index].getFree}")
-                                                    : null,
+                                                    : null
+                                              ),
+                                              DiscountTag(
                                                 discount: Get.find<
                                                         ItemController>()
                                                     .getDiscount(

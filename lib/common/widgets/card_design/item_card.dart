@@ -89,6 +89,15 @@ class ItemCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  
+                  DiscountEveryTag(
+                    textDiscount: item.toGetFree != null && item.getFree != null
+                        ? 'every_products_come_with_free'
+                            .tr
+                            .replaceAll("{every}", '${item.toGetFree}')
+                            .replaceAll("{on}", "${item.getFree}")
+                        : null,
+                  ),
                   AddFavouriteView(
                     item: item,
                   ),
@@ -104,12 +113,6 @@ class ItemCard extends StatelessWidget {
                         )
                       : const SizedBox(),
                   DiscountTag(
-                    textDiscount: item.toGetFree != null && item.getFree != null
-                        ? 'every_products_come_with_free'
-                            .tr
-                            .replaceAll("{every}", '${item.toGetFree}')
-                            .replaceAll("{on}", "${item.getFree}")
-                        : null,
                     discount: discount,
                     discountType: discountType,
                     freeDelivery: false,

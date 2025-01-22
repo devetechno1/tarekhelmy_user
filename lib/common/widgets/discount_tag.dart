@@ -13,10 +13,9 @@ class DiscountTag extends StatelessWidget {
   final bool inLeft;
   final bool? freeDelivery;
   final bool? isFloating;
-  final String? textDiscount;
   const DiscountTag({super.key,
     required this.discount, required this.discountType, this.fromTop = 10, this.fontSize, this.freeDelivery = false,
-    this.inLeft = true, this.isFloating = true, this.textDiscount,
+    this.inLeft = true, this.isFloating = true,
   });
 
   @override
@@ -24,7 +23,7 @@ class DiscountTag extends StatelessWidget {
     bool isRightSide = Get.find<SplashController>().configModel!.currencySymbolDirection == 'right';
     String currencySymbol = Get.find<SplashController>().configModel!.currencySymbol!;
 
-    return (discount! > 0 || freeDelivery! || textDiscount != null) ? Positioned(
+    return (discount! > 0 || freeDelivery!) ? Positioned(
       top: fromTop, left: inLeft ? isFloating! ? Dimensions.paddingSizeSmall : 0 : null, right: inLeft ? null : 0,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -36,7 +35,6 @@ class DiscountTag extends StatelessWidget {
           ),
         ),
         child: Text(
-          textDiscount ??
           (discount! > 0 ? '${(isRightSide || discountType == 'percent') ? '' : currencySymbol}$discount${discountType == 'percent' ? '%'
               : isRightSide ? currencySymbol : ''} ${'off'.tr}' : 'free_delivery'.tr),
           style: robotoMedium.copyWith(
@@ -47,5 +45,36 @@ class DiscountTag extends StatelessWidget {
         ),
       ),
     ) : const SizedBox();
+  }
+}
+class DiscountEveryTag extends StatelessWidget {
+  final String? textDiscount;
+  final double? verticalPadding;
+  const DiscountEveryTag({super.key,this.textDiscount, this.verticalPadding});
+
+  @override
+  Widget build(BuildContext context) {
+    if (textDiscount == null) return const SizedBox();
+    return Positioned.fill(
+      child: Align(
+        alignment: AlignmentDirectional.bottomCenter,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: verticalPadding ?? Dimensions.paddingSizeSmall),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.error.withOpacity(0.8),
+            borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall)),
+          ),
+          child: Text(
+            textDiscount!,
+            style: robotoMedium.copyWith(
+              color: Theme.of(context).cardColor,
+              fontSize: (ResponsiveHelper.isMobile(context) ? 10 : 13),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
   }
 }

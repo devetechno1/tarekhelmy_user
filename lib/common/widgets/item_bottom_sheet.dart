@@ -248,7 +248,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
-                                            DiscountTag(
+                                            DiscountEveryTag(
                                                 textDiscount: widget.item
                                                                 ?.toGetFree !=
                                                             null &&
@@ -260,7 +260,8 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                                             '${widget.item?.toGetFree}')
                                                         .replaceAll("{on}",
                                                             "${widget.item?.getFree}")
-                                                    : null,
+                                                    : null),
+                                            DiscountTag(
                                                 discount: initialDiscount,
                                                 discountType: discountType,
                                                 fromTop: 20),

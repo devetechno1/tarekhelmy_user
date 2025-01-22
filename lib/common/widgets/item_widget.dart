@@ -176,8 +176,9 @@ class ItemWidget extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          (isStore || isCornerTag!)
-                              ? DiscountTag(
+                          if(isStore || isCornerTag!)
+                              ...[
+                                DiscountEveryTag(
                                   textDiscount: item?.toGetFree != null &&
                                           item?.getFree != null
                                       ? 'every_products_come_with_free'
@@ -187,12 +188,14 @@ class ItemWidget extends StatelessWidget {
                                           .replaceAll(
                                               "{on}", "${item?.getFree}")
                                       : null,
+                                ),
+                                DiscountTag(
                                   discount: discount,
                                   discountType: discountType,
                                   freeDelivery:
                                       isStore ? store!.freeDelivery : false,
                                 )
-                              : const SizedBox(),
+                              ],
                           !isStore
                               ? OrganicTag(item: item!, placeInImage: true)
                               : const SizedBox(),

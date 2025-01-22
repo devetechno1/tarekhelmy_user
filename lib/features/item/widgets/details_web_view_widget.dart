@@ -74,7 +74,7 @@ class DetailsWebViewWidget extends StatelessWidget {
                                             image:
                                                 '${imageList[itemController.productSelect]}',
                                           ),
-                                          DiscountTag(
+                                          DiscountEveryTag(
                                             textDiscount:
                                                 itemController.item
                                                                 ?.toGetFree !=
@@ -89,8 +89,6 @@ class DetailsWebViewWidget extends StatelessWidget {
                                                         .replaceAll("{on}",
                                                             "${itemController.item?.getFree}")
                                                     : null,
-                                            discount: 0,
-                                            discountType: null,
                                           ),
                                         ],
                                       ),

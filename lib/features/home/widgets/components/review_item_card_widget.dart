@@ -87,7 +87,7 @@ class ReviewItemCard extends StatelessWidget {
                               AddFavouriteView(
                                 item: item!,
                               ),
-                              DiscountTag(
+                              DiscountEveryTag(
                                 textDiscount: item?.toGetFree != null &&
                                         item?.getFree != null
                                     ? 'every_products_come_with_free'
@@ -95,7 +95,9 @@ class ReviewItemCard extends StatelessWidget {
                                         .replaceAll(
                                             "{every}", '${item?.toGetFree}')
                                         .replaceAll("{on}", "${item?.getFree}")
-                                    : null,
+                                    : null
+                              ),
+                              DiscountTag(
                                 isFloating: true,
                                 discount: Get.find<ItemController>()
                                     .getDiscount(item!),
@@ -258,14 +260,16 @@ class ReviewItemCard extends StatelessWidget {
                                   ),
                                 )
                               : const SizedBox(),
-                          DiscountTag(
+                          DiscountEveryTag(
                             textDiscount: item?.toGetFree != null &&
                                     item?.getFree != null
                                 ? 'every_products_come_with_free'
                                     .tr
                                     .replaceAll("{every}", '${item?.toGetFree}')
                                     .replaceAll("{on}", "${item?.getFree}")
-                                : null,
+                                : null
+                          ),
+                          DiscountTag(
                             isFloating: true,
                             discount:
                                 Get.find<ItemController>().getDiscount(item!),

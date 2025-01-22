@@ -69,17 +69,19 @@ class MedicineItemCard extends StatelessWidget {
                         height: double.infinity,
                       ),
                     ),
-                    AddFavouriteView(
-                      item: item,
-                    ),
-                    DiscountTag(
+                    DiscountEveryTag(
                       textDiscount:
                           item.toGetFree != null && item.getFree != null
                               ? 'every_products_come_with_free'
                                   .tr
                                   .replaceAll("{every}", '${item.toGetFree}')
                                   .replaceAll("{on}", "${item.getFree}")
-                              : null,
+                              : null
+                    ),
+                    AddFavouriteView(
+                      item: item,
+                    ),
+                    DiscountTag(
                       discount: discount,
                       discountType: discountType,
                       freeDelivery: false,

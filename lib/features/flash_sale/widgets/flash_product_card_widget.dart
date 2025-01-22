@@ -63,14 +63,16 @@ class FlashProductCardWidget extends StatelessWidget {
                   height: double.infinity,
                 ),
               ),
-              DiscountTag(
+              DiscountEveryTag(
                 textDiscount: product.item?.toGetFree != null &&
                         product.item?.getFree != null
                     ? 'every_products_come_with_free'
                         .tr
                         .replaceAll("{every}", '${product.item?.toGetFree}')
                         .replaceAll("{on}", "${product.item?.getFree}")
-                    : null,
+                    : null
+              ),
+              DiscountTag(
                 discount: discount,
                 discountType: discountType,
                 freeDelivery: false,

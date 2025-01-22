@@ -159,7 +159,7 @@ class WebItemWidget extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          DiscountTag(
+                          DiscountEveryTag(
                             textDiscount: item?.toGetFree != null &&
                                     item?.getFree != null
                                 ? 'every_products_come_with_free'
@@ -167,6 +167,8 @@ class WebItemWidget extends StatelessWidget {
                                     .replaceAll("{every}", '${item?.toGetFree}')
                                     .replaceAll("{on}", "${item?.getFree}")
                                 : null,
+                          ),
+                          DiscountTag(
                             discount: discount,
                             discountType: discountType,
                             freeDelivery: isStore ? store!.freeDelivery : false,

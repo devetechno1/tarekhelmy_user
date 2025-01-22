@@ -66,15 +66,14 @@ class ItemImageViewWidget extends StatelessWidget {
                 },
               ),
             ),
-            DiscountTag(
+            DiscountEveryTag(
+              verticalPadding: 50,
               textDiscount: item?.toGetFree != null && item?.getFree != null
                   ? 'every_products_come_with_free'
                       .tr
                       .replaceAll("{every}", '${item?.toGetFree}')
                       .replaceAll("{on}", "${item?.getFree}")
-                  : null,
-              discount: 0,
-              discountType: null,
+                  : null
             ),
             Positioned(
               left: 0,
