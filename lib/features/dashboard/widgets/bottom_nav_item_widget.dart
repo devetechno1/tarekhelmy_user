@@ -19,7 +19,7 @@ class BottomNavItemWidget extends StatelessWidget {
         onTap: onTap as void Function()?,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           if(isCart) 
-            CartWidget(image: isSelected ? selectedIcon : unSelectedIcon, color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!, size: 22)
+            CartWidget(image: isSelected ? selectedIcon : unSelectedIcon, color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!, size: 23)
           else
             Image.asset(
               isSelected ? selectedIcon : unSelectedIcon, height: 25, width: 25,

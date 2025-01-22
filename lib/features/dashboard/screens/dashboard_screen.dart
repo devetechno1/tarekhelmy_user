@@ -252,12 +252,12 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 ),
                                 if(!ResponsiveHelper.isDesktop(context))
                                   Positioned.fill(
-                                    bottom: 4,
+                                    bottom: 6,
                                     child: Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Text(
                                         'request_prescription'.tr,
-                                        style: robotoMedium.copyWith(fontSize: 14),
+                                        style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!, fontSize: 12),
                                       ),
                                     ),
                                   ),
