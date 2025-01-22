@@ -1342,5 +1342,7 @@
   "enter_name": "Enter Name",
   "search_food": "Search food",
   "search_item": "Search item",
+  "add_more_to_get_offer": "You need to add {noOfNeededToGetFreeOffer} more product(s) to get the offer",
+  "discount_price_message": "The cost of {noOfFreeOffer} product(s) will be waived",
   "timed_out_please_try_again_after_few_minutes": "Timed out. Please try again after few minutes"
 }

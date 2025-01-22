@@ -111,6 +111,7 @@ class Item {
   List<String>? genericName;
   int? toGetFree;
   int? getFree;
+  bool get containFreeItemsOffer => getFree != null && toGetFree != null;
 
   Item({
     this.id,

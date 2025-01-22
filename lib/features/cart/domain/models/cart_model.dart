@@ -67,6 +67,19 @@ class CartModel {
   bool? get isLoading => _isLoading;
   set isLoading(bool? status) => _isLoading = status;
 
+
+  int get _sumFreeItem => (item?.toGetFree ?? 0) + (item?.getFree ?? 0);
+  bool get containFreeItemsOffer => item?.containFreeItemsOffer == true && _sumFreeItem > 0;
+  int? get noOfFreeOffer {
+    if(!containFreeItemsOffer || quantity == null) return null;
+    return (quantity! / _sumFreeItem).floor();
+  }
+  int? get noOfNeededToGetFreeOffer {
+    if(!containFreeItemsOffer || quantity == null) return null;
+
+    return _sumFreeItem - (quantity! % _sumFreeItem);
+  }
+
   CartModel.fromJson(Map<String, dynamic> json) {
     _id = json['cart_id'];
     _price = json['price'].toDouble();

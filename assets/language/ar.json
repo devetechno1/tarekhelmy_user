@@ -1344,5 +1344,7 @@
   "delivery_location": "موقع التسليم",
   "referral_discount": "خصم الإحالة",
   "search_item": "ابحث عن المنتج",
+  "add_more_to_get_offer": "عليك إضافة {noOfNeededToGetFreeOffer} منتج آخر للحصول على العرض",
+  "discount_price_message": "سيتم خصم تكلفة {noOfFreeOffer} منتج",
   "timed_out_please_try_again_after_few_minutes": "انتهت المهلة. يرجى المحاولة مرة أخرى بعد عدة دقائق."
 }

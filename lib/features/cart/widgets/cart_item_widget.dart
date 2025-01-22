@@ -85,7 +85,7 @@ class CartItemWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                   Stack(
                     children: [
                       ClipRRect(
@@ -211,41 +211,68 @@ class CartItemWidget extends StatelessWidget {
                           )),
                         ]),
                       ) : const SizedBox(),
+
+                      if(cart.containFreeItemsOffer)
+                      Column(
+                      children: [
+                        const SizedBox(width: double.maxFinite),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 4,vertical: 2),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                            color: Colors.red.withOpacity(0.5)
+                          ),
+                          child: Text(
+                            'every_products_come_with_free'.tr.replaceAll("{every}", '${cart.item?.toGetFree}').replaceAll("{on}", "${cart.item?.getFree}"),
+                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                          ),
+                        ),
+                        if(cart.noOfFreeOffer != 0)
+                          Text(
+                            'discount_price_message'.tr.replaceAll("{noOfFreeOffer}", "${cart.noOfFreeOffer}"),
+                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                          ),
+                        if(cart.noOfFreeOffer == 0)
+                          Text(
+                            'add_more_to_get_offer'.tr.replaceAll("{noOfNeededToGetFreeOffer}",  "${cart.noOfNeededToGetFreeOffer}"),
+                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
+                          ),
+                      ],
+                    ),
+
+                      
                     ]),
                   ),
 
                   GetBuilder<CartController>(
                     builder: (cartController) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault+2),
-                        child: Row(children: [
-                          QuantityButton(
-                            onTap: cartController.isLoading ? null : () {
-                              if (cart.quantity! > 1) {
-                                Get.find<CartController>().setQuantity(false, cartIndex, cart.stock, cart.quantityLimit);
-                              }else {
-                                Get.find<CartController>().removeFromCart(cartIndex, item: cart.item);
-                              }
-                            },
-                            isIncrement: false,
-                            showRemoveIcon: cart.quantity! == 1,
-                          ),
-
-                          Text(
-                            cart.quantity.toString(),
-                            style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
-                          ),
-
-                          QuantityButton(
-                            onTap: cartController.isLoading ? null : () {
-                              Get.find<CartController>().forcefullySetModule(Get.find<CartController>().cartList[0].item!.moduleId!);
-                              Get.find<CartController>().setQuantity(true, cartIndex, cart.stock, cart.quantityLimit);
-                            },
-                            isIncrement: true,
-                            color: cartController.isLoading ? Theme.of(context).disabledColor : null,
-                          ),
-                        ]),
-                      );
+                      return Row(children: [
+                        QuantityButton(
+                          onTap: cartController.isLoading ? null : () {
+                            if (cart.quantity! > 1) {
+                              Get.find<CartController>().setQuantity(false, cartIndex, cart.stock, cart.quantityLimit);
+                            }else {
+                              Get.find<CartController>().removeFromCart(cartIndex, item: cart.item);
+                            }
+                          },
+                          isIncrement: false,
+                          showRemoveIcon: cart.quantity! == 1,
+                        ),
+                      
+                        Text(
+                          cart.quantity.toString(),
+                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
+                        ),
+                      
+                        QuantityButton(
+                          onTap: cartController.isLoading ? null : () {
+                            Get.find<CartController>().forcefullySetModule(Get.find<CartController>().cartList[0].item!.moduleId!);
+                            Get.find<CartController>().setQuantity(true, cartIndex, cart.stock, cart.quantityLimit);
+                          },
+                          isIncrement: true,
+                          color: cartController.isLoading ? Theme.of(context).disabledColor : null,
+                        ),
+                      ]);
                     }
                   ),
                 ]),

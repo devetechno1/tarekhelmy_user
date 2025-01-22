@@ -131,6 +131,9 @@ class CartController extends GetxController implements GetxService {
 
       _itemPrice = _itemPrice + price;
       _itemDiscountPrice = _itemDiscountPrice + discountPrice;
+      if((cartModel.noOfFreeOffer ?? 0) >= 1){
+        _itemDiscountPrice += cartModel.noOfFreeOffer! * ((cartModel.price ?? 0) - (discountPrice /(cartModel.quantity ?? 1)));
+      }
 
       haveVariation = false;
     }

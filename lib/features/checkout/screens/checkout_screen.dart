@@ -821,6 +821,11 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           }
 
         }
+        if((cartModel.noOfFreeOffer ?? 0) >= 1){
+          double discountPrice = cartModel.item!.price! - PriceConverter.convertWithDiscount(cartModel.item!.price!, dis, disType)!;
+          print("print print print discountPrice $discountPrice");
+          discount += cartModel.noOfFreeOffer! * ((cartModel.price ?? 0) - discountPrice);
+        }
       }
     }
 

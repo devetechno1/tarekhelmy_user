@@ -248,19 +248,6 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
-                                            DiscountEveryTag(
-                                                textDiscount: widget.item
-                                                                ?.toGetFree !=
-                                                            null &&
-                                                        widget.item?.getFree !=
-                                                            null
-                                                    ? 'every_products_come_with_free'
-                                                        .tr
-                                                        .replaceAll("{every}",
-                                                            '${widget.item?.toGetFree}')
-                                                        .replaceAll("{on}",
-                                                            "${widget.item?.getFree}")
-                                                    : null),
                                             DiscountTag(
                                                 discount: initialDiscount,
                                                 discountType: discountType,
@@ -355,6 +342,21 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                                                     .lineThrough),
                                                       )
                                                     : const SizedBox(),
+                                                    if(widget.cart != null && widget.cart!.containFreeItemsOffer)...[
+                                                      Align(
+                                                        child: Container(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 4,vertical: 2),
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                                            color: Colors.red.withOpacity(0.5)
+                                                          ),
+                                                          child: Text(
+                                                            'every_products_come_with_free'.tr.replaceAll("{every}", '${widget.cart!.item?.toGetFree}').replaceAll("{on}", "${widget.cart!.item?.getFree}"),
+                                                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                               ]),
                                         ),
                                         Column(
