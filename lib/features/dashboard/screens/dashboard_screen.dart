@@ -30,6 +30,7 @@ import 'package:sixam_mart/util/styles.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../common/widgets/custom_snackbar.dart';
+import '../../../common/widgets/hover/on_hover.dart';
 import '../../cart/screens/cart_screen.dart';
 import '../../item/screens/offers_item_screen.dart';
 import '../widgets/running_order_view_widget.dart';
@@ -176,17 +177,19 @@ class DashboardScreenState extends State<DashboardScreen> {
                 floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
                 floatingActionButton:_pageIndex == 0 ? Padding(
                   padding:ResponsiveHelper.isDesktop(context)? EdgeInsets.zero : EdgeInsets.only(bottom: GetPlatform.isIOS ? 80 : 70),
-                  child: FloatingActionButton(
-                    backgroundColor: ResponsiveHelper.isDesktop(context)? Colors.transparent : const Color(0xff2ea218),
-                    onPressed: () async {
-                      final String link = 'https://api.whatsapp.com/send?phone=${Get.find<SplashController>().configModel!.phone?.replaceAll("+", '')}';
-                      if(await canLaunchUrlString(link)) {
-                        launchUrlString(link);
-                      }else {
-                        showCustomSnackBar('${'can_not_launch'.tr} ${Get.find<SplashController>().configModel!.phone}');
-                      }
-                    },
-                    child: SizedBox.square(dimension: 38, child: Image.asset(Images.whatsappImage)),
+                  child: OnHover(
+                    child: FloatingActionButton(
+                      backgroundColor: ResponsiveHelper.isDesktop(context)? Colors.transparent : const Color(0xff2ea218),
+                      onPressed: () async {
+                        final String link = 'https://api.whatsapp.com/send?phone=${Get.find<SplashController>().configModel!.phone?.replaceAll("+", '')}';
+                        if(await canLaunchUrlString(link)) {
+                          launchUrlString(link);
+                        }else {
+                          showCustomSnackBar('${'can_not_launch'.tr} ${Get.find<SplashController>().configModel!.phone}');
+                        }
+                      },
+                      child: SizedBox.square(dimension: 38, child: Image.asset(Images.whatsappImage)),
+                    ),
                   ),
                 ) : null,
                 body: ExpandableBottomSheet(
