@@ -10,7 +10,6 @@ import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
-import '../views/product_with_categories_view.dart';
 
 class WebBasicMedicineNearbyViewWidget extends StatefulWidget {
   const WebBasicMedicineNearbyViewWidget({super.key});
@@ -57,7 +56,6 @@ class _WebBasicMedicineNearbyViewWidgetState extends State<WebBasicMedicineNearb
 
   @override
   Widget build(BuildContext context) {
-    return const ProductWithCategoriesView();
     return GetBuilder<ItemController>(builder: (itemController) {
       List<Categories>? categories = [];
       List<Item>? products = [];
