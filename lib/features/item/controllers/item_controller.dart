@@ -25,6 +25,13 @@ import 'package:sixam_mart/features/item/domain/services/item_service_interface.
 class ItemController extends GetxController implements GetxService {
   final ItemServiceInterface itemServiceInterface;
   ItemController({required this.itemServiceInterface});
+
+  int noOfFreeOffer = 0;
+  int noOfNeededToGetFreeOffer = 0;
+
+  bool containFreeItemsOffer = false;
+
+  Item? calcItem;
   
   List<Item>? _offersList;
   List<Item>? get offersList => _offersList;
@@ -427,6 +434,9 @@ class ItemController extends GetxController implements GetxService {
     _selectedVariations = [];
     _collapseVariation = [];
     if(cart != null) {
+      containFreeItemsOffer = cart.containFreeItemsOffer;
+      noOfNeededToGetFreeOffer = cart.noOfNeededToGetFreeOffer ?? 0;
+      calcItem = item;
       _quantity = cart.quantity;
       _addOnActiveList.addAll(itemServiceInterface.initializeCartAddonActiveList(cart.addOnIds, item!.addOns));
       _addOnQtyList.addAll(itemServiceInterface.initializeCartAddonsQtyList(cart.addOnIds, item.addOns));
@@ -486,6 +496,8 @@ class ItemController extends GetxController implements GetxService {
 
   Future<void> setQuantity(bool isIncrement, int? stock,  int? quantityLimit, {bool getxSnackBar = false}) async {
     _quantity = await itemServiceInterface.setQuantity(isIncrement, Get.find<SplashController>().configModel!.moduleConfig!.module!.stock!, stock, _quantity!, quantityLimit, getxSnackBar: getxSnackBar);
+    noOfFreeOffer = CartModel.noOfFreeOffers(_quantity ?? 0, calcItem);
+    noOfNeededToGetFreeOffer = CartModel.noOfNeededToGetFreeOffers(quantity ?? 0, calcItem);
     update();
   }
 

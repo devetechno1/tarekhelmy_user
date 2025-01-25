@@ -224,19 +224,29 @@ class CartItemWidget extends StatelessWidget {
                           ),
                           child: Text(
                             'every_products_come_with_free'.tr.replaceAll("{every}", '${cart.item?.toGetFree}').replaceAll("{on}", "${cart.item?.getFree}"),
+                            textAlign: TextAlign.center,
                             style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
                           ),
                         ),
                         if(cart.noOfFreeOffer != 0)
                           Text(
                             'discount_price_message'.tr.replaceAll("{noOfFreeOffer}", "${cart.noOfFreeOffer}"),
+                            textAlign: TextAlign.center,
                             style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
                           ),
                         if(cart.noOfFreeOffer == 0)
                           Text(
                             'add_more_to_get_offer'.tr.replaceAll("{noOfNeededToGetFreeOffer}",  "${cart.noOfNeededToGetFreeOffer}"),
+                            textAlign: TextAlign.center,
                             style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
-                          ),
+                          )
+                        else
+                          if(cart.noOfNeededToGetFreeOffer == 1)
+                            Text(
+                              'add_more_one_to_get_offer_again'.tr,
+                              textAlign: TextAlign.center,
+                              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
+                            ).paddingOnly(bottom: Dimensions.paddingSizeSmall)
                       ],
                     ),
 

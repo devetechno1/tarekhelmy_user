@@ -49,6 +49,7 @@ class ItemBottomSheet extends StatefulWidget {
 
 class _ItemBottomSheetState extends State<ItemBottomSheet> {
   bool _newVariation = false;
+  late final CartModel? cart = widget.cart;
 
   @override
   void initState() {
@@ -342,21 +343,6 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                                                     .lineThrough),
                                                       )
                                                     : const SizedBox(),
-                                                    if(widget.cart != null && widget.cart!.containFreeItemsOffer)...[
-                                                      Align(
-                                                        child: Container(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 4,vertical: 2),
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                                            color: Colors.red.withOpacity(0.5)
-                                                          ),
-                                                          child: Text(
-                                                            'every_products_come_with_free'.tr.replaceAll("{every}", '${widget.cart!.item?.toGetFree}').replaceAll("{on}", "${widget.cart!.item?.getFree}"),
-                                                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
                                               ]),
                                         ),
                                         Column(
@@ -769,6 +755,46 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                         ]),
                   ),
                 ),
+                Builder(
+                  builder: (context) {                    
+                    if(itemController.containFreeItemsOffer != true) return const SizedBox();
+                    return Column(
+                      children: [
+                        const SizedBox(width: double.maxFinite),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 4,vertical: 2),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                            color: Colors.red.withOpacity(0.5)
+                          ),
+                          child: Text(
+                            'every_products_come_with_free'.tr.replaceAll("{every}", '${itemController.calcItem?.toGetFree}').replaceAll("{on}", "${itemController.calcItem?.getFree}"),
+                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                          ),
+                        ),
+                        if(itemController.noOfFreeOffer != 0)
+                          Text(
+                            'discount_price_message'.tr.replaceAll("{noOfFreeOffer}", "${itemController.noOfFreeOffer}"),
+                            textAlign: TextAlign.center,
+                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                          ),
+                        if(itemController.noOfFreeOffer == 0)
+                          Text(
+                            'add_more_to_get_offer'.tr.replaceAll("{noOfNeededToGetFreeOffer}",  "${itemController.noOfNeededToGetFreeOffer}"),
+                            textAlign: TextAlign.center,
+                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
+                          )
+                        else
+                          if(itemController.noOfNeededToGetFreeOffer == 1)
+                            Text(
+                              'add_more_one_to_get_offer_again'.tr,
+                              textAlign: TextAlign.center,
+                              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
+                            )
+                      ],
+                    ).paddingOnly(bottom: Dimensions.paddingSizeDefault);
+                  }
+                ),
 
                 ///Bottom side..
                 (!widget.item!.scheduleOrder! && !isAvailable)
@@ -800,6 +826,9 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                 discount,
                                 discountType);
                             double withAddonCost = cost! + addonsCost;
+                            if(itemController.noOfFreeOffer >= 1){
+                              withAddonCost -= itemController.noOfFreeOffer * priceWithDiscount;
+                            }
                             return Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -812,7 +841,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                   const SizedBox(
                                       width: Dimensions.paddingSizeExtraSmall),
                                   Row(children: [
-                                    discount! > 0
+                                    discount! > 0 || itemController.noOfFreeOffer > 0
                                         ? PriceConverter.convertAnimationPrice(
                                             (price * itemController.quantity!) +
                                                 addonsCost,

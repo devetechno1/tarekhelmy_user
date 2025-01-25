@@ -119,6 +119,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       : itemController.quantity, listOfAddOnId, addOnsList, listOfAddOnQty, 'Item'
               );
               priceWithAddons = priceWithQuantity + (Get.find<SplashController>().configModel!.moduleConfig!.module!.addOn! ? addonsCost : 0);
+              if((cartModel.noOfFreeOffer ?? 0) >= 1){
+                priceWithAddons -= cartModel.noOfFreeOffer! * priceWithDiscount;
+              }
             }
 
             return Scaffold(
@@ -196,6 +199,50 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           },
                         ),
                         itemController.item!.choiceOptions!.isNotEmpty ? const SizedBox(height: Dimensions.paddingSizeLarge) : const SizedBox(),
+                        if(cartModel?.containFreeItemsOffer == true)
+                          Builder(
+                            builder: (context) {
+                              CartModel? cart1 =  cartModel;
+                              if(itemController.cartIndex != -1){
+                                cart1 = cartController.cartList[itemController.cartIndex];
+                              }
+                              return Column(
+                                children: [
+                                  const SizedBox(width: double.maxFinite),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 4,vertical: 2),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                      color: Colors.red.withOpacity(0.5)
+                                    ),
+                                    child: Text(
+                                      'every_products_come_with_free'.tr.replaceAll("{every}", '${cart1?.item?.toGetFree}').replaceAll("{on}", "${cart1?.item?.getFree}"),
+                                      style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                    ),
+                                  ),
+                                  if(cart1?.noOfFreeOffer != 0)
+                                    Text(
+                                      'discount_price_message'.tr.replaceAll("{noOfFreeOffer}", "${cart1?.noOfFreeOffer}"),
+                                      textAlign: TextAlign.center,
+                                      style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                                    ),
+                                  if(cart1?.noOfFreeOffer == 0)
+                                    Text(
+                                      'add_more_to_get_offer'.tr.replaceAll("{noOfNeededToGetFreeOffer}",  "${cart1?.noOfNeededToGetFreeOffer}"),
+                                      textAlign: TextAlign.center,
+                                      style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
+                                    )
+                                  else
+                                    if(cart1?.noOfNeededToGetFreeOffer == 1)
+                                      Text(
+                                        'add_more_one_to_get_offer_again'.tr,
+                                        textAlign: TextAlign.center,
+                                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
+                                      ).paddingOnly(bottom: Dimensions.paddingSizeSmall)
+                                ],
+                              );
+                            }
+                          ),
 
                         // Quantity
                         GetBuilder<CartController>(
@@ -418,6 +465,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       }
     } else {
       discountedPrice = (PriceConverter.convertWithDiscount(cart.item!.price!, discount, discountType)! * cart.quantity!);
+    }
+
+    if((cart.noOfFreeOffer ?? 0) >= 1){
+      discountedPrice -= cart.noOfFreeOffer! * (cart.discountedPrice ??0);
     }
 
     return discountedPrice;

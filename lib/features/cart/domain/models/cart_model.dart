@@ -80,6 +80,10 @@ class CartModel {
     return _sumFreeItem - (quantity! % _sumFreeItem);
   }
 
+  static int sumFreeItem(Item? item) => (item?.toGetFree ?? 0) + (item?.getFree ?? 0);
+  static int noOfFreeOffers(int quantity, Item? item) => sumFreeItem(item) > 0 ? (quantity / sumFreeItem(item)).floor() : 0;
+  static int noOfNeededToGetFreeOffers(int quantity, Item? item) => sumFreeItem(item) > 0 ? sumFreeItem(item) - (quantity % sumFreeItem(item)) : 0;
+
   CartModel.fromJson(Map<String, dynamic> json) {
     _id = json['cart_id'];
     _price = json['price'].toDouble();
