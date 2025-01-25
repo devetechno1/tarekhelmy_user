@@ -256,19 +256,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 slivers: [
                   /// App Bar
                   SliverAppBar(
+                    pinned: true,
                     elevation: 0,
                     automaticallyImplyLeading: false,
-                    toolbarHeight: 200,
+                    toolbarHeight: 130,
                     backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).colorScheme.primary,
                     centerTitle: true,
                     title: Center(child: SizedBox(
-                      width: Dimensions.webMaxWidth, height: 180,
+                      width: Dimensions.webMaxWidth, height: 120,
                       child: Column(
                         children: [
                           Expanded(child: Image.asset(Images.icon)),
                           if(!showMobileModule)
                             searchBarWidget(context),
-                          Row(children: [
+                        ],
+                      ),
+                    )),
+                    actions: const [SizedBox()],
+                  ),
+                    SliverAppBar(
+                        floating: true,
+                        pinned: true,
+                        elevation: 0,
+                        automaticallyImplyLeading: false,
+                        toolbarHeight: 65,
+                        actions: const [SizedBox()],
+                        backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).colorScheme.primary,
+                        title: Row(children: [
                             (splashController.module != null && splashController.configModel!.module == null && splashController.moduleList != null && splashController.moduleList!.length != 1) ? InkWell(
                               onTap: () {
                                 splashController.removeModule();
@@ -326,25 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () => Get.toNamed(RouteHelper.getNotificationRoute()),
                             ),
                           ]),
-                        ],
                       ),
-                    )),
-                    actions: const [SizedBox()],
-                  ),
-                  if(!showMobileModule)
-                    SliverAnimatedOpacity(
-                      opacity: (_scrollController.positions.isNotEmpty ?_scrollController.offset > 150 : _scrollController.initialScrollOffset > 150)? 1 : 0, 
-                      duration: const Duration(milliseconds: 200),
-                      sliver: SliverAppBar(
-                        pinned: true,
-                        elevation: 0,
-                        automaticallyImplyLeading: false,
-                        toolbarHeight: 65,
-                        actions: const [SizedBox()],
-                        backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).colorScheme.primary,
-                        title: searchBarWidget(context),
-                      ),
-                    ),
 
                   /// Search Button
                   // !showMobileModule ? SliverPersistentHeader(
