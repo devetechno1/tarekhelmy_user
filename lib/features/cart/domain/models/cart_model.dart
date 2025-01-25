@@ -72,7 +72,7 @@ class CartModel {
   bool get containFreeItemsOffer => item?.containFreeItemsOffer == true && _sumFreeItem > 0;
   int? get noOfFreeOffer {
     if(!containFreeItemsOffer || quantity == null) return null;
-    return (quantity! / _sumFreeItem).floor();
+    return (item?.getFree ?? 0) * (quantity! / _sumFreeItem).floor();
   }
   int? get noOfNeededToGetFreeOffer {
     if(!containFreeItemsOffer || quantity == null) return null;
@@ -81,7 +81,7 @@ class CartModel {
   }
 
   static int sumFreeItem(Item? item) => (item?.toGetFree ?? 0) + (item?.getFree ?? 0);
-  static int noOfFreeOffers(int quantity, Item? item) => sumFreeItem(item) > 0 ? (quantity / sumFreeItem(item)).floor() : 0;
+  static int noOfFreeOffers(int quantity, Item? item) => sumFreeItem(item) > 0 ? (item?.getFree ?? 0) * (quantity / sumFreeItem(item)).floor() : 0;
   static int noOfNeededToGetFreeOffers(int quantity, Item? item) => sumFreeItem(item) > 0 ? sumFreeItem(item) - (quantity % sumFreeItem(item)) : 0;
 
   CartModel.fromJson(Map<String, dynamic> json) {

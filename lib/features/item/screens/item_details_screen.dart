@@ -233,9 +233,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                       style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
                                     )
                                   else
-                                    if(cart1?.noOfNeededToGetFreeOffer == 1)
+                                    if(cart1?.noOfNeededToGetFreeOffer != null && cart1?.noOfNeededToGetFreeOffer != 0 && (cart1!.noOfNeededToGetFreeOffer! <= (cart1.item?.getFree ?? 0)))
                                       Text(
-                                        'add_more_one_to_get_offer_again'.tr,
+                                        'add_more_to_get_offer_again'.tr.replaceAll('{product}', '${cart1.noOfNeededToGetFreeOffer}'),
                                         textAlign: TextAlign.center,
                                         style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
                                       ).paddingOnly(bottom: Dimensions.paddingSizeSmall)

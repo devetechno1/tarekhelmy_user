@@ -785,9 +785,9 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                             style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
                           )
                         else
-                          if(itemController.noOfNeededToGetFreeOffer == 1)
+                          if(itemController.noOfNeededToGetFreeOffer != 0 && (itemController.noOfNeededToGetFreeOffer <= (itemController.calcItem?.getFree ?? 0)))
                             Text(
-                              'add_more_one_to_get_offer_again'.tr,
+                              'add_more_to_get_offer_again'.tr.replaceAll('{product}', '${itemController.noOfNeededToGetFreeOffer}'),
                               textAlign: TextAlign.center,
                               style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
                             )

@@ -241,9 +241,9 @@ class CartItemWidget extends StatelessWidget {
                             style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
                           )
                         else
-                          if(cart.noOfNeededToGetFreeOffer == 1)
+                          if(cart.noOfNeededToGetFreeOffer != null && cart.noOfNeededToGetFreeOffer != 0 && (cart.noOfNeededToGetFreeOffer! <= (cart.item?.getFree ?? 0)))
                             Text(
-                              'add_more_one_to_get_offer_again'.tr,
+                              'add_more_to_get_offer_again'.tr.replaceAll('{product}', '${cart.noOfNeededToGetFreeOffer}'),
                               textAlign: TextAlign.center,
                               style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Colors.redAccent),
                             ).paddingOnly(bottom: Dimensions.paddingSizeSmall)

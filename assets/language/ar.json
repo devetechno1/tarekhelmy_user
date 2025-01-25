@@ -1345,7 +1345,7 @@
   "referral_discount": "خصم الإحالة",
   "search_item": "ابحث عن المنتج",
   "add_more_to_get_offer": "عليك إضافة {noOfNeededToGetFreeOffer} منتج آخر للحصول على العرض",
-  "add_more_one_to_get_offer_again": "عليك إضافة منتج آخر للحصول على العرض مرة اخرى",
+  "add_more_to_get_offer_again": "عليك إضافة {product} منتج آخر للحصول على العرض مرة اخرى",
   "discount_price_message": "سيتم خصم تكلفة {noOfFreeOffer} منتج",
   "timed_out_please_try_again_after_few_minutes": "انتهت المهلة. يرجى المحاولة مرة أخرى بعد عدة دقائق."
 }
