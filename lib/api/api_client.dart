@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:sixam_mart/api/api_checker.dart';
@@ -89,7 +90,7 @@ class ApiClient extends GetxService {
     try {
       if(kDebugMode) {
         print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
-        print('====> API Body: $body');
+        log('uri : $uri ====> API Body: $body');
       }
       http.Response response = await http.post(
         Uri.parse(appBaseUrl+uri),
@@ -106,7 +107,7 @@ class ApiClient extends GetxService {
     try {
       if(kDebugMode) {
         print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
-        print('====> API Body: $body with ${multipartBody.length} picture');
+        log('uri: $uri====> API Body: $body with ${multipartBody.length} picture');
       }
       http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse(appBaseUrl+uri));
       request.headers.addAll(headers ?? _mainHeaders);
@@ -131,7 +132,7 @@ class ApiClient extends GetxService {
     try {
       if(kDebugMode) {
         print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
-        print('====> API Body: $body');
+        log('uri : $uri ====> API Body: $body');
       }
       http.Response response = await http.put(
         Uri.parse(appBaseUrl+uri),

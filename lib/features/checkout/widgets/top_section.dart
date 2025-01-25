@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:sixam_mart/features/checkout/widgets/guest_create_account.dart';
@@ -26,7 +27,7 @@ import 'package:sixam_mart/features/checkout/widgets/web_delivery_instruction_vi
 import 'package:sixam_mart/features/store/widgets/camera_button_sheet_widget.dart';
 import 'dart:io';
 
-class TopSection extends StatelessWidget {
+class TopSection extends StatefulWidget {
   final CheckoutController checkoutController;
   final double charge;
   final double deliveryCharge;
@@ -77,8 +78,41 @@ class TopSection extends StatelessWidget {
   });
 
   @override
+  State<TopSection> createState() => _TopSectionState();
+}
+
+class _TopSectionState extends State<TopSection> {
+
+  @override
+  void initState() {
+    super.initState();
+    sortAddress();
+  }
+
+
+  void sortAddress(){
+    for (int i = 0; i < widget.address.length; i++) {
+      if(widget.address[i].streetNumber?.trim().isNotEmpty == true && widget.address[i].house?.trim().isNotEmpty == true && widget.address[i].floor?.trim().isNotEmpty == true){
+
+        widget.checkoutController.getDistanceInKM(
+          LatLng(
+            double.parse(widget.address[i].latitude!),
+            double.parse(widget.address[i].longitude!),
+          ),
+          LatLng(double.parse(widget.checkoutController.store!.latitude!), double.parse(widget.checkoutController.store!.longitude!)),
+        );
+        
+        widget.checkoutController.setAddressIndex(i,false);
+        widget.checkoutController.streetNumberController.text = widget.address[i].streetNumber ?? '';
+        widget.checkoutController.houseController.text = widget.address[i].house ?? '';
+        widget.checkoutController.floorController.text = widget.address[i].floor ?? '';
+        break;
+      }
+    }
+  }
+  @override
   Widget build(BuildContext context) {
-    bool takeAway = (checkoutController.orderType == 'take_away');
+    bool takeAway = (widget.checkoutController.orderType == 'take_away');
     bool isDesktop = ResponsiveHelper.isDesktop(context);
     bool isGuestLoggedIn = AuthHelper.isGuestLoggedIn();
 
@@ -90,7 +124,7 @@ class TopSection extends StatelessWidget {
       ) : null,
       child: Column(children: [
 
-        storeId != null ? Container(
+        widget.storeId != null ? Container(
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
@@ -104,7 +138,7 @@ class TopSection extends StatelessWidget {
 
               JustTheTooltip(
                 backgroundColor: Colors.black87,
-                controller: tooltipController1,
+                controller: widget.tooltipController1,
                 preferredDirection: AxisDirection.right,
                 tailLength: 14,
                 tailBaseWidth: 20,
@@ -113,7 +147,7 @@ class TopSection extends StatelessWidget {
                   child: Text('prescription_tool_tip'.tr, style: robotoRegular.copyWith(color: Colors.white)),
                 ),
                 child: InkWell(
-                  onTap: () => tooltipController1.showTooltip(),
+                  onTap: () => widget.tooltipController1.showTooltip(),
                   child: const Icon(Icons.info_outline),
                 ),
               ),
@@ -125,15 +159,15 @@ class TopSection extends StatelessWidget {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
-                itemCount: checkoutController.pickedPrescriptions.length+1,
+                itemCount: widget.checkoutController.pickedPrescriptions.length+1,
                 padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeExtraSmall),
                 itemBuilder: (context, index) {
-                  XFile? file = index == checkoutController.pickedPrescriptions.length ? null : checkoutController.pickedPrescriptions[index];
-                  if(index < 5 && index == checkoutController.pickedPrescriptions.length) {
+                  XFile? file = index == widget.checkoutController.pickedPrescriptions.length ? null : widget.checkoutController.pickedPrescriptions[index];
+                  if(index < 5 && index == widget.checkoutController.pickedPrescriptions.length) {
                     return InkWell(
                       onTap: () {
                         if (ResponsiveHelper.isDesktop(context) || GetPlatform.isIOS){
-                          checkoutController.pickPrescriptionImage(isRemove: false, isCamera: false);
+                          widget.checkoutController.pickPrescriptionImage(isRemove: false, isCamera: false);
                         } else {
                           Get.bottomSheet(const CameraButtonSheetWidget());
                         }
@@ -185,7 +219,7 @@ class TopSection extends StatelessWidget {
                           Positioned(
                             right: 0, top: 0,
                             child: InkWell(
-                              onTap: () => checkoutController.removePrescriptionImage(index),
+                              onTap: () => widget.checkoutController.removePrescriptionImage(index),
                               child: const Padding(
                                 padding: EdgeInsets.all(Dimensions.paddingSizeSmall),
                                 child: Icon(Icons.delete_forever, color: Colors.red),
@@ -216,21 +250,21 @@ class TopSection extends StatelessWidget {
               Text('delivery_type'.tr, style: robotoMedium),
               const SizedBox(height: Dimensions.paddingSizeSmall),
 
-              storeId != null ? DeliveryOptionButtonWidget(
-                value: 'delivery', title: 'home_delivery'.tr, charge: charge,
-                isFree: checkoutController.store!.freeDelivery, fromWeb: true, total: total,
-                deliveryChargeForView: deliveryChargeForView, badWeatherCharge: badWeatherCharge, extraChargeForToolTip: extraChargeForToolTip,
+              widget.storeId != null ? DeliveryOptionButtonWidget(
+                value: 'delivery', title: 'home_delivery'.tr, charge: widget.charge,
+                isFree: widget.checkoutController.store!.freeDelivery, fromWeb: true, total: widget.total,
+                deliveryChargeForView: widget.deliveryChargeForView, badWeatherCharge: widget.badWeatherCharge, extraChargeForToolTip: widget.extraChargeForToolTip,
               ) : SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: [
-                Get.find<SplashController>().configModel!.homeDeliveryStatus == 1 && checkoutController.store!.delivery! ? DeliveryOptionButtonWidget(
-                  value: 'delivery', title: 'home_delivery'.tr, charge: charge,
-                  isFree: checkoutController.store!.freeDelivery,  fromWeb: true, total: total,
-                  deliveryChargeForView: deliveryChargeForView, badWeatherCharge: badWeatherCharge, extraChargeForToolTip: extraChargeForToolTip,
+                Get.find<SplashController>().configModel!.homeDeliveryStatus == 1 && widget.checkoutController.store!.delivery! ? DeliveryOptionButtonWidget(
+                  value: 'delivery', title: 'home_delivery'.tr, charge: widget.charge,
+                  isFree: widget.checkoutController.store!.freeDelivery,  fromWeb: true, total: widget.total,
+                  deliveryChargeForView: widget.deliveryChargeForView, badWeatherCharge: widget.badWeatherCharge, extraChargeForToolTip: widget.extraChargeForToolTip,
                 ) : const SizedBox(),
                 const SizedBox(width: Dimensions.paddingSizeDefault),
 
-                Get.find<SplashController>().configModel!.takeawayStatus == 1 && checkoutController.store!.takeAway! ? DeliveryOptionButtonWidget(
-                  value: 'take_away', title: 'take_away'.tr, charge: deliveryCharge, isFree: true,  fromWeb: true, total: total,
-                  deliveryChargeForView: deliveryChargeForView, badWeatherCharge: badWeatherCharge, extraChargeForToolTip: extraChargeForToolTip,
+                Get.find<SplashController>().configModel!.takeawayStatus == 1 && widget.checkoutController.store!.takeAway! ? DeliveryOptionButtonWidget(
+                  value: 'take_away', title: 'take_away'.tr, charge: widget.deliveryCharge, isFree: true,  fromWeb: true, total: widget.total,
+                  deliveryChargeForView: widget.deliveryChargeForView, badWeatherCharge: widget.badWeatherCharge, extraChargeForToolTip: widget.extraChargeForToolTip,
                 ) : const SizedBox(),
               ]),
               ),
@@ -251,9 +285,9 @@ class TopSection extends StatelessWidget {
         SizedBox(height: !takeAway && !isGuestLoggedIn ? Dimensions.paddingSizeLarge : 0),*/
 
         ///delivery section
-        DeliverySection(checkoutController: checkoutController, address: address, addressList: addressList,
-          guestNameTextEditingController: guestNameTextEditingController, guestNumberTextEditingController: guestNumberTextEditingController,
-          guestNumberNode: guestNumberNode, guestEmailController: guestEmailController, guestEmailNode: guestEmailNode,
+        DeliverySection(checkoutController: widget.checkoutController, address: widget.address, addressList: widget.addressList,
+          guestNameTextEditingController: widget.guestNameTextEditingController, guestNumberTextEditingController: widget.guestNumberTextEditingController,
+          guestNumberNode: widget.guestNumberNode, guestEmailController: widget.guestEmailController, guestEmailNode: widget.guestEmailNode,
         ),
 
         SizedBox(height: !takeAway ? isDesktop ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeSmall : 0),
@@ -265,27 +299,27 @@ class TopSection extends StatelessWidget {
         ///Create Account with existing info
 
         isGuestLoggedIn && Get.find<SplashController>().configModel!.centralizeLoginSetup!.manualLoginStatus! ? GuestCreateAccount(
-          guestPasswordController: guestPasswordController, guestConfirmPasswordController: guestConfirmPasswordController,
-          guestPasswordNode: guestPasswordNode, guestConfirmPasswordNode: guestConfirmPasswordNode,
+          guestPasswordController: widget.guestPasswordController, guestConfirmPasswordController: widget.guestConfirmPasswordController,
+          guestPasswordNode: widget.guestPasswordNode, guestConfirmPasswordNode: widget.guestConfirmPasswordNode,
         ) : const SizedBox(),
         SizedBox(height: isGuestLoggedIn && Get.find<SplashController>().configModel!.centralizeLoginSetup!.manualLoginStatus! ? Dimensions.paddingSizeSmall : 0),
 
         /// Time Slot
         TimeSlotSection(
-          storeId: storeId, checkoutController: checkoutController, cartList: cartList, tooltipController2: tooltipController2,
-          tomorrowClosed: tomorrowClosed, todayClosed: todayClosed, module: module,
+          storeId: widget.storeId, checkoutController: widget.checkoutController, cartList: widget.cartList, tooltipController2: widget.tooltipController2,
+          tomorrowClosed: widget.tomorrowClosed, todayClosed: widget.todayClosed, module: widget.module,
         ),
 
         /// Coupon..
         !isDesktop && !isGuestLoggedIn ? CouponSection(
-          storeId: storeId, checkoutController: checkoutController, total: total, price: price,
-          discount: discount, addOns: addOns, deliveryCharge: deliveryCharge, variationPrice: variationPrice,
+          storeId: widget.storeId, checkoutController: widget.checkoutController, total: widget.total, price: widget.price,
+          discount: widget.discount, addOns: widget.addOns, deliveryCharge: widget.deliveryCharge, variationPrice: widget.variationPrice,
         ) : const SizedBox(),
 
         ///DmTips..
         DeliveryManTipsSection(
-          takeAway: takeAway, tooltipController3: dmTipsTooltipController,
-          totalPrice: total, onTotalChange: (double price) => total + price, storeId: storeId,
+          takeAway: takeAway, tooltipController3: widget.dmTipsTooltipController,
+          totalPrice: widget.total, onTotalChange: (double price) => widget.total + price, storeId: widget.storeId,
         ),
 
         ///Payment..
@@ -298,12 +332,12 @@ class TopSection extends StatelessWidget {
           child: Column(children: [
 
             PaymentSection(
-              storeId: storeId, isCashOnDeliveryActive: isCashOnDeliveryActive, isDigitalPaymentActive: isDigitalPaymentActive,
-              isWalletActive: isWalletActive, total: total, checkoutController: checkoutController, isOfflinePaymentActive: isOfflinePaymentActive,
+              storeId: widget.storeId, isCashOnDeliveryActive: widget.isCashOnDeliveryActive, isDigitalPaymentActive: widget.isDigitalPaymentActive,
+              isWalletActive: widget.isWalletActive, total: widget.total, checkoutController: widget.checkoutController, isOfflinePaymentActive: widget.isOfflinePaymentActive,
             ),
             SizedBox(height: isGuestLoggedIn ? 0 : Dimensions.paddingSizeLarge),
 
-            !isDesktop && !isGuestLoggedIn ? PartialPayView(totalPrice: total, isPrescription: storeId != null) : const SizedBox(),
+            !isDesktop && !isGuestLoggedIn ? PartialPayView(totalPrice: widget.total, isPrescription: widget.storeId != null) : const SizedBox(),
 
           ]),
         ),
