@@ -252,7 +252,9 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           total = total - referralDiscount;
 
           int? paymentMethod;
-          if(_isCashOnDeliveryActive ?? false){
+          if(checkoutController.paymentMethodIndex != -1){
+            paymentMethod = checkoutController.paymentMethodIndex;
+          }else if(_isCashOnDeliveryActive ?? false){
             paymentMethod = 0;
           }else if(_isWalletActive){
             paymentMethod = 1;
