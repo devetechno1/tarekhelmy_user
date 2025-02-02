@@ -6,6 +6,7 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 
 import '../../../../helper/route_helper.dart';
+import '../../../brands/domain/models/brands_model.dart';
 import '../../../category/domain/models/category_model.dart';
 import '../../../item/domain/models/item_model.dart';
 import '../../../item/screens/item_details_screen.dart';
@@ -78,6 +79,9 @@ class PromotionalBannerView extends StatelessWidget {
                     }else if(type == 'category'){
                       final CategoryModel category = CategoryModel.fromJson(target!);
                       Get.toNamed(RouteHelper.getCategoryItemRoute(category.id, category.name!));
+                    }else if(type == 'brand'){
+                      final BrandModel brand = BrandModel.fromJson(target!);
+                      Get.toNamed(RouteHelper.getBrandsItemScreen(brand.id!, brand.name!));
                     }
                   },
                   child: Container(
