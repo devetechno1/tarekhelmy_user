@@ -164,6 +164,7 @@ class SplashScreenState extends State<SplashScreen> {
 
     return Scaffold(
       key: _globalKey,
+      backgroundColor: Theme.of(context).primaryColor,
       body: GetBuilder<SplashController>(builder: (splashController) {
         return Center(
           child: splashController.hasConnection ? Column(
@@ -171,7 +172,7 @@ class SplashScreenState extends State<SplashScreen> {
             children: [
                 BouncyWidget(
                   duration: const Duration(milliseconds: 2000), lift: 50, ratio: 0.5, pause: 0.25,
-                  child: SizedBox(width: 200, child: Image.asset(Images.logo, width: 200))),
+                  child: SizedBox(width: 200, child: Image.asset(Images.icon, width: 200))),
             ],
           ) : NoInternetScreen(child: SplashScreen(body: widget.body)),
         );
