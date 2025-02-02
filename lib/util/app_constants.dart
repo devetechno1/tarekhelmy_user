@@ -4,7 +4,7 @@ import 'package:sixam_mart/features/language/domain/models/language_model.dart';
 import 'package:sixam_mart/util/images.dart';
 
 class AppConstants {
-  static const String appName = 'Tarek Helmy';
+  static String get appName => 'tarek_helmy'.tr;
   static const double appVersion = 2.12;
 
   ///Flutter Version: 3.24.5

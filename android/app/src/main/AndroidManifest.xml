@@ -25,7 +25,7 @@
     </queries>
 
     <application
-        android:label="Tarek Helmy"
+        android:label="@string/appName"
         android:name="${applicationName}"
         android:extractNativeLibs="true"
         android:requestLegacyExternalStorage="true"
