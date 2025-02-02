@@ -328,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             InkWell(
                               child: GetBuilder<NotificationController>(builder: (notificationController) {
                                 return Stack(children: [
-                                  const Icon(CupertinoIcons.bell, size: 25, color: Colors.black87),
+                                  const Icon(CupertinoIcons.bell, size: 25, color: Colors.white70),
                                   notificationController.hasNotification ? Positioned(top: 0, right: 0, child: Container(
                                     height: 10, width: 10, decoration: BoxDecoration(
                                     color: Colors.red, shape: BoxShape.circle,
