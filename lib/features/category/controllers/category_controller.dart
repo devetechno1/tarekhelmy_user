@@ -42,7 +42,7 @@ class CategoryController extends GetxController implements GetxService {
   bool _isSearching = false;
   bool get isSearching => _isSearching;
 
-  int _subCategoryIndex = 0;
+  int _subCategoryIndex = -1;
   int get subCategoryIndex => _subCategoryIndex;
 
   String _type = 'all';
@@ -92,13 +92,12 @@ class CategoryController extends GetxController implements GetxService {
   }
 
   void getSubCategoryList(String? categoryID) async {
-    _subCategoryIndex = 0;
+    _subCategoryIndex = -1;
     _subCategoryList = null;
     _categoryItemList = null;
     List<CategoryModel>? subCategoryList = await categoryServiceInterface.getSubCategoryList(categoryID);
     if (subCategoryList != null) {
       _subCategoryList= [];
-      _subCategoryList!.add(CategoryModel(id: int.parse(categoryID!), name: 'all'.tr));
       _subCategoryList!.addAll(subCategoryList);
       getCategoryItemList(categoryID, 1, 'all', false);
     }
@@ -107,12 +106,15 @@ class CategoryController extends GetxController implements GetxService {
   void setSubCategoryIndex(int index, String? categoryID) {
     _subCategoryIndex = index;
     if(_isStore) {
-      getCategoryStoreList(_subCategoryIndex == 0 ? categoryID : _subCategoryList![index].id.toString(), 1, _type, true);
+      getCategoryStoreList(_subCategoryIndex < 0 ? categoryID : _subCategoryList![index].id.toString(), 1, _type, true);
     }else {
-      getCategoryItemList(_subCategoryIndex == 0 ? categoryID : _subCategoryList![index].id.toString(), 1, _type, true);
+      getCategoryItemList(_subCategoryIndex < 0 ? categoryID : _subCategoryList![index].id.toString(), 1, _type, true);
     }
   }
-
+  String? GetsetSubCategoryIndex(int index) {
+    _subCategoryIndex = index;
+    return _subCategoryList![index].id?.toString() ;
+  }
   void getCategoryItemList(String? categoryID, int offset, String type, bool notify) async {
     _offset = offset;
     if(offset == 1) {

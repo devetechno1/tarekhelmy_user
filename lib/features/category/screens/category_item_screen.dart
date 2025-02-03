@@ -17,6 +17,8 @@ import 'package:sixam_mart/common/widgets/web_menu_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../common/widgets/custom_image.dart';
+
 class CategoryItemScreen extends StatefulWidget {
   final String? categoryID;
   final String categoryName;
@@ -31,6 +33,7 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
   final ScrollController storeScrollController = ScrollController();
   TabController? _tabController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  int index_category = -1;
 
   @override
   void initState() {
@@ -81,6 +84,17 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
     });
   }
 
+  void backMethod(CategoryController catController) {
+    if (catController.isSearching) {
+      catController.toggleSearch();
+    } else if (index_category != -1) {
+      index_category = -1;
+      catController.setSubCategoryIndex(index_category, widget.categoryID);
+    } else {
+      Get.back();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CategoryController>(builder: (catController) {
@@ -104,14 +118,8 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
       }
 
       return PopScope(
-        canPop: true,
-        onPopInvokedWithResult: (didPop, result) async {
-          if(catController.isSearching) {
-            catController.toggleSearch();
-          }else {
-            return;
-          }
-        },
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) => backMethod(catController),
         child: Scaffold(
           appBar: (ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : AppBar(
             backgroundColor: Theme.of(context).cardColor,
@@ -153,17 +161,11 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
             ) : Text(widget.categoryName, style: robotoRegular.copyWith(
               fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge!.color,
             )),
-            centerTitle: false,
+            centerTitle: true,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios),
               color: Theme.of(context).textTheme.bodyLarge!.color,
-              onPressed: () {
-                if(catController.isSearching) {
-                  catController.toggleSearch();
-                }else {
-                  Get.back();
-                }
-              },
+              onPressed: () => backMethod(catController),
             ),
             actions: [
 
@@ -211,38 +213,164 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
                 width: Dimensions.webMaxWidth,
                 child: Column(children: [
 
-                  (catController.subCategoryList != null && !catController.isSearching) ? Center(child: Container(
-                    height: 40, width: Dimensions.webMaxWidth, color: Theme.of(context).cardColor,
-                    padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
-                    child: ListView.builder(
-                      key: scaffoldKey,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: catController.subCategoryList!.length,
-                      padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () => catController.setSubCategoryIndex(index, widget.categoryID),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
-                            margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                              color: index == catController.subCategoryIndex ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.transparent,
-                            ),
-                            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                              Text(
-                                catController.subCategoryList![index].name!,
-                                style: index == catController.subCategoryIndex
-                                    ? robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor)
-                                    : robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
-                              ),
-                            ]),
-                          ),
-                        );
-                      },
+              Visibility(
+                      visible: (catController.subCategoryList != null &&
+                          catController.subCategoryList!.isNotEmpty &&
+                          !catController.isSearching),
+                      maintainState: true,
+                      child: Center(
+                          child: StatefulBuilder(
+                            builder: (context, setState) {
+                              return Container(
+                                  height: 120,
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  width: Dimensions.webMaxWidth,
+                                  color: Theme.of(context).cardColor,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: Dimensions.paddingSizeExtraSmall),
+                                  child: ListView(
+                                    padding: EdgeInsets.zero,
+                                    scrollDirection: Axis.horizontal,
+                                    children: [
+                                      const SizedBox(width: 15),
+                                      Align(
+                                        child: Builder(
+                                          builder: (context) {
+                                            bool isHovered = false;
+                                            return StatefulBuilder(
+                                              builder: (context, setState1) {
+                                                return InkWell(
+                                                  onHover: (value) => setState1(() => isHovered = value),
+                                                  onTap: index_category == -1
+                                                      ? null
+                                                      : () {
+                                                          index_category = -1;
+                                                          catController.setSubCategoryIndex(index_category, widget.categoryID);
+                                                        },
+                                                  child: Container(
+                                                      alignment: Alignment.center,
+                                                      padding: EdgeInsets.all(
+                                                          index_category == -1
+                                                              ? Dimensions
+                                                                  .paddingSizeExtraSmall
+                                                              : Dimensions
+                                                                  .paddingSizeSmall),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: index_category == -1
+                                                    ? Theme.of(context)
+                                                        .primaryColor
+                                                    : context.textTheme
+                                                        .bodyLarge!.color!),
+                                                                                    borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(50))),
+                                                      width: 80,
+                                                      height: 80,
+                                                      child: AnimatedScale(
+                                                        duration: const Duration(milliseconds: 300),
+                                                        scale: isHovered ? 1.2 : 1,
+                                                        child: Text(
+                                                          "all".tr,
+                                                          textAlign: TextAlign.center,
+                                                          style: index_category == -1
+                                                              ? TextStyle(
+                                                                  color: Theme.of(context)
+                                                                      .primaryColor,
+                                                                  fontSize: 12)
+                                                              : const TextStyle(fontSize: 10),
+                                                        ),
+                                                      )),
+                                                );
+                                              }
+                                            );
+                                          }
+                                        ),
+                                      ),
+                                      ...List.generate(
+                                        catController.subCategoryList?.length ?? 0,
+                                        (int index) {
+                                          bool isHovered = false;
+                                          return StatefulBuilder(
+                                            builder: (context, setState1) {
+                                              return InkWell(
+                                                onHover: (value) => setState1(()=> isHovered = value),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      index_category = index;
+                                                    });
+                                                    catController.setSubCategoryIndex(index, widget.categoryID);
+                                                  },
+                                                  child: Container(
+                                                    // width: 150,
+                                                    //height: 100,
+                                                    padding: const EdgeInsets.symmetric(horizontal:Dimensions.paddingSizeSmall,vertical: Dimensions.paddingSizeExtraSmall),
+                                                    margin: const EdgeInsetsDirectional.only(start: Dimensions.paddingSizeSmall),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(Dimensions.radiusSmall),
+                                                      color: index == catController.subCategoryIndex
+                                                          ? Theme.of(context).primaryColor.withOpacity(0.1)
+                                                          : Colors.transparent,
+                                                    ),
+                                                    child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment.center,
+                                                        children: [
+                                                          // image
+                                                          Expanded(
+                                                            flex: 3,
+                                                            child: CustomImage(
+                                                              isHovered: isHovered,
+                                                              image:
+                                                                  '${catController.subCategoryList![index].imageFullUrl}',
+                                                              placeHolderSize: 50,
+                                                              //height: 90,
+                                                              //width: 75,
+                                                            ),
+                                                          ),
+                                                                            
+                                                                            
+                                                          Flexible(
+                                                            flex: 1,
+                                                            child: Text(
+                                                              catController
+                                                                  .subCategoryList![
+                                                                      index]
+                                                                  .name!,
+                                                              textAlign: TextAlign
+                                                                  .center,
+                                                              maxLines: 2,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: index ==
+                                                                      catController
+                                                                          .subCategoryIndex
+                                                                  ? robotoMedium.copyWith(
+                                                                      fontSize:
+                                                                          Dimensions
+                                                                              .paddingSizeSmall,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .primaryColor)
+                                                                  : robotoRegular.copyWith(
+                                                                      fontSize:
+                                                                          Dimensions
+                                                                              .paddingSizeSmall),
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                  ));
+                                            }
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ));
+                            }
+                          )),
                     ),
-                  )) : const SizedBox(),
 
                   if(!AppConstants.removeStores)
                     Center(child: Container(
@@ -334,38 +462,160 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
             child: Column(children: [
               const SizedBox(height: 10),
 
-              (catController.subCategoryList != null && !catController.isSearching) ? Center(child: Container(
-                height: 40, width: Dimensions.webMaxWidth, color: Theme.of(context).cardColor,
-                padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
-                child: ListView.builder(
-                  key: scaffoldKey,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: catController.subCategoryList!.length,
-                  padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () => catController.setSubCategoryIndex(index, widget.categoryID),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
-                        margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                          color: index == catController.subCategoryIndex ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.transparent,
-                        ),
-                        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                          Text(
-                            catController.subCategoryList![index].name!,
-                            style: index == catController.subCategoryIndex
-                                ? robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor)
-                                : robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
-                          ),
-                        ]),
-                      ),
-                    );
-                  },
-                ),
-              )) : const SizedBox(),
+              Visibility(
+                      visible: (catController.subCategoryList != null &&
+                          catController.subCategoryList!.isNotEmpty &&
+                          !catController.isSearching),
+                      maintainState: true,
+                      child: Center(
+                          child: Container(
+                              height: 120,
+                              margin: const EdgeInsets.only(bottom: 10),
+                              width: Dimensions.webMaxWidth,
+                              color: Theme.of(context).cardColor,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: Dimensions.paddingSizeExtraSmall),
+                              child: ListView(
+                                padding: EdgeInsets.zero,
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  const SizedBox(width: 15),
+                                  Align(
+                                    child: Builder(
+                                      builder: (context) {
+                                        bool isHovered = false;
+                                        return StatefulBuilder(
+                                          builder: (context, setState1) {
+                                            return InkWell(
+                                              onHover: (value) => setState1(() => isHovered = value),
+                                              onTap: index_category == -1
+                                                  ? null
+                                                  : () {
+                                                      index_category = -1;
+                                                      catController.setSubCategoryIndex(index_category, widget.categoryID);
+                                                    },
+                                              child: Container(
+                                                  alignment: Alignment.center,
+                                                  padding: EdgeInsets.all(
+                                                      index_category == -1
+                                                          ? Dimensions
+                                                              .paddingSizeExtraSmall
+                                                          : Dimensions
+                                                              .paddingSizeSmall),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: index_category == -1
+                                                              ? Theme.of(context)
+                                                                  .primaryColor
+                                                              : context.textTheme
+                                                                  .bodyLarge!.color!),
+                                                      borderRadius:
+                                                          const BorderRadius.all(
+                                                              Radius.circular(50))),
+                                                  width: 80,
+                                                  height: 80,
+                                                  child: AnimatedScale(
+                                                    duration: const Duration(milliseconds: 300),
+                                                    scale: isHovered ? 1.2 : 1,
+                                                    child: Text(
+                                                      "all".tr,
+                                                      textAlign: TextAlign.center,
+                                                      style: index_category == -1
+                                                          ? TextStyle(
+                                                              color: Theme.of(context)
+                                                                  .primaryColor,
+                                                              fontSize: 12)
+                                                          : const TextStyle(fontSize: 10),
+                                                    ),
+                                                  )),
+                                            );
+                                          }
+                                        );
+                                      }
+                                    ),
+                                  ),
+                                  ...List.generate(
+                                    catController.subCategoryList?.length ?? 0,
+                                    (int index) {
+                                      bool isHovered = false;
+                                        return StatefulBuilder(
+                                          builder: (context, setState1) {
+                                            return InkWell(
+                                              onHover: (value) => setState1(()=> isHovered = value),
+                                              onTap: () {
+                                                setState(() {
+                                                  index_category = index;
+                                                });
+                                                catController.setSubCategoryIndex(index, widget.categoryID);
+                                              },
+                                              child: Container(
+                                                // width: 150,
+                                                //height: 100,
+                                                padding: const EdgeInsets.symmetric(horizontal:Dimensions.paddingSizeSmall,vertical: Dimensions.paddingSizeExtraSmall),
+                                                margin: const EdgeInsetsDirectional.only(start: Dimensions.paddingSizeSmall),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(Dimensions.radiusSmall),
+                                                  color: index == catController.subCategoryIndex
+                                                      ? Theme.of(context).primaryColor.withOpacity(0.1)
+                                                      : Colors.transparent,
+                                                ),
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      // image
+                                                      Expanded(
+                                                        flex: 3,
+                                                        child: CustomImage(
+                                                          image:
+                                                              '${catController.subCategoryList![index].imageFullUrl}',
+                                                          placeHolderSize: 50,
+                                                          isHovered: isHovered,
+                                                          //height: 90,
+                                                          //width: 75,
+                                                        ),
+                                                      ),
+                                          
+                                          
+                                                      Flexible(
+                                                        flex: 1,
+                                                        child: Text(
+                                                          catController
+                                                              .subCategoryList![
+                                                                  index]
+                                                              .name!,
+                                                          textAlign: TextAlign
+                                                              .center,
+                                                          maxLines: 2,
+                                                          overflow:
+                                                              TextOverflow
+                                                                  .ellipsis,
+                                                          style: index ==
+                                                                  catController
+                                                                      .subCategoryIndex
+                                                              ? robotoMedium.copyWith(
+                                                                  fontSize:
+                                                                      Dimensions
+                                                                          .paddingSizeSmall,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColor)
+                                                              : robotoRegular.copyWith(
+                                                                  fontSize:
+                                                                      Dimensions
+                                                                          .paddingSizeSmall),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                              ));
+                                        }
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ))),
+                    ),
 
               if(!AppConstants.removeStores)
                 Center(child: Container(

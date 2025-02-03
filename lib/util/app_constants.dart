@@ -286,8 +286,6 @@ class AppConstants {
 
   //* App settings ------------------------------------------------------------------------------------------------
 
-  // /// By making [subcatimg] true, this will make sub cat with images in cat
-  // static const bool subcatimg = true;
 
   /// By making [makeCatInGrid] true, this will make categories in home in grid view not list
   static const bool makeCatInGrid = true;
