@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 
 ThemeData light({
-  Color primary = const Color(0xFF3e7b7e),
+  Color primary = const Color(0xFF068984),
   Color secondary = const Color(0xFF164745),
 }) =>
     ThemeData(
