@@ -26,7 +26,6 @@ import 'package:sixam_mart/features/home/widgets/web/web_new_banner_view_widget.
 import 'package:sixam_mart/features/home/widgets/web/web_new_on_mart_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_new_on_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_populer_store_view_widget.dart';
-import 'package:sixam_mart/features/home/widgets/web/web_promotional_banner_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_recomanded_store_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_special_offer_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_visit_again_view_widget.dart';
@@ -190,7 +189,7 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
 
                 (isPharmacy || isFood) || AppConstants.removeStores ? const SizedBox() : isShop ? const WebNewOnViewWidget() : const WebNewOnMartViewWidget(),
 
-                isFood ? const SizedBox() : const WebPromotionalBannerView(),
+                isFood ? const SizedBox() : const PromotionalBannerView(isBottomSection: true),
 
               ])),
             ),
