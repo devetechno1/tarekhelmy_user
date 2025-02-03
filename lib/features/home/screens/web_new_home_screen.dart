@@ -133,6 +133,7 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                   return categoryController.categoryList == null ? WebCategoryViewWidget(categoryController: categoryController)
                       : categoryController.categoryList!.isEmpty ? const SizedBox() : WebCategoryViewWidget(categoryController: categoryController);
                 }),
+                const PromotionalBannerView(isNewArrivalSection: true),
 
                 _isLogin && !AppConstants.removeStores ?  WebVisitAgainView(fromFood: isFood) : const SizedBox(),
 

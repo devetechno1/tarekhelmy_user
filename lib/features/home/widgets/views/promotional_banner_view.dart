@@ -64,11 +64,12 @@ class PromotionalBannerView extends StatelessWidget {
       return bannerController.promotionalBanner != null ? imageURL != null ? Align(
         child: ConstrainedBox(
           constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height /3, minHeight: 0),
-          child: AspectRatio(
-            aspectRatio: 3,
-            child: StatefulBuilder(
-              builder: (context, setState) {
-                return InkWell(
+          child: StatefulBuilder(
+            builder: (context, setState) {
+              return AnimatedPadding(
+                padding: isHovered? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                duration: const Duration(milliseconds: 300),
+                child: InkWell(
                   onHover: (value) => setState(()=> isHovered = value),
                   onTap: type == null || target == null 
                   ? null
@@ -85,14 +86,12 @@ class PromotionalBannerView extends StatelessWidget {
                     }
                   },
                   child: Container(
-                    width: double.infinity,
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                     ),
-                    child: AnimatedPadding(
-                      padding: isHovered? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeDefault),
-                      duration: const Duration(milliseconds: 300), // Animation duration
+                    child: AspectRatio(
+                      aspectRatio:3,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                         child: CustomImage(
@@ -102,9 +101,9 @@ class PromotionalBannerView extends StatelessWidget {
                       ),
                     ),
                   ),
-                );
-              }
-            ),
+                ),
+              );
+            }
           ),
         ),
       ) : const SizedBox() : const PromotionalBannerShimmerView();

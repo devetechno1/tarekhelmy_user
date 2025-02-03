@@ -38,6 +38,7 @@ class ShopHomeScreen extends StatelessWidget {
       const FlashSaleViewWidget(),
       const MiddleSectionBannerView(),
       const HighlightWidget(),
+      const PromotionalBannerView(isNewArrivalSection: true),
       const SpecialOfferView(isFood: false, isShop: true),
       const PromotionalBannerView(newArrivalBanner: true),
       const NewArrivalView(),
