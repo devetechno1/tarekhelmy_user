@@ -504,11 +504,11 @@ class CheckoutScreenState extends State<CheckoutScreen> {
               if(add != null) this.address[checkoutController.addressIndex!] = add;
               
             }
-          }else if(checkoutController.streetNumberController.text.isEmpty) {
+          }else if(checkoutController.orderType != 'take_away' && checkoutController.streetNumberController.text.isEmpty) {
             showCustomSnackBar('write_address'.tr);
-          }else if(checkoutController.houseController.text.isEmpty) {
+          }else if(checkoutController.orderType != 'take_away' && checkoutController.houseController.text.isEmpty) {
             showCustomSnackBar('please_enter_governorate'.tr);
-          }else if(checkoutController.floorController.text.isEmpty) {
+          }else if(checkoutController.orderType != 'take_away' && checkoutController.floorController.text.isEmpty) {
             showCustomSnackBar('please_enter_city'.tr);
           }
           else {

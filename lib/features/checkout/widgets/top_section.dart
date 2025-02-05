@@ -27,6 +27,8 @@ import 'package:sixam_mart/features/checkout/widgets/web_delivery_instruction_vi
 import 'package:sixam_mart/features/store/widgets/camera_button_sheet_widget.dart';
 import 'dart:io';
 
+import '../../location/controllers/location_controller.dart';
+
 class TopSection extends StatefulWidget {
   final CheckoutController checkoutController;
   final double charge;
@@ -90,7 +92,7 @@ class _TopSectionState extends State<TopSection> {
   }
 
 
-  void sortAddress(){
+  void sortAddress()async{
     for (int i = 0; i < widget.address.length; i++) {
       if(widget.address[i].streetNumber?.trim().isNotEmpty == true && widget.address[i].house?.trim().isNotEmpty == true && widget.address[i].floor?.trim().isNotEmpty == true){
 
@@ -106,6 +108,8 @@ class _TopSectionState extends State<TopSection> {
         widget.checkoutController.streetNumberController.text = widget.address[i].streetNumber ?? '';
         widget.checkoutController.houseController.text = widget.address[i].house ?? '';
         widget.checkoutController.floorController.text = widget.address[i].floor ?? '';
+        final AddressModel? add = await Get.find<LocationController>().prepareZoneInCheckout(widget.address[i]);
+        if(add != null) widget.address[i] = add;
         break;
       }
     }
