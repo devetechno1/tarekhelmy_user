@@ -201,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return GetBuilder<HomeController>(builder: (homeController) {
         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Theme.of(context).primaryColor));
         return Scaffold(
-          appBar: ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : null,
+          appBar: ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : AppBar(toolbarHeight: 10, backgroundColor: Theme.of(context).primaryColor,actions: const [SizedBox()],automaticallyImplyLeading: false),
           endDrawer: const MenuDrawer(),
           endDrawerEnableOpenDragGesture: false,
           backgroundColor: Theme.of(context).colorScheme.surface,

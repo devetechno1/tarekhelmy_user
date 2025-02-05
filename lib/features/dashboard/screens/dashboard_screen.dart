@@ -217,7 +217,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               const MenuScreen()
                             ];
                             return Container(
-                              width: size.width, height: GetPlatform.isIOS ? 80 : 70,
+                              width: size.width, height: GetPlatform.isIOS ? 100 : 70,
                               decoration: BoxDecoration(
                                 color: Theme.of(context).cardColor,
                                 borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
@@ -255,13 +255,11 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 ),
                                 if(!ResponsiveHelper.isDesktop(context))
                                   Positioned.fill(
-                                    bottom: 6,
-                                    child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Text(
-                                        'request_prescription'.tr,
-                                        style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!, fontSize: 12),
-                                      ),
+                                    top: 48,
+                                    child: Text(
+                                      'request_prescription'.tr,
+                                      textAlign: TextAlign.center,
+                                      style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!, fontSize: 12),
                                     ),
                                   ),
 
