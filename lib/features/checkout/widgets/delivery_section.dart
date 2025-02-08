@@ -49,7 +49,7 @@ class DeliverySection extends StatelessWidget {
             Text('deliver_to'.tr, style: robotoMedium),
             TextButton.icon(
               onPressed: () async {
-                AddressModel? address = await Get.toNamed(RouteHelper.getAddAddressRoute(true, false, checkoutController.store!.zoneId));
+                final address = await Get.toNamed(RouteHelper.getAddAddressRoute(true, false, checkoutController.store!.zoneId));
                 if(address != null) {
                   checkoutController.getDistanceInKM(
                     LatLng(double.parse(address.latitude ?? ''), double.parse(address.longitude ?? '')),
@@ -203,6 +203,7 @@ class DeliverySection extends StatelessWidget {
           !isDesktop ? CustomTextField(
             labelText: 'street_number'.tr,
             titleText: 'write_street_number'.tr,
+            isEnabled: false,
             inputType: TextInputType.streetAddress,
             focusNode: checkoutController.streetNode,
             nextFocus: checkoutController.houseNode,
@@ -216,6 +217,7 @@ class DeliverySection extends StatelessWidget {
                   child: CustomTextField(
                     titleText: 'write_street_number'.tr,
                     labelText: 'street_number'.tr,
+                    isEnabled: false,
                     inputType: TextInputType.streetAddress,
                     focusNode: checkoutController.streetNode,
                     nextFocus: checkoutController.houseNode,
@@ -228,6 +230,7 @@ class DeliverySection extends StatelessWidget {
                   child: CustomTextField(
                     titleText: 'write_house_number'.tr,
                     labelText: 'house'.tr,
+                    isEnabled: false,
                     inputType: TextInputType.text,
                     focusNode: checkoutController.houseNode,
                     nextFocus: checkoutController.floorNode,
@@ -240,6 +243,7 @@ class DeliverySection extends StatelessWidget {
                   child: CustomTextField(
                     titleText: 'write_floor_number'.tr,
                     labelText: 'floor'.tr,
+                    isEnabled: false,
                     inputType: TextInputType.text,
                     focusNode: checkoutController.floorNode,
                     inputAction: TextInputAction.done,

@@ -136,8 +136,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           return GetBuilder<LocationController>(builder: (locationController) {
             _addressController.text = locationController.address!;
 
-            return ResponsiveHelper.isDesktop(context) ?
-              SingleChildScrollView(
+            if (ResponsiveHelper.isDesktop(context)) {
+              return SingleChildScrollView(
                 child: FooterView(
                   child: Column(
                     children: [
@@ -319,7 +319,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                     _otherSelect ? SizedBox (
                                       height: 90, width: 680,
                                       child: CustomTextField(
-                                        titleText: '${'level_name'.tr}(${'optional'.tr})',
+                                        titleText: 'level_name'.tr,
                                         hintText: 'write_level_name'.tr,
                                         showTitle: true,
                                         inputType: TextInputType.text,
@@ -335,6 +335,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                       child: CustomTextField(
                                         suffixIcon: Icons.my_location,
                                         showTitle: true,
+                                        required: true,
                                         titleText: 'delivery_address'.tr,
                                         hintText: 'write_delivery_address'.tr,
                                         inputType: TextInputType.streetAddress,
@@ -365,6 +366,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                           showTitle: true,
                                           titleText: 'contact_person_name'.tr,
                                           hintText: 'write_name'.tr,
+                                          required: true,
                                           showLabelText: false,
                                           inputType: TextInputType.name,
                                           controller: _contactPersonNameController,
@@ -379,6 +381,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                           titleText: 'contact_person_number'.tr,
                                           hintText: 'write_number'.tr,
                                           showLabelText: false,
+                                          required: true,
                                           controller: _contactPersonNumberController,
                                           focusNode: _numberNode,
                                           nextFocus: widget.forGuest ? _emailFocus :_streetNode,
@@ -397,6 +400,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                           hintText: 'email'.tr,
                                           showLabelText: false,
                                           controller: _emailController,
+                                          required: true,
                                           focusNode: _emailFocus,
                                           nextFocus: _streetNode,
                                           inputType: TextInputType.emailAddress,
@@ -406,8 +410,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                         CustomTextField(
                                           showTitle: true,
                                           hintText: 'street_number'.tr,
-                                          titleText: '${'street_number'.tr} (${'optional'.tr})',
+                                          titleText: '${'street_number'.tr} ',
                                           showLabelText: false,
+                                          required: true,
                                           inputType: TextInputType.streetAddress,
                                           focusNode: _streetNode,
                                           nextFocus: _houseNode,
@@ -420,8 +425,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                             child: CustomTextField(
                                               showTitle: true,
                                               hintText: 'house_name'.tr,
-                                              titleText: '${'house'.tr} (${'optional'.tr})',
+                                              titleText: '${'house'.tr} ',
                                               showLabelText: false,
+                                              required: true,
                                               inputType: TextInputType.text,
                                               focusNode: _houseNode,
                                               nextFocus: _floorNode,
@@ -435,7 +441,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                               hintText: 'floor_number'.tr,
                                               showLabelText: false,
                                               showTitle: true,
-                                              titleText: "${'floor'.tr} (${'optional'.tr})",
+                                              required: true,
+                                              titleText: "${'floor'.tr} ",
                                               inputType: TextInputType.text,
                                               focusNode: _floorNode,
                                               inputAction: TextInputAction.done,
@@ -459,8 +466,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     ],
                   ),
                 ),
-              )
-            : Column(children: [
+              );
+            } else {
+              return Column(children: [
               Expanded(child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall, horizontal: Dimensions.paddingSizeLarge),
                 child: Center(child: SizedBox(width: Dimensions.webMaxWidth, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -625,8 +633,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   SizedBox(height: _otherSelect ? Dimensions.paddingSizeLarge : 0),
 
                   _otherSelect ? CustomTextField(
-                    labelText: '${'level_name'.tr}(${'optional'.tr})',
+                    labelText: 'level_name'.tr,
                     titleText: 'write_level_name'.tr,
+                    required: true,
                     inputType: TextInputType.text,
                     controller: _levelController,
                     focusNode: _levelNode,
@@ -637,6 +646,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                   CustomTextField(
                     labelText: 'delivery_address'.tr,
+                    required: true,
                     titleText: 'write_delivery_address'.tr,
                     inputType: TextInputType.streetAddress,
                     controller: _addressController,
@@ -649,6 +659,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   CustomTextField(
                     labelText: 'contact_person_name'.tr,
                     titleText: 'write_name'.tr,
+                    required: true,
                     inputType: TextInputType.name,
                     controller: _contactPersonNameController,
                     focusNode: _nameNode,
@@ -659,6 +670,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                   CustomTextField(
                     labelText: 'contact_person_number'.tr,
+                    required: true,
                     titleText: 'write_number'.tr,
                     controller: _contactPersonNumberController,
                     focusNode: _numberNode,
@@ -676,6 +688,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     labelText: 'email'.tr,
                     titleText: 'enter_email'.tr,
                     controller: _emailController,
+                    required: true,
                     focusNode: _emailFocus,
                     nextFocus: _streetNode,
                     inputType: TextInputType.emailAddress,
@@ -684,9 +697,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   SizedBox(height: widget.forGuest ? Dimensions.paddingSizeExtremeLarge : 0),
 
                   CustomTextField(
-                    labelText: '${'street_number'.tr} (${'optional'.tr})',
+                    labelText: 'street_number'.tr,
                     titleText: 'write_street_number'.tr,
                     inputType: TextInputType.streetAddress,
+                    required: true,
                     focusNode: _streetNode,
                     nextFocus: _houseNode,
                     controller: _streetNumberController,
@@ -696,8 +710,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   Row(children: [
                     Expanded(
                       child: CustomTextField(
-                        labelText: '${'house'.tr} (${'optional'.tr})',
+                        labelText: 'house'.tr,
                         titleText: 'write_house_number'.tr,
+                        required: true,
                         inputType: TextInputType.text,
                         focusNode: _houseNode,
                         nextFocus: _floorNode,
@@ -708,8 +723,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                     Expanded(
                       child: CustomTextField(
-                        labelText: "${'floor'.tr} (${'optional'.tr})",
+                        labelText: 'floor'.tr,
                         titleText: 'write_floor_number'.tr,
+                        required: true,
                         inputType: TextInputType.text,
                         focusNode: _floorNode,
                         inputAction: TextInputAction.done,
@@ -725,6 +741,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
               button(locationController),
             ]);
+            }
           });
         }) ,
       ),
@@ -797,6 +814,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       showCustomSnackBar('please_enter_the_phone_number'.tr);
     } else if (!isValid) {
       showCustomSnackBar('invalid_phone_number'.tr);
+    } else if (_streetNumberController.text.trim().isEmpty) {
+      showCustomSnackBar('write_street_number'.tr);
+    } else if (_houseController.text.trim().isEmpty) {
+      showCustomSnackBar('write_house_number'.tr);
+    } else if (_floorController.text.trim().isEmpty) {
+      showCustomSnackBar('write_floor_number'.tr);
     } else if(widget.forGuest && _emailController.text.isEmpty) {
       showCustomSnackBar('please_enter_contact_person_email'.tr);
     } else {

@@ -437,7 +437,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           floatingActionButton: AuthHelper.isLoggedIn() && homeController.cashBackOfferList != null && homeController.cashBackOfferList!.isNotEmpty ?
           homeController.showFavButton ? Padding(
-            padding: EdgeInsets.only(bottom: 50.0, right: ResponsiveHelper.isDesktop(context) ? 50 : 0),
+            padding: EdgeInsets.only(bottom: 130.0, right: ResponsiveHelper.isDesktop(context) ? 50 : 0),
             child: InkWell(
               onTap: () => Get.dialog(const CashBackDialogWidget()),
               child: const CashBackLogoWidget(),
