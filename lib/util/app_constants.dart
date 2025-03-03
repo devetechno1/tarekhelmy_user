@@ -288,7 +288,7 @@ class AppConstants {
 
 
   /// By making [makeCatInGrid] true, this will make categories in home in grid view not list
-  static const bool makeCatInGrid = true;
+  static const bool makeCatInGrid = false;
 
   // /// By making [makeSubCatInGrid] true, this will make subcategories in category screen in grid view not list and will hide items in this screen.
   // static const bool makeSubCatInGrid = false;
