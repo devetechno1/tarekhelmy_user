@@ -37,7 +37,7 @@ class CategoryView extends StatelessWidget {
                   ),
                 ),
               ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: AppConstants.makeCatInGrid ? 5000 : 158,minHeight: 158),
+                constraints: const BoxConstraints(maxHeight: AppConstants.makeCatInGrid ? 5000 : 175,minHeight: 175),
                 child: categoryController.categoryList != null ? 
                 GridView.builder(
                   
@@ -50,7 +50,7 @@ class CategoryView extends StatelessWidget {
                   controller: scrollController,
                   shrinkWrap: true,
                   itemCount: categoryController.categoryList!.length > 10 ? 10 : categoryController.categoryList!.length,
-                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                   physics: AppConstants.makeCatInGrid ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
                   scrollDirection: AppConstants.makeCatInGrid ? Axis.vertical : Axis.horizontal,
                   itemBuilder: (context, index) {
@@ -64,62 +64,69 @@ class CategoryView extends StatelessWidget {
                           ));
                         }
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeSmall),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                        ),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                      child: Padding(
+                        padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                         child: Column(children: [
-                                              
-                          Text(
-                            (index == 9 && categoryController.categoryList!.length > 10) ? 'see_all'.tr : categoryController.categoryList![index].name!,
-                            style: robotoMedium.copyWith(fontSize: 13, fontWeight: FontWeight.bold, color: (index == 9 && categoryController.categoryList!.length > 10) ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color),
-                            maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          Flexible(
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: SizedBox.square(
-                                child: Stack(children: [
-                                  ClipRRect(
+                          Container(
+                            height: 90,
+                            alignment: Alignment.topCenter,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).secondaryHeaderColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: Stack(children: [
+                                Center(
+                                  child: ClipRRect(
                                     borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                     child: CustomImage(
                                       image: '${categoryController.categoryList![index].imageFullUrl}',
+                                      height: 90,
+                                      width: double.maxFinite,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                                    
-                                  (index == 9 && categoryController.categoryList!.length > 10) ? Positioned(
-                                    right: 0, left: 0, top: 0, bottom: 0,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Theme.of(context).primaryColor.withOpacity(0.4),
-                                            Theme.of(context).primaryColor.withOpacity(0.6),
-                                            Theme.of(context).primaryColor.withOpacity(0.4),
-                                          ],
-                                        ),
+                                ),
+                                                  
+                                (index == 9 && categoryController.categoryList!.length > 10) ? Positioned(
+                                  right: 0, left: 0, top: 0, bottom: 0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Theme.of(context).primaryColor.withOpacity(0.4),
+                                          Theme.of(context).primaryColor.withOpacity(0.6),
+                                          Theme.of(context).primaryColor.withOpacity(0.4),
+                                        ],
                                       ),
-                                      child: Center(
-                                        child: Text(
-                                          '+${categoryController.categoryList!.length - 10}',
-                                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).cardColor),
-                                          maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
-                                        ),
-                                      )
                                     ),
-                                  ) : const SizedBox(),
-                                                    
-                                ]),
-                              ),
+                                    child: Center(
+                                      child: Text(
+                                        '+${categoryController.categoryList!.length - 10}',
+                                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).cardColor),
+                                        maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  ),
+                                ) : const SizedBox(),
+                                                  
+                              ]),
                             ),
-                          ),                      
+                          ),       
+                          const SizedBox(height: Dimensions.paddingSizeSmall),               
+                          Flexible(
+                            child: Text(
+                              (index == 9 && categoryController.categoryList!.length > 10) ? 'see_all'.tr : categoryController.categoryList![index].name!,
+                              style: robotoMedium.copyWith(fontSize: 13, fontWeight: FontWeight.bold, color: (index == 9 && categoryController.categoryList!.length > 10) ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color),
+                              maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
+                            ),
+                          ),
                         ]),
                       ),
                     );

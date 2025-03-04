@@ -106,9 +106,11 @@ class _WebCategoryViewWidgetState extends State<WebCategoryViewWidget> {
                         child: Column(children: [
 
                           Container(
+                            clipBehavior: Clip.hardEdge,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                              // borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                               color: Theme.of(context).disabledColor.withOpacity(0.3),
+                              shape: BoxShape.circle,
                               border: Border.all(color: hovered ? Theme.of(context).primaryColor : Theme.of(context).cardColor, width: hovered ? 1 : 0),
                             ),
                             child: ClipRRect(

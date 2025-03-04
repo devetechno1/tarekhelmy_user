@@ -8,7 +8,7 @@ ThemeData light({
     ThemeData(
       fontFamily: AppConstants.fontFamily,
       primaryColor: primary,
-      secondaryHeaderColor: const Color(0xFF91FEFB),
+      secondaryHeaderColor: const Color(0xFF58ACA9),
       disabledColor: const Color(0xFFBABFC4),
       brightness: Brightness.light,
       hintColor: const Color(0xFF9F9F9F),
