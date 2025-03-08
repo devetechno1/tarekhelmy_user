@@ -23,35 +23,37 @@ class BrandsViewWidget extends StatelessWidget {
           ),
         ),
 
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            crossAxisSpacing: 13, mainAxisSpacing: 13,
-            childAspectRatio: 1.0,
-          ),
-          itemCount: brandsController.brandList!.length > 8 ? 8 : brandsController.brandList!.length,
-          itemBuilder: (context, index) {
-            return Container(
-              padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-              decoration: BoxDecoration(
-                color: Theme.of(context).disabledColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-              ),
-              child: InkWell(
-                onTap: () => Get.toNamed(RouteHelper.getBrandsItemScreen(brandsController.brandList![index].id!, brandsController.brandList![index].name!)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                  child: CustomImage(
-                    image: '${brandsController.brandList![index].imageFullUrl}',
-                    height: 60, width: 60,
-                  ),
+        SizedBox(
+          height: 120,
+          child: ListView.builder(
+            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+            scrollDirection: Axis.horizontal,
+            physics: const AlwaysScrollableScrollPhysics(),
+            itemCount: brandsController.brandList?.length??0,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                child: InkWell(
+                  onTap: () => Get.toNamed(RouteHelper.getBrandsItemScreen(brandsController.brandList![index].id!, brandsController.brandList![index].name!)),
+                  borderRadius: BorderRadius.circular(200),
+                  child: Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).secondaryHeaderColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: CustomImage(
+                        image: '${brandsController.brandList![index].imageFullUrl}',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
 
       ]) : const SizedBox() : const BrandViewShimmer();
