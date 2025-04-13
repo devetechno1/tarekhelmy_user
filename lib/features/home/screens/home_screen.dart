@@ -259,25 +259,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   /// App Bar
-                  SliverAppBar(
-                    pinned: true,
-                    elevation: 0,
-                    automaticallyImplyLeading: false,
-                    toolbarHeight: 130,
-                    backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).colorScheme.primary,
-                    centerTitle: true,
-                    title: Center(child: SizedBox(
-                      width: Dimensions.webMaxWidth, height: 120,
-                      child: Column(
-                        children: [
-                          Expanded(child: Image.asset(Images.icon)),
-                          if(!showMobileModule)
-                            searchBarWidget(context),
-                        ],
+                  // SliverAppBar(
+                  //   pinned: false,
+                  //   floating: true,
+                  //   elevation: 0,
+                  //   automaticallyImplyLeading: false,
+                  //   toolbarHeight: 130,
+                  //   backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).colorScheme.primary,
+                  //   centerTitle: true,
+                  //   title: Center(child: SizedBox(
+                  //     width: Dimensions.webMaxWidth, height: 120,
+                  //     child: Column(
+                  //       children: [
+                  //         Expanded(child: Image.asset(Images.icon)),
+                  //         if(!showMobileModule)
+                  //           searchBarWidget(context),
+                  //       ],
+                  //     ),
+                  //   )),
+                  //   actions: const [SizedBox()],
+                  // ),
+                    SliverPersistentHeader(
+                      floating: true,
+                      pinned: true,
+                      delegate: SliverDelegate(
+                        isSearchBar: true,
+                        height: 60 + Dimensions.paddingSizeSmall,
+                        maxHeight: 130,
+                        child: showMobileModule ? const SizedBox() : searchBarWidget(context)
                       ),
-                    )),
-                    actions: const [SizedBox()],
-                  ),
+                    ),
                     SliverAppBar(
                         floating: true,
                         pinned: true,
@@ -487,26 +498,48 @@ class _HomeScreenState extends State<HomeScreen> {
 class SliverDelegate extends SliverPersistentHeaderDelegate {
   Widget child;
   double height;
+  double? maxHeight;
+  bool isSearchBar;
   Function(bool isPinned)? callback;
   bool isPinned = false;
 
-  SliverDelegate({required this.child, this.height = 50, this.callback});
+
+  SliverDelegate({required this.child, this.height = 50, this.maxHeight, this.callback, this.isSearchBar = false}){
+    assert((maxHeight ?? height) >= height);
+    maxHeight ??= height;
+  }
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     isPinned = shrinkOffset == maxExtent /*|| shrinkOffset < maxExtent*/;
-    callback!(isPinned);
+    callback?.call(isPinned);
+    if(isSearchBar){
+      return Container(
+        width: Dimensions.webMaxWidth, height: maxHeight,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault).copyWith(bottom: Dimensions.paddingSizeSmall),
+        color: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).colorScheme.primary,
+        child: Column(
+          children: [
+            Expanded(
+              child: Image.asset(Images.icon),
+            ),
+            child,
+          ],
+        ),
+      );
+    }
     return child;
   }
 
   @override
-  double get maxExtent => height;
+  double get maxExtent => maxHeight! ;
 
   @override
   double get minExtent => height;
 
   @override
   bool shouldRebuild(SliverDelegate oldDelegate) {
-    return oldDelegate.maxExtent != height || oldDelegate.minExtent != height || child != oldDelegate.child;
+    return oldDelegate.maxExtent !=  maxHeight || oldDelegate.minExtent != height || child != oldDelegate.child;
   }
 }
