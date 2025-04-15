@@ -57,7 +57,7 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
           }
           Get.find<CategoryController>().showBottomLoader();
           Get.find<CategoryController>().getCategoryItemList(
-            Get.find<CategoryController>().subCategoryIndex == 0 ? widget.categoryID
+            Get.find<CategoryController>().subCategoryIndex < 0 ? widget.categoryID
                 : Get.find<CategoryController>().subCategoryList![Get.find<CategoryController>().subCategoryIndex].id.toString(),
             Get.find<CategoryController>().offset+1, Get.find<CategoryController>().type, false,
           );
@@ -75,7 +75,7 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
           }
           Get.find<CategoryController>().showBottomLoader();
           Get.find<CategoryController>().getCategoryStoreList(
-            Get.find<CategoryController>().subCategoryIndex == 0 ? widget.categoryID
+            Get.find<CategoryController>().subCategoryIndex < 0 ? widget.categoryID
                 : Get.find<CategoryController>().subCategoryList![Get.find<CategoryController>().subCategoryIndex].id.toString(),
             Get.find<CategoryController>().offset+1, Get.find<CategoryController>().type, false,
           );
@@ -152,7 +152,7 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
                 style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
                 onSubmitted: (String query) {
                   catController.searchData(
-                    query, catController.subCategoryIndex == 0 ? widget.categoryID
+                    query, catController.subCategoryIndex < 0 ? widget.categoryID
                       : catController.subCategoryList![catController.subCategoryIndex].id.toString(),
                     catController.type,
                   );
@@ -185,18 +185,18 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
               VegFilterWidget(type: catController.type, fromAppBar: true, onSelected: (String type) {
                 if(catController.isSearching) {
                   catController.searchData(
-                    catController.subCategoryIndex == 0 ? widget.categoryID
+                    catController.subCategoryIndex < 0 ? widget.categoryID
                         : catController.subCategoryList![catController.subCategoryIndex].id.toString(), '1', type,
                   );
                 }else {
                   if(catController.isStore) {
                     catController.getCategoryStoreList(
-                      catController.subCategoryIndex == 0 ? widget.categoryID
+                      catController.subCategoryIndex < 0 ? widget.categoryID
                           : catController.subCategoryList![catController.subCategoryIndex].id.toString(), 1, type, true,
                     );
                   }else {
                     catController.getCategoryItemList(
-                      catController.subCategoryIndex == 0 ? widget.categoryID
+                      catController.subCategoryIndex < 0 ? widget.categoryID
                           : catController.subCategoryList![catController.subCategoryIndex].id.toString(), 1, type, true,
                     );
                   }
@@ -400,19 +400,19 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
                             catController.setRestaurant(_tabController!.index == 1);
                             if(catController.isSearching) {
                               catController.searchData(
-                                catController.searchText, catController.subCategoryIndex == 0 ? widget.categoryID
+                                catController.searchText, catController.subCategoryIndex < 0 ? widget.categoryID
                                   : catController.subCategoryList![catController.subCategoryIndex].id.toString(), catController.type,
                               );
                             }else {
                               if(_tabController!.index == 1) {
                                 catController.getCategoryStoreList(
-                                  catController.subCategoryIndex == 0 ? widget.categoryID
+                                  catController.subCategoryIndex < 0 ? widget.categoryID
                                       : catController.subCategoryList![catController.subCategoryIndex].id.toString(),
                                   1, catController.type, false,
                                 );
                               }else {
                                 catController.getCategoryItemList(
-                                  catController.subCategoryIndex == 0 ? widget.categoryID
+                                  catController.subCategoryIndex < 0 ? widget.categoryID
                                       : catController.subCategoryList![catController.subCategoryIndex].id.toString(),
                                   1, catController.type, false,
                                 );
@@ -644,19 +644,19 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
                       catController.setRestaurant(_tabController!.index == 1);
                       if(catController.isSearching) {
                         catController.searchData(
-                          catController.searchText, catController.subCategoryIndex == 0 ? widget.categoryID
+                          catController.searchText, catController.subCategoryIndex < 0 ? widget.categoryID
                             : catController.subCategoryList![catController.subCategoryIndex].id.toString(), catController.type,
                         );
                       }else {
                         if(_tabController!.index == 1) {
                           catController.getCategoryStoreList(
-                            catController.subCategoryIndex == 0 ? widget.categoryID
+                            catController.subCategoryIndex < 0 ? widget.categoryID
                                 : catController.subCategoryList![catController.subCategoryIndex].id.toString(),
                             1, catController.type, false,
                           );
                         }else {
                           catController.getCategoryItemList(
-                            catController.subCategoryIndex == 0 ? widget.categoryID
+                            catController.subCategoryIndex < 0 ? widget.categoryID
                                 : catController.subCategoryList![catController.subCategoryIndex].id.toString(),
                             1, catController.type, false,
                           );
