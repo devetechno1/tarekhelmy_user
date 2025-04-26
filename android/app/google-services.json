@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1004955196439:android:a832adcd8e7268bc691052",
+        "android_client_info": {
+          "package_name": "com.devestores"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqxGt8g4StlSXHsi4JaGOH8NfK4Rqfsk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1004955196439:android:e3867af0d4735b03691052",
         "android_client_info": {
           "package_name": "com.tarekhelmy"
