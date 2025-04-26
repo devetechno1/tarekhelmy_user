@@ -146,39 +146,43 @@ class _WebLandingPageState extends State<WebLandingPage> {
                     padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                     child: Row(children: [
                       Expanded(child: TypeAheadField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                          controller: _controller,
-                          textInputAction: TextInputAction.search,
-                          textCapitalization: TextCapitalization.words,
-                          keyboardType: TextInputType.streetAddress,
-                          decoration: InputDecoration(
-                            hintText: 'search_location'.tr,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 1),
+                        controller: _controller,
+                        builder: (context, controller, focusNode) {
+                          return TextField(
+                            controller: controller,
+                            focusNode: focusNode,
+                            textInputAction: TextInputAction.search,
+                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.streetAddress,
+                            decoration: InputDecoration(
+                              hintText: 'search_location'.tr,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 1),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 1),
+                              ),
+                              hintStyle: Theme.of(context).textTheme.displayMedium!.copyWith(
+                                fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor,
+                              ),
+                              filled: true, fillColor: Theme.of(context).cardColor,
+                              suffixIcon: IconButton(
+                                onPressed: () async {
+                                  Get.dialog(const CustomLoaderWidget(), barrierDismissible: false);
+                                  _address = await Get.find<LocationController>().getCurrentLocation(true);
+                                  _controller.text = _address!.address ?? '';
+                                  Get.back();
+                                },
+                                icon: Icon(Icons.my_location, color: Theme.of(context).primaryColor),
+                              ),
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 1),
+                            style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                              color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeLarge,
                             ),
-                            hintStyle: Theme.of(context).textTheme.displayMedium!.copyWith(
-                              fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor,
-                            ),
-                            filled: true, fillColor: Theme.of(context).cardColor,
-                            suffixIcon: IconButton(
-                              onPressed: () async {
-                                Get.dialog(const CustomLoaderWidget(), barrierDismissible: false);
-                                _address = await Get.find<LocationController>().getCurrentLocation(true);
-                                _controller.text = _address!.address ?? '';
-                                Get.back();
-                              },
-                              icon: Icon(Icons.my_location, color: Theme.of(context).primaryColor),
-                            ),
-                          ),
-                          style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                            color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeLarge,
-                          ),
-                        ),
+                          );
+                        },
                         suggestionsCallback: (pattern) async {
                           return await Get.find<LocationController>().searchLocation(context, pattern);
                         },
@@ -196,7 +200,7 @@ class _WebLandingPageState extends State<WebLandingPage> {
                             ]),
                           );
                         },
-                        onSuggestionSelected: (PredictionModel suggestion) async {
+                        onSelected: (PredictionModel suggestion) async {
                           _controller.text = suggestion.description ?? '';
                           _address = await Get.find<LocationController>().setLocation(suggestion.placeId, suggestion.description, null);
                         },

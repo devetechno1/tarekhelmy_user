@@ -31,6 +31,9 @@
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="io.flutter.embedding.android.EnableImpeller"
+            android:value="false" />
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC5IKAtlS-vQksBM3g3bG43lPcSu5WlNbY"/>
 
