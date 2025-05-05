@@ -12,7 +12,7 @@ import '../../../item/domain/models/item_model.dart';
 import '../../../item/screens/item_details_screen.dart';
 
 class PromotionalBannerView extends StatelessWidget {
-  const PromotionalBannerView({super.key, this.isBestReviewedSection = false, this.isNewArrivalSection = false, this.isBottomSection = false, this.newArrivalBanner = false, this.isTrending = false, this.isWeekEnd = false, this.isBrands = false});
+  const PromotionalBannerView({super.key, this.isBestReviewedSection = false, this.isNewArrivalSection = false, this.isBottomSection = false, this.newArrivalBanner = false, this.isTrending = false, this.isWeekEnd = false, this.isBrands = false, this.isPopUpDialog = false, this.onTap});
   final bool isBestReviewedSection;
   final bool isNewArrivalSection;
   final bool isBottomSection;
@@ -20,6 +20,8 @@ class PromotionalBannerView extends StatelessWidget {
   final bool isTrending;
   final bool isWeekEnd;
   final bool isBrands;
+  final bool isPopUpDialog; //TODO:# use it
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +73,10 @@ class PromotionalBannerView extends StatelessWidget {
                 duration: const Duration(milliseconds: 300),
                 child: InkWell(
                   onHover: (value) => setState(()=> isHovered = value),
-                  onTap: type == null || target == null 
+                  onTap: (type == null || target == null) && onTap == null
                   ? null
                   : (){
+                    onTap?.call();
                     if(type == 'product'){
                       final Item item = Item.fromJson(target!);
                       Get.toNamed(RouteHelper.getItemDetailsRoute(item.id, false), arguments: ItemDetailsScreen(item: item, inStorePage: false, isCampaign: false));

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:sixam_mart/api/api_client.dart';
@@ -87,6 +88,7 @@ class BannerRepository implements BannerRepositoryInterface {
     PromotionalBanner? promotionalBanner;
     Response response = await apiClient.getData(AppConstants.promotionalBannerUri);
     if (response.statusCode == 200 && response.body is Map) {
+      log("bannars : ${jsonEncode(response.body)}");
       promotionalBanner = PromotionalBanner.fromJson(response.body);
     }
     return promotionalBanner;

@@ -1,10 +1,13 @@
 import 'package:sixam_mart/common/enums/data_source_enum.dart';
+import 'package:sixam_mart/common/widgets/custom_dialog.dart';
 import 'package:sixam_mart/features/banner/domain/models/banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/others_banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/promotional_banner_model.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/features/banner/domain/services/banner_service_interface.dart';
+
+import '../../home/widgets/pop_up_dialog.dart';
 
 class BannerController extends GetxController implements GetxService {
   final BannerServiceInterface bannerServiceInterface;
@@ -183,11 +186,17 @@ class BannerController extends GetxController implements GetxService {
     update();
   }
 
+  bool isPopUpOpened = false;
+
   Future<void> getPromotionalBannerList(bool reload) async {
     if(_promotionalBanner == null || reload) {
       PromotionalBanner? promotionalBanner = await bannerServiceInterface.getPromotionalBannerList();
       if (promotionalBanner != null) {
         _promotionalBanner = promotionalBanner;
+        if(!isPopUpOpened){
+          showAnimatedDialog(Get.context!, const PopUpDialog());
+          isPopUpOpened = true;
+        }
       }
       update();
     }
