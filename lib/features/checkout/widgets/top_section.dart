@@ -197,7 +197,7 @@ class _TopSectionState extends State<TopSection> {
                     );
                   }
                   return file != null ? Container(
-                    margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
+                    margin: const EdgeInsetsDirectional.only(end: Dimensions.paddingSizeSmall),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                     ),
