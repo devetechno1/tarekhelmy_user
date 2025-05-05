@@ -107,29 +107,32 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
                           children: [
                             Expanded(
                               child: SizedBox(width: Dimensions.webMaxWidth, child: GetBuilder<search.SearchController>(builder: (searchController) {
-                                return SearchFieldWidget(
-                                  controller: _searchController,
-                                  radius: 50,
-                                  hint: Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
-                                      ? (AppConstants.removeStores? 'search_food'.tr : 'search_food_or_restaurant'.tr) : (AppConstants.removeStores? 'search_item'.tr : 'search_item_or_store'.tr),
-                                  suffixIcon: searchController.searchHomeText!.isNotEmpty ? Icons.cancel : CupertinoIcons.search,
-                                  iconColor: Theme.of(context).disabledColor,
-                                  filledColor: Theme.of(context).colorScheme.surface,
-                                  onChanged: (text) {
-                                    _searchSuggestions(text);
-                                    searchController.setSearchText(text);
-                                  },
-                                  iconPressed: () {
-                                    if(searchController.searchHomeText!.isNotEmpty) {
-                                      _searchController.text = '';
-                                      _showSuggestion = false;
-                                      searchController.setSearchMode(true);
-                                      searchController.clearSearchHomeText();
-                                    }else {
-                                      searchData();
-                                    }
-                                  },
-                                  onSubmit: (text) => searchData(),
+                                return Hero(
+                                  tag: "search_bar",
+                                  child: SearchFieldWidget(
+                                    controller: _searchController,
+                                    radius: 50,
+                                    hint: Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
+                                        ? (AppConstants.removeStores? 'search_food'.tr : 'search_food_or_restaurant'.tr) : (AppConstants.removeStores? 'search_item'.tr : 'search_item_or_store'.tr),
+                                    suffixIcon: searchController.searchHomeText!.isNotEmpty ? Icons.cancel : CupertinoIcons.search,
+                                    iconColor: Theme.of(context).disabledColor,
+                                    filledColor: Theme.of(context).colorScheme.surface,
+                                    onChanged: (text) {
+                                      _searchSuggestions(text);
+                                      searchController.setSearchText(text);
+                                    },
+                                    iconPressed: () {
+                                      if(searchController.searchHomeText!.isNotEmpty) {
+                                        _searchController.text = '';
+                                        _showSuggestion = false;
+                                        searchController.setSearchMode(true);
+                                        searchController.clearSearchHomeText();
+                                      }else {
+                                        searchData();
+                                      }
+                                    },
+                                    onSubmit: (text) => searchData(),
+                                  ),
                                 );
                               })),
                             ),

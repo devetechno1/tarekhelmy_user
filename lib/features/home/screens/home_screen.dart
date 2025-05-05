@@ -460,35 +460,38 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Container searchBarWidget(BuildContext context) {
+  Widget searchBarWidget(BuildContext context) {
     return Container(
       height: 50, width: Dimensions.webMaxWidth,
       margin: const EdgeInsets.only(top: 10),
       // padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
       child: InkWell(
-        onTap: (_scrollController.positions.isNotEmpty ?_scrollController.offset > 150 : _scrollController.initialScrollOffset > 150) ? () => Get.toNamed(RouteHelper.getSearchRoute()):null,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-          margin: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 1),
-            borderRadius: BorderRadius.circular(25),
-            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-          ),
-          child: Row(children: [
-            Icon(
-              CupertinoIcons.search, size: 25,
-              color: Theme.of(context).primaryColor,
+        onTap: () => Get.toNamed(RouteHelper.getSearchRoute()),
+        child: Hero(
+          tag: "search_bar",
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+            margin: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 1),
+              borderRadius: BorderRadius.circular(25),
+              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
             ),
-            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-            Expanded(child: Text(
-              Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
-              style: robotoRegular.copyWith(
-                fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,
+            child: Row(children: [
+              Icon(
+                CupertinoIcons.search, size: 25,
+                color: Theme.of(context).primaryColor,
               ),
-            )),
-          ]),
+              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+              Expanded(child: Text(
+                Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
+                style: robotoRegular.copyWith(
+                  fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,
+                ),
+              )),
+            ]),
+          ),
         ),
       ),
     );
