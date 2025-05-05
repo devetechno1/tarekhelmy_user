@@ -1,4 +1,3 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:sixam_mart/common/widgets/address_widget.dart';
 import 'package:sixam_mart/features/address/controllers/address_controller.dart';
@@ -39,6 +38,7 @@ import 'package:sixam_mart/features/checkout/widgets/top_section.dart';
 import 'package:flutter/material.dart';
 
 import '../../location/controllers/location_controller.dart';
+import '../widgets/delivery_section.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final List<CartModel?>? cartList;
@@ -180,9 +180,31 @@ class CheckoutScreenState extends State<CheckoutScreen> {
       appBar: CustomAppBar(title: widget.isRequestPrescription ? 'request_prescription'.tr : 'checkout'.tr, backButton: widget.canBack),
       endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
       body: guestCheckoutPermission || AuthHelper.isLoggedIn() ? GetBuilder<CheckoutController>(builder: (checkoutController) {
+        final List<AddressModel> _address = List.unmodifiable(_getAddressList(addressList: Get.find<AddressController>().addressList, store: checkoutController.store));
+        address.clear();
+        address.addAll(_address);
 
-        List<DropdownItem<int>> addressList = _getDropdownAddressList(context: context, addressList: Get.find<AddressController>().addressList, store: checkoutController.store);
-        address = _getAddressList(addressList: Get.find<AddressController>().addressList, store: checkoutController.store);
+        address.removeWhere(
+          (e) => e.streetNumber?.trim().isNotEmpty != true || e.floor?.trim().isNotEmpty != true || e.house?.trim().isNotEmpty != true,
+        );
+
+        if(address.isEmpty){
+          address.add(_address.first);
+        }
+        if((checkoutController.addressIndex ?? address.length) >= address.length){
+          checkoutController.setAddressIndex(0,false);
+        }
+        WidgetsBinding.instance.addPostFrameCallback(
+          (timeStamp) {
+            Get.find<LocationController>().prepareZoneInCheckout(address[checkoutController.addressIndex!]).then(
+              (add) {
+                if(add != null) address[checkoutController.addressIndex!] = add;
+              },
+            );
+          },
+        );
+
+        List<DropdownItem<int>> addressList = _getDropdownAddressList(context: context, addressList: address, store: checkoutController.store);
 
         bool todayClosed = false;
         bool tomorrowClosed = false;
@@ -490,20 +512,8 @@ class CheckoutScreenState extends State<CheckoutScreen> {
             showCustomSnackBar('please_upload_your_prescription_images'.tr);
           }else if (!checkoutController.acceptTerms) {
             showCustomSnackBar('please_accept_privacy_policy_trams_conditions_refund_policy_first'.tr);
-          }else if (address.length <= 1){
-            var address = await Get.toNamed(RouteHelper.getAddAddressRoute(true, false, checkoutController.store!.zoneId));
-            if(address != null) {
-              checkoutController.getDistanceInKM(
-                LatLng(double.parse(address.latitude), double.parse(address.longitude)),
-                LatLng(double.parse(checkoutController.store!.latitude!), double.parse(checkoutController.store!.longitude!)),
-              );
-              checkoutController.streetNumberController.text = address.streetNumber ?? '';
-              checkoutController.houseController.text = address.house ?? '';
-              checkoutController.floorController.text = address.floor ?? '';
-              final AddressModel? add = await Get.find<LocationController>().prepareZoneInCheckout(this.address[checkoutController.addressIndex!]);
-              if(add != null) this.address[checkoutController.addressIndex!] = add;
-              
-            }
+          }else if (address.length <= 1 && (address.first.streetNumber?.trim().isNotEmpty != true || address.first.floor?.trim().isNotEmpty != true || address.first.house?.trim().isNotEmpty != true)){
+            addNewAddress(checkoutController);
           }else if(checkoutController.orderType != 'take_away' && checkoutController.streetNumberController.text.isEmpty) {
             showCustomSnackBar('write_address'.tr);
           }else if(checkoutController.orderType != 'take_away' && checkoutController.houseController.text.isEmpty) {
@@ -619,13 +629,13 @@ class CheckoutScreenState extends State<CheckoutScreen> {
   List<DropdownItem<int>> _getDropdownAddressList({required BuildContext context, required List<AddressModel>? addressList, required Store? store}) {
     List<DropdownItem<int>> dropDownAddressList = [];
 
-    dropDownAddressList.add(DropdownItem<int>(value: 0, child: SizedBox(
-      width: context.width > Dimensions.webMaxWidth ? Dimensions.webMaxWidth - 50 : context.width - 50,
-      child: AddressWidget(
-        address: AddressHelper.getUserAddressFromSharedPref(),
-        fromAddress: false, fromCheckout: true,
-      ),
-    )));
+    // dropDownAddressList.add(DropdownItem<int>(value: 0, child: SizedBox(
+    //   width: context.width > Dimensions.webMaxWidth ? Dimensions.webMaxWidth - 50 : context.width - 50,
+    //   child: AddressWidget(
+    //     address: AddressHelper.getUserAddressFromSharedPref(),
+    //     fromAddress: false, fromCheckout: true,
+    //   ),
+    // )));
 
     if(addressList != null && store != null) {
       for(int index=0; index<addressList.length; index++) {

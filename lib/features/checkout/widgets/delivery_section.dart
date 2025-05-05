@@ -48,20 +48,7 @@ class DeliverySection extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text('deliver_to'.tr, style: robotoMedium),
             TextButton.icon(
-              onPressed: () async {
-                final address = await Get.toNamed(RouteHelper.getAddAddressRoute(true, false, checkoutController.store!.zoneId));
-                if(address != null) {
-                  checkoutController.getDistanceInKM(
-                    LatLng(double.parse(address.latitude ?? ''), double.parse(address.longitude ?? '')),
-                    LatLng(double.parse(checkoutController.store!.latitude!), double.parse(checkoutController.store!.longitude!)),
-                  );
-                  checkoutController.streetNumberController.text = address.streetNumber ?? '';
-                  checkoutController.houseController.text = address.house ?? '';
-                  checkoutController.floorController.text = address.floor ?? '';
-                  final AddressModel? add = await Get.find<LocationController>().prepareZoneInCheckout(this.address[checkoutController.addressIndex!]);
-                  if(add != null) this.address[checkoutController.addressIndex!] = add;
-                }
-              },
+              onPressed: () => addNewAddress(checkoutController),
               icon: const Icon(Icons.add, size: 20),
               label: Text('add_new'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
             ),
@@ -110,8 +97,8 @@ class DeliverySection extends StatelessWidget {
                           checkoutController.streetNumberController.text = address[checkoutController.addressIndex!].streetNumber ?? '';
                           checkoutController.houseController.text = address[checkoutController.addressIndex!].house ?? '';
                           checkoutController.floorController.text = address[checkoutController.addressIndex!].floor ?? '';
-                          final AddressModel? add = await Get.find<LocationController>().prepareZoneInCheckout(address[index]);
-                          if(add != null) address[index] = add;
+                          // final AddressModel? add = await Get.find<LocationController>().prepareZoneInCheckout(address[index]);
+                          // if(add != null) address[index] = add;
                           Navigator.pop(Get.context!);
                         },
                         child: Row(
@@ -257,5 +244,18 @@ class DeliverySection extends StatelessWidget {
         ]),
       ) : const SizedBox(),
     ]);
+  }
+}
+void addNewAddress(CheckoutController checkoutController) async {
+  final address = await Get.toNamed(RouteHelper.getAddAddressRoute(true, false, checkoutController.store!.zoneId));
+  if(address != null && address is AddressModel) {
+    checkoutController.getDistanceInKM(
+      LatLng(double.parse(address.latitude ?? ''), double.parse(address.longitude ?? '')),
+      LatLng(double.parse(checkoutController.store!.latitude!), double.parse(checkoutController.store!.longitude!)),
+    );
+    checkoutController.streetNumberController.text = address.streetNumber ?? '';
+    checkoutController.houseController.text = address.house ?? '';
+    checkoutController.floorController.text = address.floor ?? '';
+    checkoutController.setAddressIndex(0,false);
   }
 }
