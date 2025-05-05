@@ -272,7 +272,7 @@ class CheckoutController extends GetxController implements GetxService {
     if(isRemove) {
       _pickedPrescriptions = [];
     }else {
-      XFile? xFile = await ImagePicker().pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery, imageQuality: 50);
+      XFile? xFile = await ImagePicker().pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery, imageQuality: 50,requestFullMetadata: !GetPlatform.isIOS);
       if(xFile != null) {
         _pickedPrescriptions.add(xFile);
       }
