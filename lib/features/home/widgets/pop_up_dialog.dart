@@ -10,42 +10,40 @@ class PopUpDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Align(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
-          child: Directionality(
-            textDirection: TextDirection.ltr,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: Get.back,
-                  color: Colors.white,
-                  style: IconButton.styleFrom(
-                    backgroundColor: context.theme.colorScheme.error,
-                  ),
-                  icon: const Icon(Icons.clear),
+    return Align(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 600),
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: Get.back,
+                color: Colors.white,
+                style: IconButton.styleFrom(
+                  backgroundColor: context.theme.colorScheme.error,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Dimensions.paddingSizeExtraLarge,
-                    vertical: Dimensions.paddingSizeExtraSmall,
-                  ),
-                  child: PromotionalBannerView(
-                    isBottomSection: true,
-                    onTap: () {
-                      Get.back();
-                      Get.back();
-                      if (Get.isDialogOpen == true) Get.back();
-                      if (Get.isBottomSheetOpen == true) Get.back();
-                    },
-                  ),
+                icon: const Icon(Icons.clear),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Dimensions.paddingSizeExtraLarge,
+                  vertical: Dimensions.paddingSizeExtraSmall,
                 ),
-              ],
-            ),
+                child: PromotionalBannerView(
+                  isBottomSection: true,
+                  onTap: () {
+                    Get.back();
+                    Get.back();
+                    if (Get.isDialogOpen == true) Get.back();
+                    if (Get.isBottomSheetOpen == true) Get.back();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
