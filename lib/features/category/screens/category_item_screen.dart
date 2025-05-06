@@ -47,7 +47,7 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
     );
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent
+      if (scrollController.position.pixels >= 0.7 * scrollController.position.maxScrollExtent
           && Get.find<CategoryController>().categoryItemList != null
           && !Get.find<CategoryController>().isLoading) {
         int pageSize = (Get.find<CategoryController>().pageSize! / 10).ceil();
