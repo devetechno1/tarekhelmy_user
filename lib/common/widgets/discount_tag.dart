@@ -27,11 +27,15 @@ class DiscountTag extends StatelessWidget {
       top: fromTop, left: inLeft ? isFloating! ? Dimensions.paddingSizeSmall : 0 : null, right: inLeft ? null : 0,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        width: isFloating!? 50: null,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.error.withOpacity(0.8),
-          borderRadius: BorderRadius.horizontal(
-            right: Radius.circular(isFloating! ? Dimensions.radiusLarge : inLeft ? Dimensions.radiusSmall : 0),
-            left: Radius.circular(isFloating! ? Dimensions.radiusLarge : inLeft ? 0 : Dimensions.radiusSmall),
+          color: Theme.of(context).colorScheme.error.withOpacity(0.9),
+          shape: isFloating!? BoxShape.circle : BoxShape.rectangle,
+          borderRadius: isFloating! 
+          ? null 
+          : BorderRadius.horizontal(
+            right: Radius.circular(inLeft ? Dimensions.radiusSmall : 0),
+            left: Radius.circular(inLeft ? 0 : Dimensions.radiusSmall),
           ),
         ),
         child: Text(
@@ -39,8 +43,9 @@ class DiscountTag extends StatelessWidget {
               : isRightSide ? currencySymbol : ''} ${'off'.tr}' : 'free_delivery'.tr),
           style: robotoMedium.copyWith(
             color: Theme.of(context).cardColor,
-            fontSize: fontSize ?? (ResponsiveHelper.isMobile(context) ? 8 : 12),
+            fontSize: fontSize ?? (ResponsiveHelper.isMobile(context) && !isFloating! ? 8 : 12),
           ),
+          maxLines: 2,
           textAlign: TextAlign.center,
         ),
       ),
