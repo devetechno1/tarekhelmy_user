@@ -107,7 +107,7 @@ class CartController extends GetxController implements GetxService {
     bool isFoodVariation = false;
     double variationWithoutDiscountPrice = 0;
     bool haveVariation = false;
-    for (var cartModel in cartList) {
+    for (CartModel cartModel in cartList) {
 
       isFoodVariation = ModuleHelper.getModuleConfig(cartModel.item!.moduleType).newVariation!;
       double? discount = cartModel.item!.storeDiscount == 0 ? cartModel.item!.discount : cartModel.item!.storeDiscount;
@@ -116,7 +116,7 @@ class CartController extends GetxController implements GetxService {
       List<AddOns> addOnList = cartServiceInterface.prepareAddonList(cartModel);
 
       _addOnsList.add(addOnList);
-      _availableList.add(DateConverter.isAvailable(cartModel.item!.availableTimeStarts, cartModel.item!.availableTimeEnds));
+      _availableList.add(DateConverter.isAvailable(cartModel.item!.availableTimeStarts, cartModel.item!.availableTimeEnds) && (cartModel.stock ?? 0) >= (cartModel.quantity ?? 1));
 
       _addOns = cartServiceInterface.calculateAddonPrice(_addOns, addOnList, cartModel);
 

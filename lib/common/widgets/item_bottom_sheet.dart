@@ -1,6 +1,7 @@
 import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_tool_tip_widget.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
+import 'package:sixam_mart/features/cart/widgets/cart_item_widget.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
@@ -459,6 +460,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
 
                                   const SizedBox(
                                       height: Dimensions.paddingSizeLarge),
+                                  OutOfStockTextWidget(stock: cart?.stock,quantity: itemController.quantity),
 
                                   (widget.item!.description != null &&
                                           widget.item!.description!.isNotEmpty)

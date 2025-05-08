@@ -286,7 +286,10 @@ class CartItemWidget extends StatelessWidget {
                     }
                   ),
                 ]),
-
+                OutOfStockTextWidget(
+                  stock: cart.stock,
+                  quantity: cart.quantity,
+                ),
               ],
             ),
           ),
@@ -370,5 +373,36 @@ class CartItemWidget extends StatelessWidget {
       }
     }
     return addOnText;
+  }
+}
+
+class OutOfStockTextWidget extends StatelessWidget {
+  const OutOfStockTextWidget({super.key, this.stock, this.quantity});
+  final int? stock;
+  final int? quantity;
+
+  @override
+  Widget build(BuildContext context) {
+    if((stock ?? 0) < (quantity ?? 1)){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: context.theme.colorScheme.error),
+              children: [
+                TextSpan(text: 'out_of_stock'.tr),
+                const TextSpan(text:'\n'),
+                TextSpan(text: 'notEnoughStock'.tr.replaceAll('{stock}', '$stock').replaceAll('{quantity}', '$quantity')),
+              ]
+            ),
+          ),
+        ],
+      );
+    }
+      
+    return const SizedBox();
   }
 }

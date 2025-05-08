@@ -1,9 +1,10 @@
 {
+  "notEnoughStock": "المتوفر في المخزون فقط هو {stock}، لكنك أضفت {quantity} إلى العربة",
   "all_available_offers": "جميع العروض المتاحة",
   "tarek_helmy": "طارق حلمي",
   "connection_to_api_server_failed": "فشل الاتصال بخادم API بسبب الاتصال بالإنترنت",
   "select_language": "اختار اللغة",
-  "save": "يحفظ",
+  "save": "حفظ",
   "select_a_language": "اختر لغة",
   "on_boarding_1_title": "احصل على المنتجات المفضلة",
   "on_boarding_2_title": "دفع سهل",
