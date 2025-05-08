@@ -12,7 +12,7 @@ import '../../../item/domain/models/item_model.dart';
 import '../../../item/screens/item_details_screen.dart';
 
 class PromotionalBannerView extends StatelessWidget {
-  const PromotionalBannerView({super.key, this.isBestReviewedSection = false, this.isNewArrivalSection = false, this.isBottomSection = false, this.newArrivalBanner = false, this.isTrending = false, this.isWeekEnd = false, this.isBrands = false, this.isPopUpDialog = false, this.onTap});
+  const PromotionalBannerView({super.key, this.isBestReviewedSection = false, this.isNewArrivalSection = false, this.isBottomSection = false, this.newArrivalBanner = false, this.isTrending = false, this.isWeekEnd = false, this.isBrands = false, this.isPopupDialog = false, this.onTap, this.aspectRatio = 3});
   final bool isBestReviewedSection;
   final bool isNewArrivalSection;
   final bool isBottomSection;
@@ -20,7 +20,8 @@ class PromotionalBannerView extends StatelessWidget {
   final bool isTrending;
   final bool isWeekEnd;
   final bool isBrands;
-  final bool isPopUpDialog; //TODO:# use it
+  final bool isPopupDialog; //TODO:# use it
+  final double aspectRatio;
   final void Function()? onTap;
 
   @override
@@ -57,6 +58,10 @@ class PromotionalBannerView extends StatelessWidget {
         imageURL = bannerController.promotionalBanner?.brandsBannerFullUrl;
         type = bannerController.promotionalBanner?.brandsBannerTypeBanner;
         target = bannerController.promotionalBanner?.brandsBannerTargetData;
+      }else if(isPopupDialog){
+        imageURL = bannerController.promotionalBanner?.popupBannerFullUrl;
+        type = bannerController.promotionalBanner?.popupBannerTypeBanner;
+        target = bannerController.promotionalBanner?.popupBannerTargetData;
       }else{
         imageURL = null;
         type = null;
@@ -94,7 +99,7 @@ class PromotionalBannerView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                     ),
                     child: AspectRatio(
-                      aspectRatio:3,
+                      aspectRatio:aspectRatio,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                         child: CustomImage(
@@ -109,13 +114,14 @@ class PromotionalBannerView extends StatelessWidget {
             }
           ),
         ),
-      ) : const SizedBox() : const PromotionalBannerShimmerView();
+      ) : const SizedBox() : PromotionalBannerShimmerView(aspectRatio: aspectRatio);
     });
   }
 }
 
 class PromotionalBannerShimmerView extends StatelessWidget {
-  const PromotionalBannerShimmerView({super.key});
+  const PromotionalBannerShimmerView({super.key, required this.aspectRatio});
+  final double aspectRatio;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +129,7 @@ class PromotionalBannerShimmerView extends StatelessWidget {
         constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height /3),
         alignment: Alignment.center,
         child: AspectRatio(
-        aspectRatio: 3,
+        aspectRatio: aspectRatio,
         child: Shimmer(
           duration: const Duration(seconds: 2),
           enabled: true,

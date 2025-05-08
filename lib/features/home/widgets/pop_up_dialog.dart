@@ -20,13 +20,18 @@ class PopUpDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                onPressed: Get.back,
-                color: Colors.white,
-                style: IconButton.styleFrom(
-                  backgroundColor: context.theme.colorScheme.error,
+              InkWell(
+                onTap: Get.back,
+                borderRadius: BorderRadius.circular(500),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.error,
+                    borderRadius: BorderRadius.circular(500),
+                  ),
+                  child: const Icon(Icons.clear, color: Colors.white),
                 ),
-                icon: const Icon(Icons.clear),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -34,7 +39,8 @@ class PopUpDialog extends StatelessWidget {
                   vertical: Dimensions.paddingSizeExtraSmall,
                 ),
                 child: PromotionalBannerView(
-                  isBottomSection: true,
+                  isPopupDialog: true,
+                  aspectRatio: 1,
                   onTap: () {
                     Get.back();
                     Get.back();

@@ -38,6 +38,11 @@ class PromotionalBanner {
   String? brandsBannerTypeBanner;
   int? brandsBannerTargetBanner;
   Map<String,dynamic>? brandsBannerTargetData;
+  String? popupBanner;
+  String? popupBannerFullUrl;
+  String? popupBannerTypeBanner;
+  int? popupBannerTargetBanner;
+  Map<String,dynamic>? popupBannerTargetData;
 
   PromotionalBanner({
     this.bestReviewedSectionBanner,
@@ -75,6 +80,11 @@ class PromotionalBanner {
     this.brandsBannerTypeBanner,
     this.brandsBannerTargetBanner,
     this.brandsBannerTargetData,
+    this.popupBanner,
+    this.popupBannerFullUrl,
+    this.popupBannerTypeBanner,
+    this.popupBannerTargetBanner,
+    this.popupBannerTargetData,
   });
 
   bool get isNullClass =>
@@ -123,6 +133,11 @@ class PromotionalBanner {
     brandsBannerTypeBanner = json['brands_banner_type_banner'];
     brandsBannerTargetBanner = json['brands_banner_target_banner'];
     brandsBannerTargetData = json['brands_banner_target_data'];
+    popupBanner = json['popup_banner'];
+    popupBannerFullUrl = json['popup_banner_full_url'];
+    popupBannerTypeBanner = json['popup_banner_type_banner'];
+    popupBannerTargetBanner = json['popup_banner_target_banner'];
+    popupBannerTargetData = json['popup_banner_target_data'];
   }
 
   Map<String, dynamic> toJson() {
@@ -162,6 +177,11 @@ class PromotionalBanner {
     data['brands_banner_type_banner'] = brandsBannerTypeBanner;
     data['brands_banner_target_banner'] = brandsBannerTargetBanner;
     data['brands_banner_target_data'] = brandsBannerTargetData;
+    data['popup_banner'] = popupBanner;
+    data['popup_banner_full_url'] = popupBannerFullUrl;
+    data['popup_banner_type_banner'] = popupBannerTypeBanner;
+    data['popup_banner_target_banner'] = popupBannerTargetBanner;
+    data['popup_banner_target_data'] = popupBannerTargetData;
     return data;
   }
 }
