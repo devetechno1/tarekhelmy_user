@@ -46,6 +46,10 @@ class ItemService implements ItemServiceInterface {
   Future<List<Item>?> getNewArrivalItemList(String type, DataSourceEnum? source) async {
     return await itemRepositoryInterface.getList(isNewArrivalItems: true, type: type, source: source);
   }
+  @override
+  Future<List<Item>?> getWeekendOfferItemList(String type, DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(isWeekendOfferItems: true, type: type, source: source);
+  }
 
   @override
   Future<Item?> getItemDetails(int? itemID) async {

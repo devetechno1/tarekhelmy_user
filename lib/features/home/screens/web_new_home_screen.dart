@@ -19,7 +19,6 @@ import 'package:sixam_mart/features/home/widgets/web/web_coupon_banner_view_widg
 import 'package:sixam_mart/features/home/widgets/web/web_featured_categories_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_flash_sale_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_item_that_you_love_view_widget.dart';
-import 'package:sixam_mart/features/home/widgets/web/web_just_for_you_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_most_popular_item_banner_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_most_popular_item_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_new_banner_view_widget.dart';
@@ -43,6 +42,7 @@ import 'package:sixam_mart/features/home/widgets/bad_weather_widget.dart';
 
 import '../widgets/views/promotional_banner_view.dart';
 import '../widgets/web/web_new_arrival_view_widget.dart';
+import '../widgets/web/web_weekend_offer_view_widget.dart';
 
 class WebNewHomeScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -147,7 +147,7 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                     : isShop ? AppConstants.removeStores? const SizedBox() : const WebPopularStoresView()
                     : const WebMostPopularItemViewWidget(isFood: false, isShop: false),
 
-                isPharmacy ? const WebJustForYouViewWidget()
+                isPharmacy ? const WebWeekendOfferView()
                     : isFood ? const WebItemThatYouLoveViewWidget()
                     : isShop ? const WebSpecialOfferView(isFood: false, isShop: true)
                     : GetBuilder<CampaignController>(builder: (campaignController) {
@@ -165,7 +165,7 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                     : const WebSpecialOfferView(isFood: false, isShop: false),
 
                 const PromotionalBannerView(isWeekEnd: true),
-                const WebJustForYouViewWidget(),
+                const WebWeekendOfferView(),
 
                 const PromotionalBannerView(isBrands: true),
                 const WebBrandsViewWidget(),
@@ -181,7 +181,7 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                 isPharmacy ? const SizedBox()
                     : isFood ?  AppConstants.removeStores? const SizedBox(): const WebNewOnMartViewWidget()
                     : isShop ? const  WebFeaturedCategoriesViewWidget()
-                    : const WebJustForYouViewWidget(),
+                    : const WebWeekendOfferView(),
 
                 (isPharmacy || isFood) ? const SizedBox() : isShop ? const SizedBox() : const WebItemThatYouLoveViewWidget(),
 

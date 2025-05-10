@@ -6,7 +6,6 @@ import 'package:sixam_mart/features/flash_sale/widgets/flash_sale_view_widget.da
 import 'package:sixam_mart/features/home/widgets/bad_weather_widget.dart';
 import 'package:sixam_mart/features/home/widgets/views/featured_categories_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/item_that_you_love_view.dart';
-import 'package:sixam_mart/features/home/widgets/views/just_for_you_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/most_popular_item_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/middle_section_banner_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/special_offer_view.dart';
@@ -15,6 +14,7 @@ import 'package:sixam_mart/features/home/widgets/banner_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/category_view.dart';
 
 import '../../widgets/views/new_arrival_view.dart';
+import '../../widgets/views/weekend_offer_view.dart';
 
 // import '../../widgets/views/all_offers_view.dart';
 
@@ -48,7 +48,7 @@ class ShopHomeScreen extends StatelessWidget {
       const PromotionalBannerView(isTrending: true),
       const MostPopularItemView(isFood: false, isShop: true), // trending
       const PromotionalBannerView(isWeekEnd: true),
-      const JustForYouView(), // weekend offers
+      const WeekendOfferView(), // weekend offers
       const PromotionalBannerView(isBrands: true),
       const BrandsViewWidget(),
       const PromotionalBannerView(isBottomSection: true),

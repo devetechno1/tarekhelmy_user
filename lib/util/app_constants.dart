@@ -21,6 +21,7 @@ class AppConstants {
   static const String bannerUri = '/api/v1/banners';
   static const String storeItemUri = '/api/v1/items/latest';
   static const String newArrival = '/api/v1/items/new-arrival';
+  static const String weekendOffer = '/api/v1/items/weekend-offer';
   static const String popularItemUri = '/api/v1/items/popular';
   static const String reviewedItemUri = '/api/v1/items/most-reviewed';
   static const String searchItemUri = '/api/v1/items/details/';

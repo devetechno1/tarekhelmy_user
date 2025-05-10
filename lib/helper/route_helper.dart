@@ -84,6 +84,7 @@ import 'package:sixam_mart/features/wallet/screens/wallet_screen.dart';
 
 import '../features/item/screens/arrival_item_screen.dart';
 import '../features/item/screens/offers_item_screen.dart';
+import '../features/item/screens/weekend_offer_item_screen.dart';
 
 class RouteHelper {
   static const String initial = '/';
@@ -118,6 +119,7 @@ class RouteHelper {
   static const String categoryItem = '/category-item';
   static const String popularItems = '/popular-items';
   static const String arrivalItems = '/arrival-items';
+  static const String weekendOfferItems = '/weekend-offer-items';
   static const String itemCampaign = '/item-campaign';
   static const String support = '/help-and-support';
   static const String rateReview = '/rate-and-review';
@@ -242,6 +244,7 @@ class RouteHelper {
   }
   static String getPopularItemRoute(bool isPopular, bool isSpecial) => '$popularItems?page=${isPopular ? 'popular' : 'reviewed'}&special=${isSpecial.toString()}';
   static String getArrivalItemsItemRoute() => arrivalItems;
+  static String getWeekendOfferItemRoute() => weekendOfferItems;
   static String getItemCampaignRoute({bool isJustForYou = false}) => itemCampaign + (isJustForYou ? '?just-for-you=${isJustForYou.toString()}' : '');
   static String getSupportRoute() => support;
   static String getReviewRoute() => rateReview;
@@ -498,6 +501,7 @@ class RouteHelper {
     }),
     GetPage(name: popularItems, page: () => getRoute(PopularItemScreen(isPopular: Get.parameters['page'] == 'popular', isSpecial: Get.parameters['special'] == 'true'))),
     GetPage(name: arrivalItems, page: () => getRoute(const ArrivalItemScreen())),
+    GetPage(name: weekendOfferItems, page: () => getRoute(const WeekendOfferItemScreen())),
     GetPage(name: itemCampaign, page: () => getRoute(ItemCampaignScreen(isJustForYou: Get.parameters['just-for-you'] == 'true'))),
     GetPage(name: support, page: () => const SupportScreen()),
     GetPage(name: update, page: () => UpdateScreen(isUpdate: Get.parameters['update'] == 'true')),

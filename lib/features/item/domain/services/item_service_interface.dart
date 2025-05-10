@@ -12,6 +12,7 @@ abstract class ItemServiceInterface {
   Future<List<Item>?> getRecommendedItemList(String type, DataSourceEnum? source);
   Future<List<Item>?> getDiscountedItemList(String type, DataSourceEnum? source);
   Future<List<Item>?> getNewArrivalItemList(String type, DataSourceEnum? source);
+  Future<List<Item>?> getWeekendOfferItemList(String type, DataSourceEnum? source);
   Future<Item?> getItemDetails(int? itemID);
   Future<BasicMedicineModel?> getBasicMedicine(DataSourceEnum source);
   Future<List<CommonConditionModel>?> getCommonConditions();

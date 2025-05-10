@@ -5,7 +5,7 @@ import 'package:sixam_mart/interfaces/repository_interface.dart';
 abstract class ItemRepositoryInterface implements RepositoryInterface {
   // Future<dynamic> getPopularItemList(String type);
   @override
-  Future getList({int? offset, String? type, bool isOfferItem, bool isPopularItem = false, bool isNewArrivalItems = false, bool isReviewedItem = false, bool isFeaturedCategoryItems = false, bool isRecommendedItems = false, bool isCommonConditions = false, bool isDiscountedItems = false, DataSourceEnum? source});
+  Future getList({int? offset, String? type, bool isOfferItem, bool isPopularItem = false, bool isNewArrivalItems = false, bool isWeekendOfferItems = false, bool isReviewedItem = false, bool isFeaturedCategoryItems = false, bool isRecommendedItems = false, bool isCommonConditions = false, bool isDiscountedItems = false, DataSourceEnum? source});
   // Future<dynamic> getReviewedItemList(String type);
   // Future<dynamic> getFeaturedCategoriesItemList();
   // Future<dynamic> getRecommendedItemList(String type);
