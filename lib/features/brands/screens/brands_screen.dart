@@ -78,9 +78,9 @@ class _BrandsScreenState extends State<BrandsScreen> {
                         ),
                         const SizedBox(width: Dimensions.paddingSizeSmall),
 
-                        Flexible(
-                          child: Text(brandsController.brandList![index].name ?? '', style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.7))),
-                        ),
+                        // Flexible(
+                        //   child: Text(brandsController.brandList![index].name ?? '', style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.7))),
+                        // ),
 
                       ]),
                     );
