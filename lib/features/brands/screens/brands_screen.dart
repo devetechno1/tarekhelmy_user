@@ -73,7 +73,7 @@ class _BrandsScreenState extends State<BrandsScreen> {
                               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                               child: CustomImage(
                                 image: '${brandsController.brandList![index].imageFullUrl}',
-                                height: isDesktop ? 130 : 110, width: isDesktop ? 130 : 110,
+                                height: isDesktop ? 130 : 110, width: isDesktop ? 130 : 110, fit: BoxFit.fill,
                               ),
                             ),
                           ),
