@@ -8,6 +8,8 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/common/widgets/title_widget.dart';
 import 'package:sixam_mart/common/widgets/card_design/item_card.dart';
 
+import '../../../../util/images.dart';
+
 class NewArrivalView extends StatelessWidget {
   const NewArrivalView({super.key});
 
@@ -28,6 +30,7 @@ class NewArrivalView extends StatelessWidget {
               padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault, left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
               child: TitleWidget(
                 title: 'new_arrival'.tr,
+                 image: Images.highlightIcon,
                 onTap: () => Get.toNamed(RouteHelper.getArrivalItemsItemRoute()),
               ),
             ),
