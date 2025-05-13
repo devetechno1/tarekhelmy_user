@@ -51,10 +51,10 @@ class _BrandsScreenState extends State<BrandsScreen> {
                     vertical: Dimensions.paddingSizeExtraLarge,
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: isDesktop ? 4 : 2,
+                    crossAxisCount: isDesktop ? 4 :3,
                     crossAxisSpacing: Dimensions.paddingSizeLarge,
                     mainAxisSpacing: Dimensions.paddingSizeLarge,
-                    mainAxisExtent: isDesktop ? 120 : 95,
+                    mainAxisExtent: isDesktop ? 150 : 130,
                   ),
                   itemCount: brandsController.brandList!.length,
                   itemBuilder: (context, index) {
@@ -62,17 +62,19 @@ class _BrandsScreenState extends State<BrandsScreen> {
                       onTap: () => Get.toNamed(RouteHelper.getBrandsItemScreen(brandsController.brandList![index].id!, brandsController.brandList![index].name!)),
                       child: Row(children: [
 
-                        Container(
-                          padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).disabledColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                            child: CustomImage(
-                              image: '${brandsController.brandList![index].imageFullUrl}',
-                              height: isDesktop ? 100 : 80, width: isDesktop ? 100 : 80,
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).disabledColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                              child: CustomImage(
+                                image: '${brandsController.brandList![index].imageFullUrl}',
+                                height: isDesktop ? 130 : 110, width: isDesktop ? 130 : 110,
+                              ),
                             ),
                           ),
                         ),
