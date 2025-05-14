@@ -26,9 +26,11 @@ class ItemsView extends StatefulWidget {
   final bool inStorePage;
   final bool isFeatured;
   final bool? isFoodOrGrocery;
+  final bool isSliverParent;
   const ItemsView({super.key, required this.stores, required this.items, required this.isStore, this.isScrollable = false,
     this.shimmerLength = 20, this.padding = const EdgeInsets.all(Dimensions.paddingSizeDefault), this.noDataText,
     this.isCampaign = false, this.inStorePage = false, this.isFeatured = false,
+    this.isSliverParent = false,
     this.isFoodOrGrocery = true});
 
   @override
@@ -50,6 +52,73 @@ class _ItemsViewState extends State<ItemsView> {
       if(!isNull) {
         length = widget.items!.length;
       }
+    }
+    if(widget.isSliverParent){
+
+      return SliverPadding(
+        padding: widget.padding,
+        sliver: !isNull ? length > 0 ? SliverGrid.builder(
+          key: UniqueKey(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtremeLarge : widget.stores != null ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeLarge,
+            mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtremeLarge : widget.stores != null && widget.isStore ? Dimensions.paddingSizeLarge : AppConstants.makeAllProductsGridCards ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeSmall,
+            // childAspectRatio: ResponsiveHelper.isDesktop(context) && widget.isStore ? (1/0.6)
+            //     : ResponsiveHelper.isMobile(context) ? widget.stores != null && widget.isStore ? 2 : 3.8
+            //     : 3.3,
+            mainAxisExtent: ResponsiveHelper.isDesktop(context) && widget.isStore ? 220
+                : ResponsiveHelper.isMobile(context) ? widget.stores != null && widget.isStore ? 200 : AppConstants.makeAllProductsGridCards ? 250 : 122
+                : 300,
+            crossAxisCount: ResponsiveHelper.isMobile(context) ? AppConstants.makeAllProductsGridCards && !widget.isStore? 2 : 1 : ResponsiveHelper.isDesktop(context) && widget.stores != null  ? 3 : AppConstants.makeAllProductsGridCards? 5 :3,
+          ),
+          itemCount: length,
+          itemBuilder: (context, index) {
+            return widget.stores != null && widget.isStore ?  widget.isFoodOrGrocery! && widget.isStore
+                ? StoreCardWidget(store: widget.stores![index])
+                : StoreCardWithDistance(store: widget.stores![index]!, fromAllStore: true)
+                : AppConstants.makeAllProductsGridCards && !widget.isStore? Center(
+                  child: ItemCard(
+                    isPopularItem:false,
+                    isPopularItemCart: true,
+                    index: index,
+                    item: widget.items![index]!,
+                    isShop: true,
+                    isFood: false,
+                  ),
+                ):ItemWidget(
+              isStore: widget.isStore, item: widget.isStore ? null : widget.items![index], isFeatured: widget.isFeatured,
+              store: widget.isStore ? widget.stores![index] : null, index: index, length: length, isCampaign: widget.isCampaign,
+              inStore: widget.inStorePage,
+            );
+          },
+        ) : SliverFillRemaining(
+          hasScrollBody: true,
+          child: NoDataScreen(
+            text: widget.noDataText ?? (widget.isStore ? Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
+                ? 'no_restaurant_available'.tr : 'no_store_available'.tr : 'no_item_available'.tr),
+          ),
+        ) : SliverGrid.builder(
+          key: UniqueKey(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtremeLarge : widget.stores != null ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeLarge,
+            mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtremeLarge : widget.stores != null && widget.isStore ? Dimensions.paddingSizeLarge : AppConstants.makeAllProductsGridCards ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeSmall,
+            // childAspectRatio: ResponsiveHelper.isDesktop(context) && widget.isStore ? (1/0.6)
+            //     : ResponsiveHelper.isMobile(context) ? widget.isStore ? 2 : 3.8
+            //     : 3,
+            mainAxisExtent: ResponsiveHelper.isDesktop(context) && widget.isStore ? 220
+                : ResponsiveHelper.isMobile(context) ? widget.stores != null && widget.isStore ? 200 : AppConstants.makeAllProductsGridCards ? 250 : 122
+                : 300,
+            crossAxisCount: ResponsiveHelper.isMobile(context) ? AppConstants.makeAllProductsGridCards && !widget.isStore? 2 : 1 : ResponsiveHelper.isDesktop(context) && widget.stores != null  ? 3 : AppConstants.makeAllProductsGridCards? 5 :3,
+          ),
+          itemCount: widget.shimmerLength,
+          itemBuilder: (context, index) {
+            return widget.isStore ? widget.isFoodOrGrocery!
+                ? const StoreCardShimmer()
+                : const NewOnShimmerView()
+                : AppConstants.makeAllProductsGridCards? const Center(child: ItemGridShimmer()) : ItemShimmer(isEnabled: isNull, isStore: widget.isStore, hasDivider: index != widget.shimmerLength-1);
+          },
+        ),
+      );
+
     }
 
     return Column(children: [

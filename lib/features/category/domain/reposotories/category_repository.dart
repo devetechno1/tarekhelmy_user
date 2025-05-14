@@ -78,7 +78,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   Future<ItemModel?> _getCategoryItemList(String? categoryID, int offset, String type) async {
     ItemModel? categoryItem;
-    Response response = await apiClient.getData('${AppConstants.categoryItemUri}$categoryID?limit=10&offset=$offset&type=$type');
+    Response response = await apiClient.getData('${AppConstants.categoryItemUri}$categoryID?limit=15&offset=$offset&type=$type');
     if (response.statusCode == 200) {
       categoryItem = ItemModel.fromJson(response.body);
     }
@@ -87,7 +87,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   Future<StoreModel?> _getCategoryStoreList(String? categoryID, int offset, String type) async {
     StoreModel? categoryStore;
-    Response response = await apiClient.getData('${AppConstants.categoryStoreUri}$categoryID?limit=10&offset=$offset&type=$type');
+    Response response = await apiClient.getData('${AppConstants.categoryStoreUri}$categoryID?limit=15&offset=$offset&type=$type');
     if (response.statusCode == 200) {
       categoryStore = StoreModel.fromJson(response.body);
     }

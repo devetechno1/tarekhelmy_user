@@ -462,12 +462,69 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
             child: Column(children: [
               const SizedBox(height: 10),
 
-              Visibility(
-                      visible: (catController.subCategoryList != null &&
-                          catController.subCategoryList!.isNotEmpty &&
-                          !catController.isSearching),
-                      maintainState: true,
-                      child: Center(
+              if(!AppConstants.removeStores)
+                Center(child: Container(
+                  width: Dimensions.webMaxWidth,
+                  color: Theme.of(context).cardColor,
+                  child: TabBar(
+                    controller: _tabController,
+                    indicatorColor: Theme.of(context).primaryColor,
+                    indicatorWeight: 3,
+                    labelColor: Theme.of(context).primaryColor,
+                    unselectedLabelColor: Theme.of(context).disabledColor,
+                    unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
+                    labelStyle: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                    tabs: [
+                      Tab(text: 'item'.tr),
+                      Tab(text: Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'restaurants'.tr : 'stores'.tr),
+                    ],
+                  ),
+                )),
+
+
+              Expanded(child: NotificationListener(
+                onNotification: (dynamic scrollNotification) {
+                  if (scrollNotification is ScrollEndNotification) {
+                    if((_tabController!.index == 1 && !catController.isStore) || _tabController!.index == 0 && catController.isStore) {
+                      catController.setRestaurant(_tabController!.index == 1);
+                      if(catController.isSearching) {
+                        catController.searchData(
+                          catController.searchText, catController.subCategoryIndex < 0 ? widget.categoryID
+                            : catController.subCategoryList![catController.subCategoryIndex].id.toString(), catController.type,
+                        );
+                      }else {
+                        if(_tabController!.index == 1) {
+                          catController.getCategoryStoreList(
+                            catController.subCategoryIndex < 0 ? widget.categoryID
+                                : catController.subCategoryList![catController.subCategoryIndex].id.toString(),
+                            1, catController.type, false,
+                          );
+                        }else {
+                          catController.getCategoryItemList(
+                            catController.subCategoryIndex < 0 ? widget.categoryID
+                                : catController.subCategoryList![catController.subCategoryIndex].id.toString(),
+                            1, catController.type, false,
+                          );
+                        }
+                      }
+                    }
+                  }
+                  return false;
+                },
+                child: AppConstants.removeStores? CustomScrollView(
+                controller: scrollController,
+                slivers: [
+                  SliverVisibility(
+                    visible: (catController.subCategoryList != null &&
+                        catController.subCategoryList!.isNotEmpty &&
+                        !catController.isSearching),
+                    maintainState: true,
+                    sliver: SliverAppBar(
+                      toolbarHeight: 130,
+                      floating: true,
+                      actions: const [SizedBox()],
+                      automaticallyImplyLeading: false,
+                      flexibleSpace: Center(
                           child: Container(
                               height: 120,
                               margin: const EdgeInsets.only(bottom: 10),
@@ -614,63 +671,22 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
                                     },
                                   ),
                                 ],
-                              ))),
+                              )),
+                            ), 
                     ),
-
-              if(!AppConstants.removeStores)
-                Center(child: Container(
-                  width: Dimensions.webMaxWidth,
-                  color: Theme.of(context).cardColor,
-                  child: TabBar(
-                    controller: _tabController,
-                    indicatorColor: Theme.of(context).primaryColor,
-                    indicatorWeight: 3,
-                    labelColor: Theme.of(context).primaryColor,
-                    unselectedLabelColor: Theme.of(context).disabledColor,
-                    unselectedLabelStyle: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
-                    labelStyle: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
-                    tabs: [
-                      Tab(text: 'item'.tr),
-                      Tab(text: Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'restaurants'.tr : 'stores'.tr),
-                    ],
                   ),
-                )),
+                  ItemsView(
+                    isSliverParent: true,
+                    isStore: false, items: item, stores: null, noDataText: 'no_category_item_found'.tr,
+                  ),
 
-
-              Expanded(child: NotificationListener(
-                onNotification: (dynamic scrollNotification) {
-                  if (scrollNotification is ScrollEndNotification) {
-                    if((_tabController!.index == 1 && !catController.isStore) || _tabController!.index == 0 && catController.isStore) {
-                      catController.setRestaurant(_tabController!.index == 1);
-                      if(catController.isSearching) {
-                        catController.searchData(
-                          catController.searchText, catController.subCategoryIndex < 0 ? widget.categoryID
-                            : catController.subCategoryList![catController.subCategoryIndex].id.toString(), catController.type,
-                        );
-                      }else {
-                        if(_tabController!.index == 1) {
-                          catController.getCategoryStoreList(
-                            catController.subCategoryIndex < 0 ? widget.categoryID
-                                : catController.subCategoryList![catController.subCategoryIndex].id.toString(),
-                            1, catController.type, false,
-                          );
-                        }else {
-                          catController.getCategoryItemList(
-                            catController.subCategoryIndex < 0 ? widget.categoryID
-                                : catController.subCategoryList![catController.subCategoryIndex].id.toString(),
-                            1, catController.type, false,
-                          );
-                        }
-                      }
-                    }
-                  }
-                  return false;
-                },
-                child: AppConstants.removeStores? SingleChildScrollView(
-                controller: scrollController,
-                child: ItemsView(
-                  isStore: false, items: item, stores: null, noDataText: 'no_category_item_found'.tr,
-                ),
+                  catController.isLoading ? SliverToBoxAdapter(
+                    child: Center(child: Padding(
+                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
+                    )),
+                  ) : const SliverToBoxAdapter(),
+                ]
               )
               : TabBarView(
                   controller: _tabController,
@@ -691,11 +707,6 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
                   ],
                 ),
               )),
-
-              catController.isLoading ? Center(child: Padding(
-                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
-              )) : const SizedBox(),
 
             ]),
           ),
