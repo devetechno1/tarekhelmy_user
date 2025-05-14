@@ -8,6 +8,8 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/common/widgets/title_widget.dart';
 import 'package:sixam_mart/common/widgets/card_design/item_card.dart';
 
+import '../../../../util/images.dart';
+
 class WeekendOfferView extends StatelessWidget {
   const WeekendOfferView({super.key});
 
@@ -28,6 +30,8 @@ class WeekendOfferView extends StatelessWidget {
               padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault, left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
               child: TitleWidget(
                 title: 'just_for_you'.tr,
+                image: Images.starFill,
+
                 onTap: () => Get.toNamed(RouteHelper.getWeekendOfferItemRoute()),
               ),
             ),

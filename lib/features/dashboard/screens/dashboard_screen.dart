@@ -217,7 +217,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               const MenuScreen()
                             ];
                             return Container(
-                              width: size.width, height: GetPlatform.isIOS ? 100 : 70,
+                              width: size.width, height: GetPlatform.isIOS ? 100 : 60,
                               decoration: BoxDecoration(
                                 color: Theme.of(context).cardColor,
                                 borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
@@ -226,10 +226,10 @@ class DashboardScreenState extends State<DashboardScreen> {
                               child: Stack(children: [
 
                                 Center(
-                                  heightFactor: 0.5,
+                                  heightFactor: 0.3,
                                   child: ResponsiveHelper.isDesktop(context) ? null : (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? null
                                     : (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel!.orders!.isNotEmpty && _isLogin) ? const SizedBox() : Container(
-                                      width: 60, height: 60,
+                                      width: 55, height: 55,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: Theme.of(context).cardColor, width: 5),
                                         borderRadius: BorderRadius.circular(30),
@@ -255,7 +255,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 ),
                                 if(!ResponsiveHelper.isDesktop(context))
                                   Positioned.fill(
-                                    top: 48,
+                                    top: 38,
                                     child: Text(
                                       'request_prescription'.tr,
                                       textAlign: TextAlign.center,

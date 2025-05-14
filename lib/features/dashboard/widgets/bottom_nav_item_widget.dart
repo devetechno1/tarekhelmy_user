@@ -19,10 +19,10 @@ class BottomNavItemWidget extends StatelessWidget {
         onTap: onTap as void Function()?,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           if(isCart) 
-            CartWidget(image: isSelected ? selectedIcon : unSelectedIcon, color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!, size: 23)
+            CartWidget(image: isSelected ? selectedIcon : unSelectedIcon, color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!, size: 25)
           else
             Image.asset(
-              isSelected ? selectedIcon : unSelectedIcon, height: 25, width: 25,
+              isSelected ? selectedIcon : unSelectedIcon, height: 30, width: 30,
               color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!,
             ),
 
@@ -32,7 +32,7 @@ class BottomNavItemWidget extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               title,
-              style: robotoRegular.copyWith(color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!, fontSize: 12),
+              style: robotoRegular.copyWith(color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!, fontSize: 13),
             ),
           ),
 
