@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sixam_mart/common/widgets/cart_widget.dart';
-import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
 class BottomNavItemWidget extends StatelessWidget {
@@ -17,16 +16,16 @@ class BottomNavItemWidget extends StatelessWidget {
     return Expanded(
       child: InkWell(
         onTap: onTap as void Function()?,
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        child: Column(mainAxisAlignment: isSelected? MainAxisAlignment.center :MainAxisAlignment.spaceBetween, children: [
           if(isCart) 
-            CartWidget(image: isSelected ? selectedIcon : unSelectedIcon, color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!, size: 25)
+            CartWidget(image: isSelected ? selectedIcon : unSelectedIcon, color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!, size: 20)
           else
             Image.asset(
-              isSelected ? selectedIcon : unSelectedIcon, height: 30, width: 30,
+              isSelected ? selectedIcon : unSelectedIcon, height: 25, width: 25,
               color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!,
             ),
 
-          SizedBox(height: isSelected ? Dimensions.paddingSizeExtraSmall : Dimensions.paddingSizeSmall),
+          const SizedBox(height: 1),
 
           FittedBox(
             fit: BoxFit.scaleDown,

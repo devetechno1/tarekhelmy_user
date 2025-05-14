@@ -216,8 +216,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                               const CartScreen(fromNav: true),
                               const MenuScreen()
                             ];
+                            final double height = GetPlatform.isIOS ? 100 : 60;
                             return Container(
-                              width: size.width, height: GetPlatform.isIOS ? 100 : 60,
+                              width: size.width, height: height,
                               decoration: BoxDecoration(
                                 color: Theme.of(context).cardColor,
                                 borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
@@ -226,7 +227,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               child: Stack(children: [
 
                                 Center(
-                                  heightFactor: 0.3,
+                                  heightFactor: 0.4,
                                   child: ResponsiveHelper.isDesktop(context) ? null : (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? null
                                     : (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel!.orders!.isNotEmpty && _isLogin) ? const SizedBox() : Container(
                                       width: 55, height: 55,
@@ -265,9 +266,10 @@ class DashboardScreenState extends State<DashboardScreen> {
 
                                 ResponsiveHelper.isDesktop(context) ? const SizedBox() : (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? const SizedBox()
                                 : (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel!.orders!.isNotEmpty && _isLogin) ? const SizedBox() : Center(
-                                  child: SizedBox(
-                                      width: size.width, height: 80,
-                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
+                                      width: size.width, height: height,
+                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [ 
                                         BottomNavItemWidget(
                                           title: 'home'.tr, selectedIcon: Images.homeSelect,
                                           unSelectedIcon: Images.homeUnselect, isSelected: _pageIndex == 0,
