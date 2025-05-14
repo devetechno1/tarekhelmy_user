@@ -86,7 +86,6 @@ class BottomSection extends StatelessWidget {
             !isDesktop ? pricingView(context: context, takeAway: takeAway) : const SizedBox(),
             const SizedBox(height: Dimensions.paddingSizeLarge),
 
-            ///ToDo : Prescription Image Picker
             PrescriptionImagePickerWidget(checkoutController: checkoutController, storeId: storeId, isPrescriptionRequired: isPrescriptionRequired),
 
             const CheckoutCondition(),

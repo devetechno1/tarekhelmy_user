@@ -289,6 +289,12 @@ class AppConstants {
 
 
   /// By making [makeCatInGrid] true, this will make categories in home in grid view not list
+  static bool makeOrderWithAttachment(int? storeId){
+    return storeId == null;
+    // return storeId == null && Get.find<SplashController>().configModel!.moduleConfig!.module!.orderAttachment!;
+  }
+
+  /// By making [makeCatInGrid] true, this will make categories in home in grid view not list
   static const bool makeCatInGrid = false;
 
   // /// By making [makeSubCatInGrid] true, this will make subcategories in category screen in grid view not list and will hide items in this screen.

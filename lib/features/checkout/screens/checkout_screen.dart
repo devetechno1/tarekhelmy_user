@@ -1003,7 +1003,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   bool _checkPrescriptionRequired() {
-    if(widget.storeId == null && Get.find<SplashController>().configModel!.moduleConfig!.module!.orderAttachment!) {
+    if(AppConstants.makeOrderWithAttachment(widget.storeId)) {
       for (var cart in _cartList!) {
         if(cart!.item!.isPrescriptionRequired!) {
           return true;
