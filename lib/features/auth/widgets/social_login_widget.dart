@@ -177,7 +177,7 @@ class SocialLoginWidget extends StatelessWidget {
                           height: 50,
                           padding: const EdgeInsets.all(1),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
+                            color: Colors.black,
                             borderRadius: const BorderRadius.all(
                                 Radius.circular(Dimensions.radiusDefault)),
                             boxShadow: [
@@ -199,11 +199,11 @@ class SocialLoginWidget extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Image.asset(Images.appleLogo,
-                                        height: 20, width: 20),
+                                        height: 20, width: 20,color: Colors.white,),
                                     const SizedBox(
                                         width: Dimensions.paddingSizeSmall),
                                     Text('continue_with_apple'.tr,
-                                        style: robotoMedium.copyWith()),
+                                        style: robotoMedium.copyWith(color: Colors.white)),
                                   ]),
                             ),
                           ),
@@ -280,35 +280,46 @@ class SocialLoginWidget extends StatelessWidget {
               ]),
             ),
             const SizedBox(height: Dimensions.paddingSizeSmall),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               googleLoginActive
-                  ? InkWell(
-                      onTap: () => _googleLogin(googleSignIn),
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        padding: const EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: const BorderRadius.all(
-                              Radius.circular(Dimensions.radiusDefault)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey[Get.isDarkMode ? 700 : 300]!,
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset: const Offset(2, 2))
-                          ],
-                        ),
-                        child: CustomInkWell(
-                          radius: Dimensions.radiusDefault,
-                          padding:
-                              const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                          onTap: () => _googleLogin(googleSignIn),
-                          child: Image.asset(Images.google),
+                  ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraOverVeryLarge),
+                    child: InkWell(
+                        onTap: () => _googleLogin(googleSignIn),
+                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        child: Container(
+                          height: 50,
+                         
+                          padding: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
+                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey[Get.isDarkMode ? 700 : 300]!,
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(2, 2))
+                            ],
+                          ),
+                          child: CustomInkWell(
+                            radius: Dimensions.radiusDefault,
+                            padding:
+                                const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                            onTap: () => _googleLogin(googleSignIn),
+                            child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                    
+                              children: [
+                                Image.asset(Images.google),
+                              const  SizedBox(width: Dimensions.paddingSizeSmall,),
+                                Flexible(child: Text('sign_in_with_google'.tr,style: robotoMedium.copyWith(fontWeight: FontWeight.bold,fontSize: 15),overflow: TextOverflow.ellipsis)),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    )
+                  )
                   : const SizedBox(),
               facebookLoginActive
                   ? Padding(
@@ -346,19 +357,18 @@ class SocialLoginWidget extends StatelessWidget {
                   : const SizedBox(),
               appleLoginActive
                   ? Padding(
-                      padding: const EdgeInsets.only(
-                          left: Dimensions.paddingSizeLarge),
+                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraOverVeryLarge,vertical: Dimensions.paddingSizeDefault),
                       child: InkWell(
                         onTap: () => _appleLogin(),
                         child: Container(
-                          height: 40,
-                          width: 40,
+                          height: 50,
                           padding:
                               const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                              
                           decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius: const BorderRadius.all(
-                                Radius.circular(Dimensions.radiusDefault)),
+                            color: Colors.black,
+                         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+
                             boxShadow: [
                               BoxShadow(
                                   color:
@@ -368,7 +378,14 @@ class SocialLoginWidget extends StatelessWidget {
                                   offset: const Offset(2, 2))
                             ],
                           ),
-                          child: Image.asset(Images.appleLogo),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(Images.appleLogo,color: Colors.white,),
+                            const  SizedBox(width: Dimensions.paddingSizeSmall,),
+                              Text('sign_in_with_apple'.tr,style: robotoMedium.copyWith(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white),overflow: TextOverflow.ellipsis,)
+                            ],
+                          ),
                         ),
                       ),
                     )

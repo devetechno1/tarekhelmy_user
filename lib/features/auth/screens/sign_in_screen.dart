@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../../helper/centralize_login_helper.dart';
+import '../../splash/controllers/splash_controller.dart';
+
 
 class SignInScreen extends StatefulWidget {
   final bool exitFromApp;
@@ -78,7 +81,7 @@ class SignInScreenState extends State<SignInScreen> {
           child: Align(
             alignment: Alignment.center,
             child: Container(
-              width: context.width > 700 ? 500 : context.width,
+              width: ResponsiveHelper.isDesktop(context)? CentralizeLoginHelper.getPreferredLoginMethod(Get.find<SplashController>().configModel!.centralizeLoginSetup!, false).size: context.width > 700 ? 500 : context.width,
               padding: context.width > 700 ? const EdgeInsets.all(50) : const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge),
               margin: context.width > 700 ? const EdgeInsets.all(50) : EdgeInsets.zero,
               decoration: context.width > 700 ? BoxDecoration(
