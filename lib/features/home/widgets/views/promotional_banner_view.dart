@@ -12,7 +12,7 @@ import '../../../item/domain/models/item_model.dart';
 import '../../../item/screens/item_details_screen.dart';
 
 class PromotionalBannerView extends StatelessWidget {
-  const PromotionalBannerView({super.key, this.isBestReviewedSection = false, this.isNewArrivalSection = false, this.isBottomSection = false, this.newArrivalBanner = false, this.isTrending = false, this.isWeekEnd = false, this.isBrands = false, this.isPopupDialog = false, this.onTap, this.aspectRatio = 3});
+  const PromotionalBannerView({super.key, this.isBestReviewedSection = false, this.isNewArrivalSection = false, this.isBottomSection = false, this.newArrivalBanner = false, this.isTrending = false, this.isWeekEnd = false, this.isBrands = false, this.isPopupDialog = false, this.onTap, this.aspectRatio = 3, this.maxHeight});
   final bool isBestReviewedSection;
   final bool isNewArrivalSection;
   final bool isBottomSection;
@@ -20,7 +20,8 @@ class PromotionalBannerView extends StatelessWidget {
   final bool isTrending;
   final bool isWeekEnd;
   final bool isBrands;
-  final bool isPopupDialog; //TODO:# use it
+  final bool isPopupDialog;
+  final double? maxHeight;
   final double aspectRatio;
   final void Function()? onTap;
 
@@ -70,7 +71,7 @@ class PromotionalBannerView extends StatelessWidget {
       bool isHovered = false;
       return bannerController.promotionalBanner != null ? imageURL != null ? Align(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height /3, minHeight: 0),
+          constraints: BoxConstraints(maxHeight: maxHeight ?? MediaQuery.sizeOf(context).height /3, minHeight: 0),
           child: StatefulBuilder(
             builder: (context, setState) {
               return AnimatedPadding(
@@ -134,6 +135,7 @@ class PromotionalBannerShimmerView extends StatelessWidget {
           duration: const Duration(seconds: 2),
           enabled: true,
           child: Container(
+            
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.grey[300],

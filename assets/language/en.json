@@ -1,4 +1,7 @@
 {
+  "login_with": "Login with",
+  "sign_in_with_apple": "Sign in with Apple",
+  "sign_in_with_google": "Sign in with Google",
   "notEnoughStock": "Only {stock} items are available in stock, but you added {quantity} to your cart",
   "all_available_offers": "All available offers",
   "tarek_helmy": "Tarek Helmy",
@@ -1314,7 +1317,7 @@
   "enter_valid_phone_number": "Enter valid phone number",
   "enter_email_address_or_phone_number": "Enter email address or phone number",
   "please_enter_password": "Please enter password",
-  "sign_in_with": "Sign in with",
+  "sign_in_with": "Login in with",
   "otp": "OTP",
   "please_enter_phone_number": "Please enter phone number",
   "continue_with_google": "Continue with Google",

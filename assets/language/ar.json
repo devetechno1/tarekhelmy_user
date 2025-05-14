@@ -1,4 +1,7 @@
 {
+  "login_with": "تسجيل  الدخول بواسطه",
+  "sign_in_with_apple": "تسجيل الدخول باستخدام Apple",
+  "sign_in_with_google": "تسجيل الدخول باستخدام Google",
   "notEnoughStock": "المتوفر في المخزون فقط هو {stock}، لكنك أضفت {quantity} إلى العربة",
   "all_available_offers": "جميع العروض المتاحة",
   "tarek_helmy": "طارق حلمي",
@@ -1095,7 +1098,7 @@
   "item_that_you_love": "العنصر الذي ستحبه",
   "best_store_nearby": "أفضل المتاجر القريبة",
   "start_from": "ابدأ من",
-  "just_for_you": "عروض نهاية الأسبوع",
+  "just_for_you": "نهاية الأسبوع",
   "new": "جديد",
   "become_a_store_owner": "كن مالك متجر",
   "send_us_mail": "أرسل لنا بريدًا",
