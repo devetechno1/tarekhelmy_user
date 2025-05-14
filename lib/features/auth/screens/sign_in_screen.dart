@@ -3,12 +3,16 @@ import 'dart:io';
 import 'package:sixam_mart/features/auth/widgets/sign_in/sign_in_view.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
+import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/common/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import '../widgets/sign_in/sigin_with_apple.dart';
+import '../widgets/sign_in/sigin_with_google.dart';
 
 class SignInScreen extends StatefulWidget {
   final bool exitFromApp;
@@ -97,10 +101,14 @@ class SignInScreenState extends State<SignInScreen> {
 
                   Image.asset(Images.logo, width: 125),
                   const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
-
+ 
                   SignInView(exitFromApp: widget.exitFromApp, backFromThis: widget.backFromThis, fromResetPassword: widget.fromResetPassword, isOtpViewEnable: (v){},),
-
+                  
+                     const  SiginWithApple(),
+                     const  SiginWithGoogle()
+                          
                 ]),
+                
               ),
             ),
           ),
@@ -110,3 +118,4 @@ class SignInScreenState extends State<SignInScreen> {
   }
 
 }
+

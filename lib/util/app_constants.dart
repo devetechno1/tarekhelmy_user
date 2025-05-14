@@ -322,6 +322,12 @@ class AppConstants {
   ///
   /// This ensures that deliveries are restricted to the user's current zone.
   static const bool useUserZoneInDelivery = true;
+  
+  /// When [useLoginWithGoogle] is set to true, the button of login with google will be visible.
+  static bool get useLoginWithGoogle => true;
+
+  /// When [useLoginWithApple] is set to true, the button of login with apple will be visible if we in apple device.
+  static bool get useLoginWithApple => true;
 
   static List<LanguageModel> languages = [
     LanguageModel(
