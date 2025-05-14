@@ -45,15 +45,15 @@ class PopUpDialog extends StatelessWidget {
                       horizontal: Dimensions.paddingSizeDefault,
                     ),
                     padding: const EdgeInsets.all(
-                      Dimensions.paddingSizeSmall,
+                      Dimensions.paddingSizeExtraSmall,
                     ),
                     decoration: BoxDecoration(
-                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                       color: Colors.white,
+                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                      // color: Theme.of(context).colorScheme.error,
                       borderRadius: BorderRadius.circular(500),
                     ),
-                    child: const Icon(Icons.clear, color: Colors.black, size: 25,),
+                    child: const Icon(Icons.clear, color: Colors.black,size: 21),
                   ),
                 ),
               ),
