@@ -45,6 +45,16 @@
             android:hardwareAccelerated="true"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
+        <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
+        <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <!-- Accepts URIs that begin with https://YOUR_HOST -->
+            <!-- <data android:scheme="http" android:host="tarekhelmy.com" android:pathPattern="/?get_shared=.........." /> -->
+            <data android:scheme="http" android:host="tarekhelmy.com" />
+            <data android:scheme="https" />
+        </intent-filter>
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
@@ -84,7 +94,7 @@
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
 
-        <activity
+        <!-- <activity
             android:name="com.devestores.sign_in_with_apple.SignInWithAppleCallback"
             android:exported="true"
             >
@@ -96,11 +106,12 @@
                 <data android:scheme="signinwithapple" />
                 <data android:path="callback" />
             </intent-filter>
-        </activity>
+        </activity> -->
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/notification_icon" />
+                    <!-- App Links -->
 
     </application>
 </manifest>
