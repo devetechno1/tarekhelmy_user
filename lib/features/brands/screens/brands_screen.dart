@@ -9,7 +9,6 @@ import 'package:sixam_mart/features/brands/controllers/brands_controller.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
-import 'package:sixam_mart/util/styles.dart';
 
 class BrandsScreen extends StatefulWidget {
   const BrandsScreen({super.key});
@@ -54,37 +53,24 @@ class _BrandsScreenState extends State<BrandsScreen> {
                     crossAxisCount: isDesktop ? 4 :3,
                     crossAxisSpacing: Dimensions.paddingSizeLarge,
                     mainAxisSpacing: Dimensions.paddingSizeLarge,
-                    mainAxisExtent: isDesktop ? 150 : 130,
                   ),
                   itemCount: brandsController.brandList!.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () => Get.toNamed(RouteHelper.getBrandsItemScreen(brandsController.brandList![index].id!, brandsController.brandList![index].name!)),
-                      child: Row(children: [
-
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).disabledColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                              child: CustomImage(
-                                image: '${brandsController.brandList![index].imageFullUrl}',
-                                height: isDesktop ? 130 : 110, width: isDesktop ? 130 : 110, fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                      child: Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black,strokeAlign: BorderSide.strokeAlignOutside),
+                          color: Theme.of(context).disabledColor.withValues(alpha: .1),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                         ),
-                        const SizedBox(width: Dimensions.paddingSizeSmall),
-
-                        // Flexible(
-                        //   child: Text(brandsController.brandList![index].name ?? '', style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.7))),
-                        // ),
-
-                      ]),
+                        child: CustomImage(
+                          image: '${brandsController.brandList![index].imageFullUrl}',
+                           fit: BoxFit.cover,
+                        ),
+                      ),
                     );
                   },
                 ) : Center(child: Padding(padding: EdgeInsets.only(top: isDesktop ? context.height * 0.3 : context.height * 0.4), child: Text('no_brands_found'.tr)))
