@@ -12,7 +12,7 @@ import '../../../item/domain/models/item_model.dart';
 import '../../../item/screens/item_details_screen.dart';
 
 class PromotionalBannerView extends StatelessWidget {
-  const PromotionalBannerView({super.key, this.isBestReviewedSection = false, this.isNewArrivalSection = false, this.isBottomSection = false, this.newArrivalBanner = false, this.isTrending = false, this.isWeekEnd = false, this.isBrands = false, this.isPopupDialog = false, this.onTap, this.aspectRatio = 3, this.maxHeight});
+  const PromotionalBannerView({super.key, this.isBestReviewedSection = false, this.isNewArrivalSection = false, this.isBottomSection = false, this.newArrivalBanner = false, this.isTrending = false, this.isWeekEnd = false, this.isBrands = false, this.isPopupDialog = false, this.onTap, this.aspectRatio = 3, this.maxHeight, this.overlayChild});
   final bool isBestReviewedSection;
   final bool isNewArrivalSection;
   final bool isBottomSection;
@@ -24,6 +24,7 @@ class PromotionalBannerView extends StatelessWidget {
   final double? maxHeight;
   final double aspectRatio;
   final void Function()? onTap;
+  final Widget? overlayChild;
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +102,20 @@ class PromotionalBannerView extends StatelessWidget {
                     ),
                     child: AspectRatio(
                       aspectRatio:aspectRatio,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                        child: CustomImage(
-                          image: '$imageURL',
-                          fit: BoxFit.cover,
-                        ),
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Positioned.fill(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                              child: CustomImage(
+                                image: '$imageURL',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          if(overlayChild != null) overlayChild!,
+                        ],
                       ),
                     ),
                   ),
