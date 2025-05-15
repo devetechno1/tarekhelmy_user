@@ -18,7 +18,7 @@ class AppConstants {
   static const String baseUrl = 'https://admin.tarekhelmy.com'; // when change it change by replace in search .. don't forget deep linking
 
   static const String product = 'item-details';
-  static const String productLink = '$webHostedUrl/$product'; // after that .. the item id EX:- AppConstants.productLink/5323545
+  static const String productLink = '$webHostedUrl/$product'; // after that .. the item id EX:- AppConstants.productLink?id=5323545
 
   static const String categoryUri = '/api/v1/categories';
   static const String offersUri = '/api/v1/items/discounted';

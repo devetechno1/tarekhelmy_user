@@ -8,5 +8,10 @@
 	<array>
 		<string>Default</string>
 	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>webcredentials:tarekhelmy.com</string>
+		<string>applinks:tarekhelmy.com</string>
+	</array>
 </dict>
 </plist>

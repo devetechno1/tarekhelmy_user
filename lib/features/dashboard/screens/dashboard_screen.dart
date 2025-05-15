@@ -219,87 +219,94 @@ class DashboardScreenState extends State<DashboardScreen> {
                               const CartScreen(fromNav: true),
                               const MenuScreen()
                             ];
-                            final double height = GetPlatform.isIOS ? 100 : 60;
+                            const double height = 60;
 
                             final bool dontShowNavBar = (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel!.orders!.isNotEmpty && _isLogin) || (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active);
                             
                             return AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
-                              width: size.width, height: height,
+                              width: size.width,
                               transform: Matrix4.translationValues(0,dontShowNavBar ? (height + 50) : 0,0),
                               decoration: BoxDecoration(
                                 color: Theme.of(context).cardColor,
                                 borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
                                   boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                               ),
-                              child: Stack(children: [
-                            
-                                Center(
-                                  heightFactor: 0.4,
-                                  child: Container(
-                                      width: 55, height: 55,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Theme.of(context).cardColor, width: 5),
-                                        borderRadius: BorderRadius.circular(30),
-                                        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                              child: SafeArea(
+                                top: false,
+                                left: false,
+                                right: false,
+                                child: SizedBox(
+                                  height: height,
+                                  child: Stack(children: [
+                                    Center(
+                                      heightFactor: 0.4,
+                                      child: Container(
+                                          width: 55, height: 55,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(color: Theme.of(context).cardColor, width: 5),
+                                            borderRadius: BorderRadius.circular(30),
+                                            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                                          ),
+                                          child: FloatingActionButton(
+                                            heroTag: "button",
+                                            backgroundColor: Theme.of(context).primaryColor,
+                                            onPressed: () {
+                                              if(isParcel) {
+                                                showModalBottomSheet(
+                                                  context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
+                                                  builder: (con) => ParcelBottomSheetWidget(parcelCategoryList: Get.find<ParcelController>().parcelCategoryList),
+                                                );
+                                              } else {
+                                                Get.toNamed(RouteHelper.getCheckoutRoute('request_prescription',storeId: Get.find<StoreController>().storeModel?.stores?.lastOrNull?.id ?? 5));
+                                              }
+                                            },
+                                            elevation: 0,
+                                            child: isParcel ? Icon(CupertinoIcons.add, size: 34, color: Theme.of(context).cardColor) : Image.asset(Images.orderUnselect, height: 28, width: 28, color:  Theme.of(context).cardColor),
+                                          ),
                                       ),
-                                      child: FloatingActionButton(
-                                        heroTag: "button",
-                                        backgroundColor: Theme.of(context).primaryColor,
-                                        onPressed: () {
-                                          if(isParcel) {
-                                            showModalBottomSheet(
-                                              context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
-                                              builder: (con) => ParcelBottomSheetWidget(parcelCategoryList: Get.find<ParcelController>().parcelCategoryList),
-                                            );
-                                          } else {
-                                            Get.toNamed(RouteHelper.getCheckoutRoute('request_prescription',storeId: Get.find<StoreController>().storeModel?.stores?.lastOrNull?.id ?? 5));
-                                          }
-                                        },
-                                        elevation: 0,
-                                        child: isParcel ? Icon(CupertinoIcons.add, size: 34, color: Theme.of(context).cardColor) : Image.asset(Images.orderUnselect, height: 28, width: 28, color:  Theme.of(context).cardColor),
+                                    ),
+                                    Positioned.fill(
+                                      top: 38,
+                                      child: Text(
+                                        'request_prescription'.tr,
+                                        textAlign: TextAlign.center,
+                                        style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!, fontSize: 12),
                                       ),
+                                    ),
+                                                              
+                                    Center(
+                                      child: Container(
+                                          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
+                                          width: size.width, height: height,
+                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [ 
+                                            BottomNavItemWidget(
+                                              title: 'home'.tr, selectedIcon: Images.homeSelect,
+                                              unSelectedIcon: Images.homeUnselect, isSelected: _pageIndex == 0,
+                                              onTap: () => _setPage(0),
+                                            ),
+                                            BottomNavItemWidget(
+                                              title: 'offers'.tr,
+                                              selectedIcon: Images.offersSelect,
+                                              unSelectedIcon:Images.offersUnselect,
+                                              isSelected: _pageIndex == 1, onTap: () => _setPage(1),
+                                            ),
+                                            SizedBox(width: size.width * 0.2),
+                                            BottomNavItemWidget(
+                                              isCart: true,
+                                              title: 'cart'.tr, selectedIcon: Images.shoppingCartSelected, unSelectedIcon: Images.shoppingCart,
+                                              isSelected: _pageIndex == 3, onTap: () => _setPage(3),
+                                            ),
+                                            BottomNavItemWidget(
+                                              title: 'menu'.tr, selectedIcon: Images.menu, unSelectedIcon: Images.menu,
+                                              isSelected: _pageIndex == 4, onTap: () => _setPage(4),
+                                            ),
+                                          ]),
+                                      ),
+                                    ),
+                                  ],
                                   ),
                                 ),
-                                Positioned.fill(
-                                  top: 38,
-                                  child: Text(
-                                    'request_prescription'.tr,
-                                    textAlign: TextAlign.center,
-                                    style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!, fontSize: 12),
-                                  ),
-                                ),
-                            
-                                Center(
-                                  child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
-                                      width: size.width, height: height,
-                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [ 
-                                        BottomNavItemWidget(
-                                          title: 'home'.tr, selectedIcon: Images.homeSelect,
-                                          unSelectedIcon: Images.homeUnselect, isSelected: _pageIndex == 0,
-                                          onTap: () => _setPage(0),
-                                        ),
-                                        BottomNavItemWidget(
-                                          title: 'offers'.tr,
-                                          selectedIcon: Images.offersSelect,
-                                          unSelectedIcon:Images.offersUnselect,
-                                          isSelected: _pageIndex == 1, onTap: () => _setPage(1),
-                                        ),
-                                        SizedBox(width: size.width * 0.2),
-                                        BottomNavItemWidget(
-                                          isCart: true,
-                                          title: 'cart'.tr, selectedIcon: Images.shoppingCartSelected, unSelectedIcon: Images.shoppingCart,
-                                          isSelected: _pageIndex == 3, onTap: () => _setPage(3),
-                                        ),
-                                        BottomNavItemWidget(
-                                          title: 'menu'.tr, selectedIcon: Images.menu, unSelectedIcon: Images.menu,
-                                          isSelected: _pageIndex == 4, onTap: () => _setPage(4),
-                                        ),
-                                      ]),
-                                  ),
-                                ),
-                              ],
                               ),
                             );
                           }
