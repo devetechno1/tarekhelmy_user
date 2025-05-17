@@ -171,6 +171,11 @@ class CategoryController extends GetxController implements GetxService {
       _isSearching = true;
       update();
 
+      if(query.trim().isEmpty){
+        reInitMethod();
+        return;
+      }
+
       Response response = await categoryServiceInterface.getSearchData(query, categoryID, _isStore, type);
       if (response.statusCode == 200) {
         if (query.isEmpty) {
@@ -223,4 +228,164 @@ class CategoryController extends GetxController implements GetxService {
     update();
   }
 
+
+  // search filter
+
+
+
+  int _sortIndex = -1;
+  int get sortIndex => _sortIndex;
+
+  int _storeSortIndex = -1;
+  int get storeSortIndex => _storeSortIndex;
+  
+  int _rating = -1;
+  int get rating => _rating;
+
+  int _storeRating = -1;
+  int get storeRating => _storeRating;
+  
+  bool _isAvailableItems = false;
+  bool get isAvailableItems => _isAvailableItems;
+
+  bool _isAvailableStore = false;
+  bool get isAvailableStore => _isAvailableStore;
+  
+  bool _isDiscountedItems = false;
+  bool get isDiscountedItems => _isDiscountedItems;
+
+  bool _isDiscountedStore = false;
+  bool get isDiscountedStore => _isDiscountedStore;
+  
+  bool _veg = false;
+  bool get veg => _veg;
+
+  bool _storeVeg = false;
+  bool get storeVeg => _storeVeg;
+  
+  bool _nonVeg = false;
+  bool get nonVeg => _nonVeg;
+
+  bool _storeNonVeg = false;
+  bool get storeNonVeg => _storeNonVeg;
+  
+  double _lowerValue = 0;
+  double get lowerValue => _lowerValue;
+  
+  double _upperValue = 0;
+  double get upperValue => _upperValue;
+
+  final List<String> _sortList = ['ascending'.tr, 'descending'.tr];
+  List<String> get sortList => _sortList;
+
+  bool _reInitSearch = false;
+
+
+  void resetStoreFilter() {
+    _storeRating = -1;
+    _isAvailableStore = false;
+    _isDiscountedStore = false;
+    _storeVeg = false;
+    _storeNonVeg = false;
+    _storeSortIndex = -1;
+    update();
+  }
+
+  void resetFilter() {
+    _reInitSearch = true;
+    _rating = -1;
+    _upperValue = 0;
+    _lowerValue = 0;
+    _isAvailableItems = false;
+    _isDiscountedItems = false;
+    _veg = false;
+    _nonVeg = false;
+    _sortIndex = -1;
+    update();
+  }
+
+  void setSortIndex(int index) {
+    _sortIndex = index;
+    update();
+  }
+
+  void setStoreSortIndex(int index) {
+    _storeSortIndex = index;
+    update();
+  }
+
+  void toggleVeg() {
+    _veg = !_veg;
+    update();
+  }
+
+  void toggleStoreVeg() {
+    _storeVeg = !_storeVeg;
+    update();
+  }
+
+  void toggleNonVeg() {
+    _nonVeg = !_nonVeg;
+    update();
+  }
+
+  void toggleAvailableItems() {
+    _isAvailableItems = !_isAvailableItems;
+    update();
+  }
+
+  void toggleAvailableStore() {
+    _isAvailableStore = !_isAvailableStore;
+    update();
+  }
+
+  void toggleDiscountedItems() {
+    _isDiscountedItems = !_isDiscountedItems;
+    update();
+  }
+
+  void toggleDiscountedStore() {
+    _isDiscountedStore = !_isDiscountedStore;
+    update();
+  }
+
+  void setLowerAndUpperValue(double lower, double upper) {
+    _lowerValue = lower;
+    _upperValue = upper;
+    update();
+  }
+  void setRating(int rate) {
+    _rating = rate;
+    update();
+  }
+
+  void setStoreRating(int rate) {
+    _storeRating = rate;
+    update();
+  }
+  void toggleStoreNonVeg() {
+    _storeNonVeg = !_storeNonVeg;
+    update();
+  }
+
+  void sortItemSearchList() {
+    if(_reInitSearch && _searchText?.trim().isEmpty == true){
+      reInitMethod();
+    }
+    _searchItemList = categoryServiceInterface.sortItemSearchList(_searchItemList, _upperValue, _lowerValue, _rating, _veg, _nonVeg, _isAvailableItems, _isDiscountedItems, _sortIndex);
+    update();
+  }
+
+  void reInitMethod() {
+    _searchItemList = [];
+    if(_categoryItemList != null) {
+      _searchItemList!.addAll(_categoryItemList!);
+    }
+    _reInitSearch = false;
+  }
+
+  void sortStoreSearchList() {
+    _searchStoreList = categoryServiceInterface.sortStoreSearchList(_searchStoreList, _storeRating, _storeVeg, _storeNonVeg, _isAvailableStore, _isDiscountedStore, _storeSortIndex);
+    update();
+  }
 }

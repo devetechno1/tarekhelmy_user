@@ -11,4 +11,6 @@ abstract class CategoryServiceInterface {
   Future<StoreModel?> getCategoryStoreList(String? categoryID, int offset, String type);
   Future<Response> getSearchData(String? query, String? categoryID, bool isStore, String type);
   Future<bool> saveUserInterests(List<int?> interests);
+  List<Item>? sortItemSearchList( List<Item>? allItemList, double upperValue, double lowerValue, int rating, bool veg, bool nonVeg, bool isAvailableItems, bool isDiscountedItems, int sortIndex);
+  List<Store>? sortStoreSearchList(List<Store>? allStoreList, int storeRating, bool storeVeg, bool storeNonVeg, bool isAvailableStore, bool isDiscountedStore, int storeSortIndex);
 }
