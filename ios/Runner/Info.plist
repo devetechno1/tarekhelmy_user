@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GIDClientID</key>
+	<string>1004955196439-u6p1d4fkdc1keno9enpgqblmkc13bshk.apps.googleusercontent.com</string>
 	<key>FlutterDeepLinkingEnabled</key>
 	<false/>
 	<key>FLTEnableImpeller</key>
@@ -35,7 +37,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1000163153346-tmf9s0kpekc5mum4ubpga4a8gguk2592</string>
+				<string>com.googleusercontent.apps.1004955196439-u6p1d4fkdc1keno9enpgqblmkc13bshk</string>
 				<string>fb380903914182154</string>
 			</array>
 		</dict>
