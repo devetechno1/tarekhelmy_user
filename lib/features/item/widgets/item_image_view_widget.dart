@@ -1,5 +1,6 @@
-import 'dart:io';
+import 'dart:io' as io;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -109,7 +110,7 @@ class ItemImageViewWidget extends StatelessWidget {
                 ),
               ),
             ),
-              if(item?.id != null && item?.imageFullUrl != null)
+              if(item?.id != null && item?.imageFullUrl != null && !kIsWeb)
                 PositionedDirectional(
                   top: Dimensions.paddingSizeDefault,
                   end: Dimensions.paddingSizeDefault,
@@ -152,13 +153,14 @@ class ItemImageViewWidget extends StatelessWidget {
   }
 
   Future<XFile?> downloadImage() async{
-    XFile? image;
     final Uri uri = Uri.parse(item!.imageFullUrl!);
+
+    XFile? image;
 
     final List res = await Future.wait([http.get(uri), getTemporaryDirectory()]);
 
     final String path = '${res[1].path}/${uri.pathSegments.last}';
-    File(path).writeAsBytesSync(res[0].bodyBytes);
+    io.File(path).writeAsBytesSync(res[0].bodyBytes);
   
     image = XFile(path);
     return image;

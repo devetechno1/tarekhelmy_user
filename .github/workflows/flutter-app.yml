@@ -1,0 +1,85 @@
+name: Build APK & AAB on 'make release' commit
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    if: contains(github.event.head_commit.message, 'make release')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧾 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ☕ Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: 🐦 Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.3'
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+      
+      - name: 🏷️ Extract version from pubspec.yaml
+        id: version
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | cut -d' ' -f2 | tr -d '\r')
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: 🔐 Decode keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/upload-keystore.jks
+
+      - name: 📝 Create key.properties
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+          echo "storeFile=upload-keystore.jks" >> android/key.properties
+
+      - name: 🛠️ Build APKs (split per ABI)
+        run: flutter build apk --release --split-per-abi
+
+      - name: 📦 Build App Bundle (AAB)
+        run: flutter build appbundle --release
+
+      - name: 📦 Build Web 
+        run: |
+            flutter build web --web-renderer html --release 
+            cd build/web
+            find . -type d -exec chmod 777 {} \;
+            sudo chmod -R 666 .
+            sudo find . -type d -exec chmod 777 {} \;
+            sudo find . -type f -exec chmod 666 {} \;
+
+      - name: 📤 Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-${{ steps.version.outputs.VERSION }}(APK)
+          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+
+      - name: 📤 Upload App Bundle (AAB)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-${{ steps.version.outputs.VERSION }}(AAB)
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      - name: 📤 Upload Website
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-${{ steps.version.outputs.VERSION }}-Website
+          path: build/web/*
+
+      - name: 📤 Upload Symbols
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-${{ steps.version.outputs.VERSION }}-symbols
+          path: build/app/intermediates/merged_native_libs/release/out/lib/*
