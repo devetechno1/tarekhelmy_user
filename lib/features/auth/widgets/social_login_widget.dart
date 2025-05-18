@@ -38,7 +38,7 @@ class SocialLoginWidget extends StatelessWidget {
     bool canAppleLogin =
         Get.find<SplashController>().configModel!.appleLogin!.isNotEmpty &&
             Get.find<SplashController>().configModel!.appleLogin![0].status! &&
-            !GetPlatform.isAndroid; 
+            GetPlatform.isIOS;
 
     bool canGoogleAndFacebookLogin = Get.find<SplashController>()
             .configModel!
