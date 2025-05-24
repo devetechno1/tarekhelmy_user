@@ -48,15 +48,36 @@ class _ArrivalItemScreenState extends State<ArrivalItemScreen> {
             onVegFilterTap: (String type) =>itemController.getNewArrivalItemList(true, true, type),
           ),
           endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
-          body: SingleChildScrollView(child: FooterView(child: Column(
+          body: FooterView(child: Column(
             children: [
               WebScreenTitleWidget(title: 'new_arrival'.tr ),
-              SizedBox(
-                width: Dimensions.webMaxWidth,
-                child: ItemsView(isStore: false, stores: null, items: itemController.discountedItemList),
+              Expanded(
+                child: SizedBox(
+                  width: Dimensions.webMaxWidth,
+                  child: NotificationListener<ScrollNotification>(
+                    onNotification: (scrollNotification) {
+                      if(scrollNotification.metrics.pixels >= 0.9 * scrollNotification.metrics.maxScrollExtent && !itemController.isLoadingMore) {
+                        itemController.getMoreNewArrivalItemList();
+                      }
+                      return false;
+                    },
+                    child: CustomScrollView(
+                      slivers: [
+                        ItemsView(isSliverParent: true, isStore: false, stores: null, items: itemController.newArrivalItemList),
+                        if(itemController.isLoadingMore)
+                          SliverToBoxAdapter(
+                            child: Center(child: Padding(
+                              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                              child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
+                            )),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
-          ))),
+          )),
         );
       }
     );

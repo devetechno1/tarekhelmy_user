@@ -28,9 +28,11 @@ class _FooterViewState extends State<FooterView> {
   @override
   Widget build(BuildContext context) {
     return Column( mainAxisAlignment: MainAxisAlignment.start, children: [
-      ConstrainedBox(
-        constraints: BoxConstraints(minHeight: (widget.visibility && ResponsiveHelper.isDesktop(context)) ? MediaQuery.of(context).size.height * widget.minHeight : MediaQuery.of(context).size.height * widget.minHeight) ,
-        child: widget.child,
+      Flexible(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: (widget.visibility && ResponsiveHelper.isDesktop(context)) ? MediaQuery.of(context).size.height * widget.minHeight : MediaQuery.of(context).size.height * widget.minHeight) ,
+          child: widget.child,
+        ),
       ),
 
       (widget.visibility && ResponsiveHelper.isDesktop(context)) ? Container(

@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/menu_drawer.dart';
 import 'package:sixam_mart/common/widgets/web_page_title_widget.dart';
 
+import '../../../common/widgets/title_widget.dart';
+import '../../../util/images.dart';
+
 class WeekendOfferItemScreen extends StatefulWidget {
   const WeekendOfferItemScreen({super.key});
 
@@ -35,20 +38,29 @@ class _WeekendOfferItemScreenState extends State<WeekendOfferItemScreen> {
           appBar: CustomAppBar(
             key: scaffoldKey,
             title:  'just_for_you'.tr,
+            widget: TitleWidget(
+              title: 'just_for_you'.tr,
+              image: Images.starFill,
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
             showCart: true,
             type: itemController.weekendOfferType,
             onVegFilterTap: (String type) =>itemController.getWeekendOfferItemList(true, true, type),
           ),
           endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
-          body: SingleChildScrollView(child: FooterView(child: Column(
+          body: FooterView(
+            child: SingleChildScrollView(
+              child: Column(
             children: [
               WebScreenTitleWidget(title: 'just_for_you'.tr ),
               SizedBox(
                 width: Dimensions.webMaxWidth,
-                child: ItemsView(isStore: false, stores: null, items: itemController.discountedItemList),
+                child: ItemsView(isStore: false, stores: null, items: itemController.weekendOfferItemList),
               ),
             ],
-          ))),
+          ),
+            ),
+          ),
         );
       }
     );

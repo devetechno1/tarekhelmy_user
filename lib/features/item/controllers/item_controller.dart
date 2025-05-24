@@ -59,6 +59,9 @@ class ItemController extends GetxController implements GetxService {
   
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+
+  bool _isLoadingMore = false;
+  bool get isLoadingMore => _isLoadingMore;
   
   List<int>? _variationIndex;
   List<int>? get variationIndex => _variationIndex;
@@ -190,6 +193,7 @@ class ItemController extends GetxController implements GetxService {
   }
 
   Future<void> getPopularItemList(bool reload, String type, bool notify, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
+    offsetPopular = 1;
     _popularType = type;
     if(reload) {
       _popularItemList = null;
@@ -198,29 +202,37 @@ class ItemController extends GetxController implements GetxService {
       update();
     }
     if(_popularItemList == null || reload || fromRecall) {
-      List<Item>? items;
-      if(dataSource == DataSourceEnum.local) {
-        items = await itemServiceInterface.getPopularItemList(type, dataSource);
-        _preparePopularItems(items);
-        getPopularItemList(false, type, notify, dataSource: DataSourceEnum.client, fromRecall: true);
-      } else {
-        items = await itemServiceInterface.getPopularItemList(type, dataSource);
-        _preparePopularItems(items);
+      ItemModel? res = await itemServiceInterface.getPopularItemList(type, 1, DataSourceEnum.client);
+      totalPopular = res?.totalSize ?? 0;
+      if (res?.items != null) {
+        _popularItemList = [];
+        _popularItemList!.addAll(res!.items!);
+        _isLoading = false;
       }
-
+      update();
     }
   }
 
-  _preparePopularItems(List<Item>? items) {
-    if (items != null) {
-      _popularItemList = [];
-      _popularItemList!.addAll(items);
-      _isLoading = false;
-    }
+
+  int offsetPopular = 1;
+  int totalPopular = 0;
+
+  Future<void> getMorePopularItemList() async {
+    if((_popularItemList?.length ?? totalPopular) >= totalPopular) return;
+
+    _isLoadingMore = true;
+    update();
+
+    ItemModel? res = await itemServiceInterface.getPopularItemList(_discountedType, ++offsetPopular, DataSourceEnum.client);
+    totalPopular = res?.totalSize ?? _popularItemList!.length;
+    if (res?.items != null) _popularItemList!.addAll(res!.items!);
+
+    _isLoadingMore = false;
     update();
   }
 
   Future<void> getReviewedItemList(bool reload, String type, bool notify, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
+    offsetReviewed = 1;
     _reviewedType = type;
     if(reload) {
       _reviewedItemList = null;
@@ -229,93 +241,107 @@ class ItemController extends GetxController implements GetxService {
       update();
     }
     if(_reviewedItemList == null || reload || fromRecall) {
-      ItemModel? itemModel;
-      if(dataSource == DataSourceEnum.local) {
-        itemModel = await itemServiceInterface.getReviewedItemList(type, dataSource);
-        _preparedReviewedItems(itemModel);
-        getReviewedItemList(false, type, notify, dataSource: DataSourceEnum.client, fromRecall: true);
-      } else {
-        itemModel = await itemServiceInterface.getReviewedItemList(type, dataSource);
-        _preparedReviewedItems(itemModel);
+      ItemModel? itemModel = await itemServiceInterface.getReviewedItemList(type, 1, DataSourceEnum.client);
+      totalReviewed = itemModel?.totalSize ?? 0;
+      if (itemModel != null) {
+        _reviewedItemList = [];
+        _reviewedCategoriesList = [];
+        _reviewedItemList!.addAll(itemModel.items!);
+        _reviewedCategoriesList!.addAll(itemModel.categories!);
+        _isLoading = false;
       }
-
+      update();
     }
   }
 
-  _preparedReviewedItems(ItemModel? itemModel) {
-    if (itemModel != null) {
-      _reviewedItemList = [];
-      _reviewedCategoriesList = [];
-      _reviewedItemList!.addAll(itemModel.items!);
-      _reviewedCategoriesList!.addAll(itemModel.categories!);
-      _isLoading = false;
+  int offsetReviewed = 1;
+  int totalReviewed = 0;
+
+  Future<void> getMoreReviewedItemList() async {
+    if((_reviewedItemList?.length ?? totalReviewed) >= totalReviewed) return;
+
+    _isLoadingMore = true;
+    update();
+
+    ItemModel? res = await itemServiceInterface.getReviewedItemList(_discountedType, ++offsetReviewed, DataSourceEnum.client);
+    totalReviewed = res?.totalSize ?? _reviewedItemList!.length;
+    if (res?.items != null){ 
+      _reviewedItemList!.addAll(res!.items!);
+      _reviewedCategoriesList!.addAll(res.categories!);
     }
+    
+
+    _isLoadingMore = false;
     update();
   }
 
+  int offsetDiscounted = 1;
+  int totalDiscounted = 0;
   Future<void> getDiscountedItemList(bool reload, bool notify, String type, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
     _discountedType = type;
-    if(reload) {
-      _discountedItemList = null;
-    }
-    if(notify) {
-      update();
-    }
-    if(_discountedItemList == null || reload || fromRecall) {
+    offsetDiscounted = 1;
 
-      List<Item>? items;
-      if(dataSource == DataSourceEnum.local) {
-        items = await itemServiceInterface.getDiscountedItemList(type, dataSource);
-        print('======cache spatial item: $items');
-        if (items != null) {
-          _discountedItemList = [];
-          _discountedItemList!.addAll(items);
-          _isLoading = false;
-        }
-        update();
-        getDiscountedItemList(false, notify, type, dataSource: DataSourceEnum.client, fromRecall: true);
-      } else {
-        items = await itemServiceInterface.getDiscountedItemList(type, dataSource);
-        if (items != null) {
-          _discountedItemList = [];
-          _discountedItemList!.addAll(items);
-          _isLoading = false;
-        }
-        update();
-      }
+
+    if(_discountedItemList == null || reload || fromRecall) {
+    ItemModel? res = await itemServiceInterface.getDiscountedItemList(type, 1, DataSourceEnum.client);
+    totalDiscounted = res?.totalSize ?? 0;
+    if (res?.items != null) {
+      _discountedItemList = [];
+      _discountedItemList!.addAll(res!.items!);
+      _isLoading = false;
+    }
+    update();
+
     }
   }
-  Future<void> getNewArrivalItemList(bool reload, bool notify, String type, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
+
+  Future<void> getMoreDiscountedItemList() async {
+    if((_discountedItemList?.length ?? totalDiscounted) >= totalDiscounted) return;
+
+    _isLoadingMore = true;
+    update();
+
+    ItemModel? res =  await itemServiceInterface.getDiscountedItemList(_discountedType, ++offsetDiscounted, DataSourceEnum.client);
+    totalDiscounted = res?.totalSize ?? _discountedItemList!.length;
+    if (res?.items != null) _discountedItemList!.addAll(res!.items!);
+
+    _isLoadingMore = false;
+    update();
+  }
+
+  int offsetNewArrival = 1;
+  int totalNewArrival = 0;
+  Future<void> getNewArrivalItemList(bool reload, bool notify, String type, { DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
+    offsetNewArrival = 1;
     _newArrivalType = type;
-    if(reload) {
-      _newArrivalItemList = null;
-    }
-    if(notify) {
+    if(reload) _newArrivalItemList = null;
+    
+    if(notify) update();
+    
+    if(_newArrivalItemList == null || reload || fromRecall) {
+      ItemModel? res = await itemServiceInterface.getNewArrivalItemList(type, 1, DataSourceEnum.client);
+      List<Item>? items = res?.items;
+      totalNewArrival = res?.totalSize ?? 0;
+      if (items != null) {
+        _newArrivalItemList = [];
+        _newArrivalItemList!.addAll(items);
+        _isLoading = false;
+      }
       update();
     }
-    if(_newArrivalItemList == null || reload || fromRecall) {
+  }
 
-      List<Item>? items;
-      if(dataSource == DataSourceEnum.local) {
-        items = await itemServiceInterface.getNewArrivalItemList(type, dataSource);
-        print('======cache spatial item: $items');
-        if (items != null) {
-          _newArrivalItemList = [];
-          _newArrivalItemList!.addAll(items);
-          _isLoading = false;
-        }
-        update();
-        getNewArrivalItemList(false, notify, type, dataSource: DataSourceEnum.client, fromRecall: true);
-      } else {
-        items = await itemServiceInterface.getNewArrivalItemList(type, dataSource);
-        if (items != null) {
-          _newArrivalItemList = [];
-          _newArrivalItemList!.addAll(items);
-          _isLoading = false;
-        }
-        update();
-      }
-    }
+  Future<void> getMoreNewArrivalItemList() async {
+    if((_newArrivalItemList?.length ?? totalNewArrival) >= totalNewArrival) return;
+
+    _isLoadingMore = true;
+    update();
+
+    ItemModel? res =  await itemServiceInterface.getNewArrivalItemList(_newArrivalType, ++offsetNewArrival, DataSourceEnum.client);
+    totalNewArrival = res?.totalSize ?? _newArrivalItemList!.length;
+    if (res?.items != null) _newArrivalItemList!.addAll(res!.items!);
+    _isLoadingMore = false;
+    update();
   }
 
   Future<void> getWeekendOfferItemList(bool reload, bool notify, String type, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {

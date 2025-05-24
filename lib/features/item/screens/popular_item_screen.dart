@@ -12,6 +12,7 @@ import 'package:sixam_mart/common/widgets/web_page_title_widget.dart';
 
 import '../../../common/widgets/title_widget.dart';
 import '../../../util/images.dart';
+import '../domain/models/item_model.dart';
 
 class PopularItemScreen extends StatefulWidget {
   final bool isPopular;
@@ -44,17 +45,26 @@ class _PopularItemScreenState extends State<PopularItemScreen> {
     bool isShop = Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.ecommerce;
 
     final String title = widget.isPopular ? isShop ? 'most_popular_products'.tr : 'most_popular_items'.tr : widget.isSpecial ? 'special_offer'.tr : 'best_reviewed_item'.tr;
+    final String? image = widget.isPopular ? Images.mostPopularIcon : widget.isSpecial ? Images.discountOfferIcon : null;
 
     return GetBuilder<ItemController>(
       builder: (itemController) {
+        List<Item>? items;
+        if(widget.isPopular) {
+          items = itemController.popularItemList;
+        }else if(widget.isSpecial){
+          items = itemController.discountedItemList;
+        }else {
+          items = itemController.reviewedItemList;
+        }
         return Scaffold(
           backgroundColor: Theme.of(context).colorScheme.surface,
           appBar: CustomAppBar(
             key: scaffoldKey,
             title: title,
-            widget: title == 'special_offer'.tr ? TitleWidget(
+            widget: image != null ? TitleWidget(
               title: title,
-              image: Images.discountOfferIcon,
+              image: image,
               mainAxisAlignment: MainAxisAlignment.center,
             ) : null,
             showCart: true,
@@ -70,23 +80,45 @@ class _PopularItemScreenState extends State<PopularItemScreen> {
             },
           ),
           endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
-          body: SingleChildScrollView(child: FooterView(child: Column(
+          body: FooterView(child: Column(
             children: [
               WebScreenTitleWidget(
                 title: widget.isPopular ? isShop ? 'most_popular_products'.tr : 'most_popular_items'.tr : widget.isSpecial ? 'special_offer'.tr : 'best_reviewed_item'.tr,
               ),
-
-              SizedBox(
-                width: Dimensions.webMaxWidth,
-                child: ItemsView(
-                  isStore: false, stores: null,
-                  items: widget.isPopular ? itemController.popularItemList
-                      : widget.isSpecial ? itemController.discountedItemList
-                      : itemController.reviewedItemList,
+          
+              Expanded(
+                child: SizedBox(
+                  width: Dimensions.webMaxWidth,
+                  child: NotificationListener<ScrollNotification>(
+                    onNotification: (scrollNotification) {
+                      if(scrollNotification.metrics.pixels >= 0.9 * scrollNotification.metrics.maxScrollExtent && !itemController.isLoadingMore) {
+                        if(widget.isPopular) {
+                          itemController.getMorePopularItemList();
+                        }else if(widget.isSpecial){
+                          itemController.getMoreDiscountedItemList();
+                        }else {
+                          itemController.getMoreReviewedItemList();
+                        }
+                      }
+                      return false;
+                    },
+                    child: CustomScrollView(
+                      slivers: [
+                        ItemsView(isSliverParent: true, isStore: false, stores: null, items: items),
+                        if(itemController.isLoadingMore)
+                          SliverToBoxAdapter(
+                            child: Center(child: Padding(
+                              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                              child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
+                            )),
+                          ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],
-          ))),
+          )),
         );
       }
     );

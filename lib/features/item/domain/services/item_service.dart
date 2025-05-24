@@ -19,13 +19,13 @@ class ItemService implements ItemServiceInterface {
   }
 
   @override
-  Future<List<Item>?> getPopularItemList(String type, DataSourceEnum? source) async {
-    return await itemRepositoryInterface.getList(type: type, isPopularItem: true, source: source);
+  Future<ItemModel?> getPopularItemList(String type, int offset, DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(type: type, offset: offset, isPopularItem: true, source: source);
   }
 
   @override
-  Future<ItemModel?> getReviewedItemList(String type, DataSourceEnum? source) async {
-    return await itemRepositoryInterface.getList(type: type, isReviewedItem: true, source: source);
+  Future<ItemModel?> getReviewedItemList(String type, int offset, DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(type: type, offset: offset, isReviewedItem: true, source: source);
   }
 
   @override
@@ -39,12 +39,12 @@ class ItemService implements ItemServiceInterface {
   }
 
   @override
-  Future<List<Item>?> getDiscountedItemList(String type, DataSourceEnum? source) async {
-    return await itemRepositoryInterface.getList(isDiscountedItems: true, type: type, source: source);
+  Future<ItemModel?> getDiscountedItemList(String type, int offset, DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(isDiscountedItems: true, offset: offset, type: type, source: source);
   }
   @override
-  Future<List<Item>?> getNewArrivalItemList(String type, DataSourceEnum? source) async {
-    return await itemRepositoryInterface.getList(isNewArrivalItems: true, type: type, source: source);
+  Future<ItemModel?> getNewArrivalItemList(String type, int offset, DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(isNewArrivalItems: true, offset: offset, type: type, source: source);
   }
   @override
   Future<List<Item>?> getWeekendOfferItemList(String type, DataSourceEnum? source) async {
