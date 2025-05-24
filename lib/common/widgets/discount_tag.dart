@@ -12,50 +12,86 @@ class DiscountTag extends StatelessWidget {
   final double? fontSize;
   final bool inLeft;
   final bool? freeDelivery;
-  final bool? isFloating;
-  const DiscountTag({super.key,
-    required this.discount, required this.discountType, this.fromTop = 10, this.fontSize, this.freeDelivery = false,
-    this.inLeft = true, this.isFloating = true,
+  final bool isFloating;
+  const DiscountTag({
+    super.key,
+    required this.discount,
+    required this.discountType,
+    this.fromTop = 10,
+    this.fontSize,
+    this.freeDelivery = false,
+    this.inLeft = true,
+    this.isFloating = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    bool isRightSide = Get.find<SplashController>().configModel!.currencySymbolDirection == 'right';
-    String currencySymbol = Get.find<SplashController>().configModel!.currencySymbol!;
+    bool isRightSide =
+        Get.find<SplashController>().configModel!.currencySymbolDirection ==
+            'right';
+    String currencySymbol =
+        ' ${Get.find<SplashController>().configModel!.currencySymbol!} ';
 
-    return (discount! > 0 || freeDelivery!) ? Positioned(
-      top: fromTop, left: inLeft ? isFloating! ? Dimensions.paddingSizeSmall : 0 : null, right: inLeft ? null : 0,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        width: isFloating!? 50: null,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.error.withOpacity(0.9),
-          shape: isFloating!? BoxShape.circle : BoxShape.rectangle,
-          borderRadius: isFloating! 
-          ? null 
-          : BorderRadius.horizontal(
-            right: Radius.circular(inLeft ? Dimensions.radiusSmall : 0),
-            left: Radius.circular(inLeft ? 0 : Dimensions.radiusSmall),
-          ),
-        ),
-        child: Text(
-          (discount! > 0 ? '${(isRightSide || discountType == 'percent') ? '' : currencySymbol}${discount?.toInt()}${discountType == 'percent' ? '%'
-              : isRightSide ? currencySymbol : ''} ${'off'.tr}' : 'free_delivery'.tr),
-          style: robotoMedium.copyWith(
-            color: Theme.of(context).cardColor,
-            fontSize: fontSize ?? (ResponsiveHelper.isMobile(context) && !isFloating! ? 8 : 12),
-          ),
-          maxLines: 2,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ) : const SizedBox();
+    return (discount! > 0 || freeDelivery!)
+        ? Positioned(
+            top: fromTop,
+            left: inLeft
+                ? isFloating
+                    ? Dimensions.paddingSizeSmall
+                    : 0
+                : null,
+            right: inLeft ? null : 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              width: isFloating ? 50 : null,
+              height: isFloating ? 50 : null,
+              alignment: isFloating ? Alignment.center : null,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.error.withOpacity(0.9),
+                shape: isFloating ? BoxShape.circle : BoxShape.rectangle,
+                borderRadius: isFloating
+                    ? null
+                    : BorderRadius.horizontal(
+                        right: Radius.circular(
+                            inLeft ? Dimensions.radiusSmall : 0),
+                        left: Radius.circular(
+                            inLeft ? 0 : Dimensions.radiusSmall),
+                      ),
+              ),
+              child: isFloating
+                  ? Column(
+                      children: [
+                        _TextWidget(text: 'off'.tr),
+                        _TextWidget(text: '${discount?.toInt()}'),
+                        _TextWidget(
+                          text: discountType == 'percent'
+                              ? '%'
+                              : currencySymbol.trim(),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      '${discount! > 0 ? '${(isRightSide || discountType == 'percent') ? '' : currencySymbol}${discount?.toInt()}${discountType == 'percent' ? '%' : isRightSide ? currencySymbol : ''}' : 'free_delivery'.tr} ${'off'.tr}',
+                      style: robotoMedium.copyWith(
+                        color: Theme.of(context).cardColor,
+                        fontSize: fontSize ??
+                            (ResponsiveHelper.isMobile(context) && !isFloating
+                                ? 8
+                                : 12),
+                      ),
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+            ),
+          )
+        : const SizedBox();
   }
 }
+
 class DiscountEveryTag extends StatelessWidget {
   final String? textDiscount;
   final double? verticalPadding;
-  const DiscountEveryTag({super.key,this.textDiscount, this.verticalPadding});
+  const DiscountEveryTag({super.key, this.textDiscount, this.verticalPadding});
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +100,14 @@ class DiscountEveryTag extends StatelessWidget {
       child: Align(
         alignment: AlignmentDirectional.bottomCenter,
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: verticalPadding ?? Dimensions.paddingSizeSmall),
+          margin: EdgeInsets.symmetric(
+              horizontal: Dimensions.paddingSizeSmall,
+              vertical: verticalPadding ?? Dimensions.paddingSizeSmall),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.error.withOpacity(0.8),
-            borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall)),
+            borderRadius:
+                const BorderRadius.all(Radius.circular(Dimensions.radiusSmall)),
           ),
           child: Text(
             textDiscount!,
@@ -78,6 +117,29 @@ class DiscountEveryTag extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TextWidget extends StatelessWidget {
+  const _TextWidget({required this.text});
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          text,
+          style: robotoMedium.copyWith(
+            color: Theme.of(context).cardColor,
+            fontSize: 12,
+          ),
+          maxLines: 2,
+          textAlign: TextAlign.center,
         ),
       ),
     );
