@@ -26,7 +26,6 @@ import 'package:sixam_mart/features/home/screens/home_screen.dart';
 import 'package:sixam_mart/features/menu/screens/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixam_mart/util/styles.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:app_links/app_links.dart';
 
@@ -266,18 +265,10 @@ class DashboardScreenState extends State<DashboardScreen> {
                                           ),
                                       ),
                                     ),
-                                    Positioned.fill(
-                                      top: 38,
-                                      child: Text(
-                                        'request_prescription'.tr,
-                                        textAlign: TextAlign.center,
-                                        style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!, fontSize: 12),
-                                      ),
-                                    ),
                                                               
                                     Center(
                                       child: Container(
-                                          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
+                                          padding: const EdgeInsets.symmetric(vertical: 6),
                                           width: size.width, height: height,
                                           child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [ 
                                             BottomNavItemWidget(
@@ -291,7 +282,11 @@ class DashboardScreenState extends State<DashboardScreen> {
                                               unSelectedIcon:Images.offersUnselect,
                                               isSelected: _pageIndex == 1, onTap: () => _setPage(1),
                                             ),
-                                            SizedBox(width: size.width * 0.2),
+                                            BottomNavItemWidget(
+                                              title: 'request_prescription'.tr,
+                                              selectedIcon: null,
+                                              unSelectedIcon:null,
+                                            ),
                                             BottomNavItemWidget(
                                               isCart: true,
                                               title: 'cart'.tr, selectedIcon: Images.shoppingCartSelected, unSelectedIcon: Images.shoppingCart,
