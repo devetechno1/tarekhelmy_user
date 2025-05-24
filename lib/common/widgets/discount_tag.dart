@@ -62,12 +62,15 @@ class DiscountTag extends StatelessWidget {
                   ? Column(
                       children: [
                         _TextWidget(text: 'off'.tr),
-                        _TextWidget(text: '${discount?.toInt()}'),
-                        _TextWidget(
-                          text: discountType == 'percent'
-                              ? '%'
-                              : currencySymbol.trim(),
-                        ),
+                        if(discountType == 'percent') _TextWidget(text: '${discount?.toInt()} %')
+                        else ...[
+                          _TextWidget(text: '${discount?.toInt()}'),
+                          _TextWidget(
+                            text: discountType == 'percent'
+                                ? '%'
+                                : currencySymbol.trim(),
+                          ),
+                        ],
                       ],
                     )
                   : Text(
