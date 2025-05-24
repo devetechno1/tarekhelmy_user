@@ -10,18 +10,19 @@ import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final Widget? widget;
   final bool backButton;
   final Function? onBackPressed;
   final bool showCart;
   final Function(String value)? onVegFilterTap;
   final String? type;
   final String? leadingIcon;
-  const CustomAppBar({super.key, required this.title, this.backButton = true, this.onBackPressed, this.showCart = false, this.leadingIcon, this.onVegFilterTap, this.type});
+  const CustomAppBar({super.key, required this.title, this.widget, this.backButton = true, this.onBackPressed, this.showCart = false, this.leadingIcon, this.onVegFilterTap, this.type});
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : AppBar(
-      title: Text(title, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.bodyLarge!.color)),
+      title: widget ?? Text(title, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.bodyLarge!.color)),
       centerTitle: true,
       leading: backButton ? IconButton(
         icon: leadingIcon != null ? Image.asset(leadingIcon!, height: 22, width: 22) : const Icon(Icons.arrow_back_ios),

@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/menu_drawer.dart';
 import 'package:sixam_mart/common/widgets/web_page_title_widget.dart';
 
+import '../../../common/widgets/title_widget.dart';
+import '../../../util/images.dart';
+
 class ArrivalItemScreen extends StatefulWidget {
   const ArrivalItemScreen({super.key});
 
@@ -35,6 +38,11 @@ class _ArrivalItemScreenState extends State<ArrivalItemScreen> {
           appBar: CustomAppBar(
             key: scaffoldKey,
             title:  'new_arrival'.tr,
+            widget: TitleWidget(
+              title: 'new_arrival'.tr,
+              image: Images.highlightIcon,
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
             showCart: true,
             type: itemController.newArrivalType,
             onVegFilterTap: (String type) =>itemController.getNewArrivalItemList(true, true, type),

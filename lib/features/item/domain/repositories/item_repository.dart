@@ -246,7 +246,7 @@ class ItemRepository implements ItemRepositoryInterface {
   }
 
   Future<List<Item>?> _getNewArrivalItemList(String type, {required DataSourceEnum source}) async {
-    List<Item>? discountedItemList;
+    List<Item>? newArrivalItemList;
     String cacheId = '${AppConstants.newArrival}?type=$type&offset=1&limit=50${Get.find<SplashController>().module!.id!}';
 
     print('======source is: $source');
@@ -255,8 +255,8 @@ class ItemRepository implements ItemRepositoryInterface {
       case DataSourceEnum.client:
         Response response = await apiClient.getData('${AppConstants.newArrival}?type=$type&offset=1&limit=50');
         if (response.statusCode == 200) {
-          discountedItemList = [];
-          discountedItemList.addAll(ItemModel.fromJson(response.body).items!);
+          newArrivalItemList = [];
+          newArrivalItemList.addAll(ItemModel.fromJson(response.body).items!);
           LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body), apiClient.getHeader());
 
         }
@@ -264,12 +264,12 @@ class ItemRepository implements ItemRepositoryInterface {
       case DataSourceEnum.local:
         String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
         if(cacheResponseData != null) {
-          discountedItemList = [];
-          discountedItemList.addAll(ItemModel.fromJson(jsonDecode(cacheResponseData)).items!);
+          newArrivalItemList = [];
+          newArrivalItemList.addAll(ItemModel.fromJson(jsonDecode(cacheResponseData)).items!);
         }
     }
 
-    return discountedItemList;
+    return newArrivalItemList;
   }
 
   Future<List<Item>?> _getWeekendOfferItemList(String type, {required DataSourceEnum source}) async {

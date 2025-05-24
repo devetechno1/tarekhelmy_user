@@ -28,10 +28,13 @@ class NewArrivalView extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault, left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
-              child: TitleWidget(
-                title: 'new_arrival'.tr,
-                 image: Images.highlightIcon,
-                onTap: () => Get.toNamed(RouteHelper.getArrivalItemsItemRoute()),
+              child: Hero(
+                tag: 'new_arrival'.tr,
+                child: TitleWidget(
+                  title: 'new_arrival'.tr,
+                   image: Images.highlightIcon,
+                  onTap: () => Get.toNamed(RouteHelper.getArrivalItemsItemRoute()),
+                ),
               ),
             ),
 

@@ -10,6 +10,9 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/menu_drawer.dart';
 import 'package:sixam_mart/common/widgets/web_page_title_widget.dart';
 
+import '../../../common/widgets/title_widget.dart';
+import '../../../util/images.dart';
+
 class PopularItemScreen extends StatefulWidget {
   final bool isPopular;
   final bool isSpecial;
@@ -40,13 +43,20 @@ class _PopularItemScreenState extends State<PopularItemScreen> {
   Widget build(BuildContext context) {
     bool isShop = Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.ecommerce;
 
+    final String title = widget.isPopular ? isShop ? 'most_popular_products'.tr : 'most_popular_items'.tr : widget.isSpecial ? 'special_offer'.tr : 'best_reviewed_item'.tr;
+
     return GetBuilder<ItemController>(
       builder: (itemController) {
         return Scaffold(
           backgroundColor: Theme.of(context).colorScheme.surface,
           appBar: CustomAppBar(
             key: scaffoldKey,
-            title: widget.isPopular ? isShop ? 'most_popular_products'.tr : 'most_popular_items'.tr : widget.isSpecial ? 'special_offer'.tr : 'best_reviewed_item'.tr,
+            title: title,
+            widget: title == 'special_offer'.tr ? TitleWidget(
+              title: title,
+              image: Images.discountOfferIcon,
+              mainAxisAlignment: MainAxisAlignment.center,
+            ) : null,
             showCart: true,
             type: widget.isPopular ? itemController.popularType : widget.isSpecial ? itemController.discountedType : itemController.reviewType,
             onVegFilterTap: (String type) {

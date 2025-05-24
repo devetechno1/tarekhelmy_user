@@ -9,18 +9,19 @@ class TitleWidget extends StatelessWidget {
   final String title;
   final Function? onTap;
   final String? image;
-  const TitleWidget({super.key, required this.title, this.onTap, this.image});
+  final MainAxisAlignment mainAxisAlignment;
+  const TitleWidget({super.key, required this.title, this.mainAxisAlignment = MainAxisAlignment.spaceBetween, this.onTap, this.image});
 
   @override
   Widget build(BuildContext context) {
 
     final bool ltr = Get.find<LocalizationController>().isLtr;
 
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+    return Row(mainAxisAlignment: mainAxisAlignment, children: [
       Row(children: [
         Text(title, style: robotoBold.copyWith(fontSize: ResponsiveHelper.isDesktop(context) ? Dimensions.fontSizeLarge : Dimensions.fontSizeLarge)),
         const SizedBox(width: Dimensions.paddingSizeSmall),
-
+      
         image != null ? Image.asset(image!, height: 20, width: 20) : const SizedBox(),
         ],
       ),
