@@ -48,36 +48,34 @@ class _ArrivalItemScreenState extends State<ArrivalItemScreen> {
             onVegFilterTap: (String type) =>itemController.getNewArrivalItemList(true, true, type),
           ),
           endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
-          body: FooterView(child: Column(
-            children: [
-              WebScreenTitleWidget(title: 'new_arrival'.tr ),
-              Expanded(
-                child: SizedBox(
-                  width: Dimensions.webMaxWidth,
-                  child: NotificationListener<ScrollNotification>(
-                    onNotification: (scrollNotification) {
-                      if(scrollNotification.metrics.pixels >= 0.9 * scrollNotification.metrics.maxScrollExtent && !itemController.isLoadingMore) {
-                        itemController.getMoreNewArrivalItemList();
-                      }
-                      return false;
-                    },
-                    child: CustomScrollView(
-                      slivers: [
-                        ItemsView(isSliverParent: true, isStore: false, stores: null, items: itemController.newArrivalItemList),
+          body: NotificationListener<ScrollNotification>(
+            onNotification: (scrollNotification) {
+              if(scrollNotification.metrics.pixels >= 0.9 * scrollNotification.metrics.maxScrollExtent && !itemController.isLoadingMore) {
+                itemController.getMoreNewArrivalItemList();
+              }
+              return false;
+            },
+            child: SingleChildScrollView(
+              child: FooterView(child: Column(
+                children: [
+                  WebScreenTitleWidget(title: 'new_arrival'.tr, image: Images.highlightIcon),
+                  SizedBox(
+                    width: Dimensions.webMaxWidth,
+                    child: Column(
+                      children: [
+                        ItemsView(isStore: false, stores: null, items: itemController.newArrivalItemList),
                         if(itemController.isLoadingMore)
-                          SliverToBoxAdapter(
-                            child: Center(child: Padding(
-                              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                              child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
-                            )),
-                          ),
+                          Center(child: Padding(
+                            padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                            child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
+                          )),
                       ],
                     ),
                   ),
-                ),
-              ),
-            ],
-          )),
+                ],
+              )),
+            ),
+          ),
         );
       }
     );

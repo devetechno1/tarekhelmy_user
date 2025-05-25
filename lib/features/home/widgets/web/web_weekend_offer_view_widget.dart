@@ -9,6 +9,8 @@ import 'package:sixam_mart/common/widgets/title_widget.dart';
 import 'package:sixam_mart/common/widgets/card_design/item_card.dart';
 import 'package:sixam_mart/features/home/widgets/web/widgets/arrow_icon_button.dart';
 
+import '../../../../util/images.dart';
+
 class WebWeekendOfferView extends StatefulWidget {
   const WebWeekendOfferView({super.key});
 
@@ -150,6 +152,7 @@ class WebItemShimmerView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge, vertical: Dimensions.paddingSizeExtremeLarge),
                   child: TitleWidget(
                     title: 'just_for_you'.tr,
+                    image: Images.starFill,
                   ),
                 ),
 

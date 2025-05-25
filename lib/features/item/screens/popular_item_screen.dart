@@ -80,45 +80,41 @@ class _PopularItemScreenState extends State<PopularItemScreen> {
             },
           ),
           endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
-          body: FooterView(child: Column(
-            children: [
-              WebScreenTitleWidget(
-                title: widget.isPopular ? isShop ? 'most_popular_products'.tr : 'most_popular_items'.tr : widget.isSpecial ? 'special_offer'.tr : 'best_reviewed_item'.tr,
-              ),
-          
-              Expanded(
-                child: SizedBox(
-                  width: Dimensions.webMaxWidth,
-                  child: NotificationListener<ScrollNotification>(
-                    onNotification: (scrollNotification) {
-                      if(scrollNotification.metrics.pixels >= 0.9 * scrollNotification.metrics.maxScrollExtent && !itemController.isLoadingMore) {
-                        if(widget.isPopular) {
-                          itemController.getMorePopularItemList();
-                        }else if(widget.isSpecial){
-                          itemController.getMoreDiscountedItemList();
-                        }else {
-                          itemController.getMoreReviewedItemList();
-                        }
-                      }
-                      return false;
-                    },
-                    child: CustomScrollView(
-                      slivers: [
-                        ItemsView(isSliverParent: true, isStore: false, stores: null, items: items),
+          body: NotificationListener<ScrollNotification>(
+            onNotification: (scrollNotification) {
+              if(scrollNotification.metrics.pixels >= 0.9 * scrollNotification.metrics.maxScrollExtent && !itemController.isLoadingMore) {
+                if(widget.isPopular) {
+                  itemController.getMorePopularItemList();
+                }else if(widget.isSpecial){
+                  itemController.getMoreDiscountedItemList();
+                }else {
+                  itemController.getMoreReviewedItemList();
+                }
+              }
+              return false;
+            },
+            child: SingleChildScrollView(
+              child: FooterView(child: Column(
+                children: [
+                  WebScreenTitleWidget(title: title, image: image),
+              
+                  SizedBox(
+                    width: Dimensions.webMaxWidth,
+                    child: Column(
+                      children: [
+                        ItemsView(isStore: false, stores: null, items: items),
                         if(itemController.isLoadingMore)
-                          SliverToBoxAdapter(
-                            child: Center(child: Padding(
-                              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                              child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
-                            )),
-                          ),
+                          Center(child: Padding(
+                            padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                            child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
+                          )),
                       ],
                     ),
                   ),
-                ),
-              ),
-            ],
-          )),
+                ],
+              )),
+            ),
+          ),
         );
       }
     );

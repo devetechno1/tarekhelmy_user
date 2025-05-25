@@ -48,11 +48,11 @@ class _WeekendOfferItemScreenState extends State<WeekendOfferItemScreen> {
             onVegFilterTap: (String type) =>itemController.getWeekendOfferItemList(true, true, type),
           ),
           endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
-          body: FooterView(
-            child: SingleChildScrollView(
+          body: SingleChildScrollView(
+            child: FooterView(
               child: Column(
             children: [
-              WebScreenTitleWidget(title: 'just_for_you'.tr ),
+              WebScreenTitleWidget(title: 'just_for_you'.tr, image: Images.starFill),
               SizedBox(
                 width: Dimensions.webMaxWidth,
                 child: ItemsView(isStore: false, stores: null, items: itemController.weekendOfferItemList),

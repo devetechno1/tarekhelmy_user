@@ -223,7 +223,7 @@ class ItemRepository implements ItemRepositoryInterface {
     switch(source) {
 
       case DataSourceEnum.client:
-        Response response = await apiClient.getData('${AppConstants.discountedItemsUri}?type=$type&offset=1&limit=50');
+        Response response = await apiClient.getData('${AppConstants.discountedItemsUri}?type=$type&offset=${offset ?? 1}&limit=50');
         if (response.statusCode == 200) {
           items = ItemModel.fromJson(response.body);
           LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body), apiClient.getHeader());
@@ -248,7 +248,7 @@ class ItemRepository implements ItemRepositoryInterface {
     switch(source) {
 
       case DataSourceEnum.client:
-        Response response = await apiClient.getData('${AppConstants.newArrival}?type=$type&offset=1&limit=50');
+        Response response = await apiClient.getData('${AppConstants.newArrival}?type=$type&offset=${offset ?? 1}&limit=50');
         if (response.statusCode == 200) {
           newArrivalItems = ItemModel.fromJson(response.body);
           LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body), apiClient.getHeader());

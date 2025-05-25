@@ -9,6 +9,8 @@ import 'package:sixam_mart/common/widgets/title_widget.dart';
 import 'package:sixam_mart/common/widgets/card_design/item_card.dart';
 import 'package:sixam_mart/features/home/widgets/web/widgets/arrow_icon_button.dart';
 
+import '../../../../util/images.dart';
+
 class WebNewArrivalView extends StatefulWidget {
   const WebNewArrivalView({super.key});
 
@@ -75,6 +77,7 @@ class _WebNewArrivalViewState extends State<WebNewArrivalView> {
                   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge, vertical: Dimensions.paddingSizeExtremeLarge),
                   child: TitleWidget(
                     title: 'new_arrival'.tr,
+                    image: Images.highlightIcon,
                     onTap: () => Get.toNamed(RouteHelper.getArrivalItemsItemRoute()),
                   ),
                 ),
