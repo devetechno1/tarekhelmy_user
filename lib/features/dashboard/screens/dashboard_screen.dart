@@ -33,7 +33,7 @@ import '../../../common/widgets/custom_snackbar.dart';
 import '../../../common/widgets/hover/on_hover.dart';
 import '../../../util/app_constants.dart';
 import '../../cart/screens/cart_screen.dart';
-import '../../item/screens/offers_item_screen.dart';
+import '../../item/screens/popular_item_screen.dart';
 import '../widgets/running_order_view_widget.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -82,7 +82,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
     _screens = [
       const HomeScreen(),
-      const OffersItemScreen(backButton: false),
+      const PopularItemScreen(showBackButton: false, isPopular: false, isSpecial: true),
       const SizedBox(),
       const CartScreen(fromNav: true),
       const MenuScreen()
@@ -213,7 +213,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
                             _screens = [
                               const HomeScreen(),
-                              const OffersItemScreen(backButton: false),
+                              const PopularItemScreen(showBackButton: false, isPopular:false, isSpecial: true),
                               const SizedBox(),
                               const CartScreen(fromNav: true),
                               const MenuScreen()

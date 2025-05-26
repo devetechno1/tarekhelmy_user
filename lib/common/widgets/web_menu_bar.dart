@@ -258,7 +258,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                 const SizedBox(width: 20),
                 MenuButton(title: 'offers'.tr, onTap: () {
                   if(AddressHelper.getUserAddressFromSharedPref() != null) {
-                    Get.toNamed(RouteHelper.getOffersScreen());
+                    Get.toNamed(RouteHelper.getPopularItemRoute(false, true));
                   } else {
                     showCustomSnackBar('please_select_address_first'.tr,);
                   }

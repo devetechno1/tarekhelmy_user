@@ -173,25 +173,6 @@ class ItemController extends GetxController implements GetxService {
     _recommendedItemList = null;
   }
 
-  Future<void> getOffersList(bool reload, String type, bool notify) async {
-    _offersType = type;
-    if(reload) {
-      _offersList = null;
-    }
-    if(notify) {
-      update();
-    }
-    if(_offersList == null || reload) {
-      List<Item>? items = await itemServiceInterface.getOffersList(type);
-      if (items != null) {
-        _offersList = [];
-        _offersList!.addAll(items);
-        _isLoading = false;
-      }
-      update();
-    }
-  }
-
   Future<void> getPopularItemList(bool reload, String type, bool notify, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
     offsetPopular = 1;
     _popularType = type;

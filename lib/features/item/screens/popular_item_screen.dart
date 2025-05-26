@@ -17,7 +17,8 @@ import '../domain/models/item_model.dart';
 class PopularItemScreen extends StatefulWidget {
   final bool isPopular;
   final bool isSpecial;
-  const PopularItemScreen({super.key, required this.isPopular, required this.isSpecial});
+  final bool showBackButton;
+  const PopularItemScreen({super.key, required this.isPopular, required this.isSpecial, this.showBackButton = true});
 
   @override
   State<PopularItemScreen> createState() => _PopularItemScreenState();
@@ -62,12 +63,13 @@ class _PopularItemScreenState extends State<PopularItemScreen> {
           appBar: CustomAppBar(
             key: scaffoldKey,
             title: title,
+            backButton: widget.showBackButton,
             widget: image != null ? TitleWidget(
               title: title,
               image: image,
               mainAxisAlignment: MainAxisAlignment.center,
             ) : null,
-            showCart: true,
+            showCart: widget.showBackButton,
             type: widget.isPopular ? itemController.popularType : widget.isSpecial ? itemController.discountedType : itemController.reviewType,
             onVegFilterTap: (String type) {
               if(widget.isPopular) {
@@ -105,7 +107,7 @@ class _PopularItemScreenState extends State<PopularItemScreen> {
                         ItemsView(isStore: false, stores: null, items: items),
                         if(itemController.isLoadingMore)
                           Center(child: Padding(
-                            padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault).copyWith(bottom: widget.showBackButton? null : 100),
                             child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
                           )),
                       ],
