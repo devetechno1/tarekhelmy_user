@@ -205,7 +205,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         },
                       ),
 
-                      ResponsiveHelper.isDesktop(context) || keyboardVisible ? const SizedBox() : Align(
+                      ResponsiveHelper.isDesktop(context) ? const SizedBox() : Align(
                         alignment: Alignment.bottomCenter,
                         child: GetBuilder<SplashController>(
                           builder: (splashController) {
