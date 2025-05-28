@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:sixam_mart/api/api_client.dart';
@@ -25,12 +26,13 @@ class BrandsRepository implements BrandsRepositoryInterface{
         if (response.statusCode == 200) {
           brandList = [];
           response.body.forEach((brand) => brandList!.add(BrandModel.fromJson(brand)));
+          log('=======brand api: ${jsonEncode(response.body)}');
           LocalClient.organize(source, cacheId, jsonEncode(response.body), apiClient.getHeader());
         }
 
       case DataSourceEnum.local:
         String? cacheResponseData = await LocalClient.organize(source, cacheId, null, null);
-        print('=======brand cache: $cacheResponseData');
+        log('=======brand cache: $cacheResponseData');
         if(cacheResponseData != null) {
           brandList = [];
           jsonDecode(cacheResponseData).forEach((brand) => brandList!.add(BrandModel.fromJson(brand)));
