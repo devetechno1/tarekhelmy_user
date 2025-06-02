@@ -2,6 +2,9 @@ import 'package:sixam_mart/features/item/domain/models/basic_campaign_model.dart
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 
+import '../../../brands/domain/models/brands_model.dart';
+import '../../../category/domain/models/category_model.dart';
+
 class BannerModel {
   List<BasicCampaignModel>? campaigns;
   List<Banner>? banners;
@@ -43,6 +46,8 @@ class Banner {
   String? link;
   Store? store;
   Item? item;
+  BrandModel? brand;
+  CategoryModel? category;
 
   Banner({
     this.id,
@@ -62,6 +67,8 @@ class Banner {
     link = json['link'];
     store = json['store'] != null ? Store.fromJson(json['store']) : null;
     item = json['item'] != null ? Item.fromJson(json['item']) : null;
+    brand = json['brand'] != null ? BrandModel.fromJson(json['brand']) : null;
+    category = json['category'] != null ? CategoryModel.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -76,6 +83,12 @@ class Banner {
     }
     if (item != null) {
       data['item'] = item!.toJson();
+    }
+    if (brand != null) {
+      data['brand'] = brand!.toJson();
+    }
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
     return data;
   }

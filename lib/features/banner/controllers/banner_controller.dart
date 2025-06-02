@@ -123,6 +123,10 @@ class BannerController extends GetxController implements GetxService {
           _bannerDataList!.add(banner.item);
         }else if(banner.store != null){
           _bannerDataList!.add(banner.store);
+        }else if(banner.brand != null){
+          _bannerDataList!.add(banner.brand);
+        }else if(banner.category != null){
+          _bannerDataList!.add(banner.category);
         }else if(banner.type == 'default'){
           _bannerDataList!.add(banner.link);
         }else{

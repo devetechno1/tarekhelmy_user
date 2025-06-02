@@ -19,6 +19,9 @@ import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../brands/domain/models/brands_model.dart';
+import '../../category/domain/models/category_model.dart';
+
 class BannerView extends StatelessWidget {
   final bool isFeatured;
   const BannerView({super.key, required this.isFeatured});
@@ -56,6 +59,12 @@ class BannerView extends StatelessWidget {
                     if(bannerDataList![index] is Item) {
                       Item? item = bannerDataList[index];
                       Get.find<ItemController>().navigateToItemPage(item, context);
+                    }else if(bannerDataList[index] is BrandModel) {
+                      BrandModel brand = bannerDataList[index];
+                      Get.toNamed(RouteHelper.getBrandsItemScreen(brand.id!, brand.name!));
+                    }else if(bannerDataList[index] is CategoryModel) {
+                      CategoryModel category = bannerDataList[index];
+                      Get.toNamed(RouteHelper.getCategoryItemRoute(category.id, category.name!));
                     }else if(bannerDataList[index] is Store) {
                       Store? store = bannerDataList[index];
                       if(isFeatured && (AddressHelper.getUserAddressFromSharedPref()!.zoneData != null && AddressHelper.getUserAddressFromSharedPref()!.zoneData!.isNotEmpty)) {
