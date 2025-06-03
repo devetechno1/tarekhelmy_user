@@ -11,8 +11,6 @@ extension CatExtension on ModuleType {
         return 'grocery';
       case ModuleType.pharmacy:
         return 'pharmacy';
-      default:
-        return null;
     }
   }
 }
