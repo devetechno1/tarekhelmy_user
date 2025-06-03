@@ -133,7 +133,6 @@ class DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    bool keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
     return GetBuilder<SplashController>(
       builder: (splashController) {
         return PopScope(
@@ -239,6 +238,40 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   height: height,
                                   child: Stack(children: [
                                     Center(
+                                      child: Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 6),
+                                          width: size.width, height: height,
+                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [ 
+                                            BottomNavItemWidget(
+                                              title: 'home'.tr, selectedIcon: Images.homeSelect,
+                                              unSelectedIcon: Images.homeUnselect, isSelected: _pageIndex == 0,
+                                              onTap: () => _setPage(0),
+                                            ),
+                                            BottomNavItemWidget(
+                                              title: 'offers'.tr,
+                                              selectedIcon: Images.offersSelect,
+                                              unSelectedIcon:Images.offersUnselect,
+                                              isSelected: _pageIndex == 1, onTap: () => _setPage(1),
+                                            ),
+                                            BottomNavItemWidget(
+                                              title: 'request_prescription'.tr,
+                                              selectedIcon: null,
+                                              unSelectedIcon:null,
+                                              onTap: () => onTapFloatingButton(isParcel, context),
+                                            ),
+                                            BottomNavItemWidget(
+                                              isCart: true,
+                                              title: 'cart'.tr, selectedIcon: Images.shoppingCartSelected, unSelectedIcon: Images.shoppingCart,
+                                              isSelected: _pageIndex == 3, onTap: () => _setPage(3),
+                                            ),
+                                            BottomNavItemWidget(
+                                              title: 'menu'.tr, selectedIcon: Images.menu, unSelectedIcon: Images.menu,
+                                              isSelected: _pageIndex == 4, onTap: () => _setPage(4),
+                                            ),
+                                          ]),
+                                      ),
+                                    ),
+                                    Center(
                                       heightFactor: 0.4,
                                       child: Container(
                                           width: 55, height: 55,
@@ -263,40 +296,6 @@ class DashboardScreenState extends State<DashboardScreen> {
                                             elevation: 0,
                                             child: isParcel ? Icon(CupertinoIcons.add, size: 34, color: Theme.of(context).cardColor) : Image.asset(Images.orderUnselect, height: 28, width: 28, color:  Theme.of(context).cardColor),
                                           ),
-                                      ),
-                                    ),
-                                                              
-                                    Center(
-                                      child: Container(
-                                          padding: const EdgeInsets.symmetric(vertical: 6),
-                                          width: size.width, height: height,
-                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [ 
-                                            BottomNavItemWidget(
-                                              title: 'home'.tr, selectedIcon: Images.homeSelect,
-                                              unSelectedIcon: Images.homeUnselect, isSelected: _pageIndex == 0,
-                                              onTap: () => _setPage(0),
-                                            ),
-                                            BottomNavItemWidget(
-                                              title: 'offers'.tr,
-                                              selectedIcon: Images.offersSelect,
-                                              unSelectedIcon:Images.offersUnselect,
-                                              isSelected: _pageIndex == 1, onTap: () => _setPage(1),
-                                            ),
-                                            BottomNavItemWidget(
-                                              title: 'request_prescription'.tr,
-                                              selectedIcon: null,
-                                              unSelectedIcon:null,
-                                            ),
-                                            BottomNavItemWidget(
-                                              isCart: true,
-                                              title: 'cart'.tr, selectedIcon: Images.shoppingCartSelected, unSelectedIcon: Images.shoppingCart,
-                                              isSelected: _pageIndex == 3, onTap: () => _setPage(3),
-                                            ),
-                                            BottomNavItemWidget(
-                                              title: 'menu'.tr, selectedIcon: Images.menu, unSelectedIcon: Images.menu,
-                                              isSelected: _pageIndex == 4, onTap: () => _setPage(4),
-                                            ),
-                                          ]),
                                       ),
                                     ),
                                   ],
@@ -348,6 +347,17 @@ class DashboardScreenState extends State<DashboardScreen> {
         );
       }
     );
+  }
+
+  void onTapFloatingButton(bool isParcel, BuildContext context) {
+    if(isParcel) {
+      showModalBottomSheet(
+        context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
+        builder: (con) => ParcelBottomSheetWidget(parcelCategoryList: Get.find<ParcelController>().parcelCategoryList),
+      );
+    } else {
+      Get.toNamed(RouteHelper.getCheckoutRoute('request_prescription',storeId: Get.find<StoreController>().storeModel?.stores?.lastOrNull?.id ?? 5));
+    }
   }
 
   void _setPage(int pageIndex) {
