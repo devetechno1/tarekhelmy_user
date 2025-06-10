@@ -39,7 +39,13 @@ class AuthRepository implements AuthRepositoryInterface{
 
   @override
   Future<Response> registration(SignUpBodyModel signUpBody) async {
-    return await apiClient.postData(AppConstants.registerUri, signUpBody.toJson(), handleError: false);
+    String guestId = getSharedPrefGuestId();
+    final Map<String, dynamic> data = signUpBody.toJson();
+    
+    if(guestId.isNotEmpty) {
+      data.addAll({"guest_id": guestId});
+    }
+    return await apiClient.postData(AppConstants.registerUri, data, handleError: false);
   }
 
 

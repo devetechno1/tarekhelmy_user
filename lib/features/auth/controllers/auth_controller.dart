@@ -61,6 +61,7 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     ResponseModel responseModel = await authServiceInterface.registration(signUpBody);
+    _getUserAndCartData(responseModel);
     _isLoading = false;
     update();
     return responseModel;
